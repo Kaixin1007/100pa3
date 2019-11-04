@@ -3,6 +3,7 @@
  *
  * Author:
  */
+
 #ifndef HCTREE_HPP
 #define HCTREE_HPP
 
@@ -20,10 +21,15 @@ class HCTree {
   private:
     HCNode* root;            // the root of HCTree
     vector<HCNode*> leaves;  // a vector storing pointers to all leaf HCNodes
+    typedef priority_queue<HCNode*, vector<HCNode*>, HCNodePtrComp> my_quene;
+    void deleteAll(HCNode*& root);
 
   public:
     /* TODO: add function header and implement */
-    HCTree() {}
+    HCTree() {
+        root = nullptr;
+        leaves = {};
+    }
 
     /* TODO: add function header */
     ~HCTree();
