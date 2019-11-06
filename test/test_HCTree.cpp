@@ -29,6 +29,7 @@ class SimpleHCTreeFixture : public ::testing::Test {
         tree.build(freqs);
         freqs1['a'] = 5;
         tree1.build(freqs1);
+        // cout << *(tree.root) << endl;
     }
 };
 

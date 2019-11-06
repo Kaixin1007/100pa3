@@ -15,6 +15,6 @@ TEST(BitInputStreamTests, SIMPLE_TEST) {
     ss.str(ascii);
     BitInputStream bis(ss);
 
-    // ASSERT_EQ(1, bis.readBit());
-    // ASSERT_EQ(0, bis.readBit());
+    ASSERT_EQ(0, bis.readBit());
+    ASSERT_EQ(0, bis.readBit());
 }
