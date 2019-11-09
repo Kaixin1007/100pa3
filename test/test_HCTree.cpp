@@ -35,9 +35,11 @@ class SimpleHCTreeFixture : public ::testing::Test {
 
 TEST_F(SimpleHCTreeFixture, TEST_ENCODE) {
     ostringstream os;
+    BitOutputStream bos(os);
     tree.encode('u', os);
+    tree.encode('u', bos);
     ASSERT_EQ(os.str(), "0");
-
+    // ASSERT_EQ(bos.str(), "0");
     os.str("");
     tree.encode('m', os);
     ASSERT_EQ(os.str(), "1110");
@@ -63,15 +65,32 @@ TEST_F(SimpleHCTreeFixture, TEST_ENCODE) {
 
 TEST_F(SimpleHCTreeFixture, TEST_DECODE) {
     istringstream is("0");
-    ASSERT_EQ(tree.decode(is), 'u');
+    stringstream ss;
+    string bitsStr = "0";
 
+    ss.str(bitsStr);
+    BitInputStream bis(ss);
+    ASSERT_EQ(tree.decode(is), 'u');
+    ASSERT_EQ(tree.decode(bis), 'u');
     istringstream is1("1001");
     ASSERT_EQ(tree.decode(is1), 'p');
+    bitsStr = "10010000";
+    string ascii = string(1, stoi(bitsStr, nullptr, 2));
+    ss.str("");
+    ss.str(ascii);
+    BitInputStream bis1(ss);
+    ASSERT_EQ(tree.decode(bis1), 'p');
 
     istringstream is2("101");
     ASSERT_EQ(tree.decode(is2), 'a');
 
-    istringstream is3("1111");
-    ASSERT_EQ(tree.decode(is3), 'n');
+    bitsStr = "10100000";
+    ascii = string(1, stoi(bitsStr, nullptr, 2));
+    ss.str(ascii);
+    BitInputStream bis2(ss);
+    ASSERT_EQ(tree.decode(bis2), 'a');
+
+    // istringstream is3("1111");
+    // ASSERT_EQ(tree.decode(is3), 'n');
     cout << endl;
 }

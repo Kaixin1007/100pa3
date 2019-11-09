@@ -1,4 +1,4 @@
-Build started at 2019-11-04T21:05:55.926717
+Build started at 2019-11-09T06:23:05.516930
 Main binary: /usr/bin/python3
 Python system: Linux
 The Meson build system
@@ -38,6 +38,15 @@ C++ compiler for the host machine: c++ (gcc 7.3.1 "c++ (GCC) 7.3.1 20180303 (Red
 Build machine cpu family: x86_64
 Build machine cpu: x86_64
 
+Executing subproject cxxopts method meson 
+
+Project name: cxxopts
+Project version: 2.2.0
+C++ compiler for the host machine: c++ (gcc 7.3.1 "c++ (GCC) 7.3.1 20180303 (Red Hat 7.3.1-5)")
+Build targets in project: 0
+Subproject cxxopts finished.
+
+
 Executing subproject gtest method meson 
 
 Project name: gtest
@@ -56,8 +65,8 @@ Adding test "my HCTree test"
 Build targets in project: 12
 Found ninja-1.9.0.git.kitware.dyndep-1.jobserver-1 at /usr/local/bin/ninja
 Running compile:
-Working directory:  /tmp/tmpv5bcxwfo
-Command line:  c++ /tmp/tmpv5bcxwfo/testfile.cpp -o /tmp/tmpv5bcxwfo/output.obj -pipe -D_FILE_OFFSET_BITS=64 -c -std=c++14 
+Working directory:  /tmp/tmpfs47gdi7
+Command line:  c++ /tmp/tmpfs47gdi7/testfile.cpp -o /tmp/tmpfs47gdi7/output.obj -pipe -D_FILE_OFFSET_BITS=64 -c -std=c++14 
 
 Code:
  int i = static_cast<int>(0);
@@ -67,8 +76,8 @@ Compiler stderr:
  
 Compiler accepts -std=c++14: YES
 Running compile:
-Working directory:  /tmp/tmp99i45__r
-Command line:  c++ /tmp/tmp99i45__r/testfile.cpp -o /tmp/tmp99i45__r/output.obj -pipe -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs 
+Working directory:  /tmp/tmpaknuxwak
+Command line:  c++ /tmp/tmpaknuxwak/testfile.cpp -o /tmp/tmpaknuxwak/output.obj -pipe -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs 
 
 Code:
  

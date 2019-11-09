@@ -21,13 +21,18 @@ class BitInputStream {
 
   public:
     /* TODO: add function header and implement */
-    explicit BitInputStream(istream& is) : in(is){};
+    explicit BitInputStream(istream& is) : in(is) {
+        nbits = -1;
+        buf = 0;
+    };
 
     /* TODO: add function header */
     void fill();
 
     /* TODO: add function header */
     unsigned int readBit();
+
+    bool eof();
 };
 
 #endif

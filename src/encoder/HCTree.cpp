@@ -54,7 +54,24 @@ void HCTree::build(const vector<unsigned int>& freqs) {
 }
 
 /* TODO */
-void HCTree::encode(byte symbol, BitOutputStream& out) const {}
+void HCTree::encode(byte symbol, BitOutputStream& out) const {
+    HCNode *parent, *node;
+    for (int i = 0; i < leaves.size(); i++) {
+        if (leaves[i]->symbol == symbol) {
+            // find the symbol
+            node = leaves[i];
+            while (node != root) {
+                parent = node->p;
+                if (parent->c0 == node)
+                    out.writeBit(0);
+                else
+                    out.writeBit(1);
+                node = parent;
+            }
+            break;
+        }
+    }
+}
 
 /* TODO */
 void HCTree::encode(byte symbol, ostream& out) const {
@@ -82,11 +99,25 @@ void HCTree::encode(byte symbol, ostream& out) const {
     }
 }
 /* TODO */
-byte HCTree::decode(BitInputStream& in) const { return ' '; }
+byte HCTree::decode(BitInputStream& in) const {
+    HCNode* node = root;
+    int nextByte;
+    byte code;
+    while ((nextByte = in.readBit()) != EOF) {
+        code = (unsigned char)nextByte;
+        if (code == 0) {
+            node = node->c0;
+        } else {
+            node = node->c1;
+        }
+        if (node->c0 == nullptr && node->c1 == nullptr) break;
+    }
+    // if (nextByte == EOF) isEnd = true;
 
+    return node->symbol;
+}
 /* TODO */
 byte HCTree::decode(istream& in) const {
-    string bitStr;
     HCNode* node = root;
     int nextByte;
     byte code;
@@ -99,7 +130,7 @@ byte HCTree::decode(istream& in) const {
         }
         if (node->c0 == nullptr && node->c1 == nullptr) break;
     }
-    if (nextByte == EOF) return EOF;
+    // if (nextByte == EOF) isEnd = true;
 
     return node->symbol;
 }

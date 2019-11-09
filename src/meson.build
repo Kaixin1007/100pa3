@@ -14,10 +14,10 @@ HCTree_dep = declare_dependency(include_directories: HCTree_includes,
    
 compress_exe = executable('compress.cpp.executable', 
     sources: ['compress.cpp'],
-    dependencies : [bit_input_dep, bit_output_dep, HCTree_dep,utils_dep],
+    dependencies : [bit_input_dep, bit_output_dep, HCTree_dep,utils_dep,cxxopts_dep],
     install : true)
 
 uncompress_exe = executable('uncompress.cpp.executable', 
     sources: ['uncompress.cpp'],
-    dependencies : [bit_input_dep, bit_output_dep, HCTree_dep,utils_dep],
+    dependencies : [bit_input_dep, bit_output_dep, HCTree_dep,utils_dep,cxxopts_dep],
     install : true)

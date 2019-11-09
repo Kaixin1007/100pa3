@@ -75,14 +75,14 @@ build src/libHCTree.so: cpp_LINKER src/25a6634@@HCTree@sha/encoder_HCTree.cpp.o 
 
 build src/25a6634@@compress.cpp.executable@exe/compress.cpp.o: cpp_COMPILER ../src/compress.cpp
  DEPFILE = src/25a6634@@compress.cpp.executable@exe/compress.cpp.o.d
- ARGS = -Isrc/25a6634@@compress.cpp.executable@exe -Isrc -I../src -Isrc/bitStream/input -I../src/bitStream/input -Isrc/bitStream/output -I../src/bitStream/output -Isrc/encoder -I../src/encoder -fdiagnostics-color=always --coverage -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++14 -g
+ ARGS = -Isrc/25a6634@@compress.cpp.executable@exe -Isrc -I../src -Isrc/bitStream/input -I../src/bitStream/input -Isrc/bitStream/output -I../src/bitStream/output -Isrc/encoder -I../src/encoder -Isubprojects/cxxopts -I../subprojects/cxxopts -fdiagnostics-color=always --coverage -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++14 -g
 
 build src/compress.cpp.executable: cpp_LINKER src/25a6634@@compress.cpp.executable@exe/compress.cpp.o | src/bitStream/input/7749e55@@bit_input@sha/libbit_input.so.symbols src/bitStream/output/0a00722@@bit_output@sha/libbit_output.so.symbols src/25a6634@@HCTree@sha/libHCTree.so.symbols src/25a6634@@utils@sha/libutils.so.symbols
  LINK_ARGS = --coverage -Wl,--no-undefined -Wl,--as-needed -Wl,--start-group src/bitStream/input/libbit_input.so src/bitStream/output/libbit_output.so src/libHCTree.so src/libutils.so -Wl,--end-group '-Wl,-rpath,$$ORIGIN/bitStream/input:$$ORIGIN/bitStream/output:$$ORIGIN/' -Wl,-rpath-link,/Code/cse100_pa3/build/src/bitStream/input -Wl,-rpath-link,/Code/cse100_pa3/build/src/bitStream/output -Wl,-rpath-link,/Code/cse100_pa3/build/src
 
 build src/25a6634@@uncompress.cpp.executable@exe/uncompress.cpp.o: cpp_COMPILER ../src/uncompress.cpp
  DEPFILE = src/25a6634@@uncompress.cpp.executable@exe/uncompress.cpp.o.d
- ARGS = -Isrc/25a6634@@uncompress.cpp.executable@exe -Isrc -I../src -Isrc/bitStream/input -I../src/bitStream/input -Isrc/bitStream/output -I../src/bitStream/output -Isrc/encoder -I../src/encoder -fdiagnostics-color=always --coverage -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++14 -g
+ ARGS = -Isrc/25a6634@@uncompress.cpp.executable@exe -Isrc -I../src -Isrc/bitStream/input -I../src/bitStream/input -Isrc/bitStream/output -I../src/bitStream/output -Isrc/encoder -I../src/encoder -Isubprojects/cxxopts -I../subprojects/cxxopts -fdiagnostics-color=always --coverage -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++14 -g
 
 build src/uncompress.cpp.executable: cpp_LINKER src/25a6634@@uncompress.cpp.executable@exe/uncompress.cpp.o | src/bitStream/input/7749e55@@bit_input@sha/libbit_input.so.symbols src/bitStream/output/0a00722@@bit_output@sha/libbit_output.so.symbols src/25a6634@@HCTree@sha/libHCTree.so.symbols src/25a6634@@utils@sha/libutils.so.symbols
  LINK_ARGS = --coverage -Wl,--no-undefined -Wl,--as-needed -Wl,--start-group src/bitStream/input/libbit_input.so src/bitStream/output/libbit_output.so src/libHCTree.so src/libutils.so -Wl,--end-group '-Wl,-rpath,$$ORIGIN/bitStream/input:$$ORIGIN/bitStream/output:$$ORIGIN/' -Wl,-rpath-link,/Code/cse100_pa3/build/src/bitStream/input -Wl,-rpath-link,/Code/cse100_pa3/build/src/bitStream/output -Wl,-rpath-link,/Code/cse100_pa3/build/src
@@ -251,13 +251,13 @@ build meson-clean: CUSTOM_COMMAND PHONY | clean-gcda clean-gcno
  COMMAND = /usr/local/bin/ninja -t clean
  description = Cleaning.
 
-build build.ninja: REGENERATE_BUILD ../src/bitStream/input/meson.build ../meson.build ../src/meson.build ../src/bitStream/output/meson.build ../src/encoder/meson.build ../src/bitStream/meson.build ../subprojects/googletest-release-1.8.1/googletest/meson.build ../subprojects/googletest-release-1.8.1/googlemock/meson.build ../subprojects/googletest-release-1.8.1/meson.build ../test/meson.build meson-private/coredata.dat
+build build.ninja: REGENERATE_BUILD ../meson.build ../subprojects/googletest-release-1.8.1/googletest/meson.build ../subprojects/googletest-release-1.8.1/meson.build ../src/encoder/meson.build ../subprojects/cxxopts/meson.build ../src/bitStream/output/meson.build ../src/bitStream/input/meson.build ../subprojects/googletest-release-1.8.1/googlemock/meson.build ../src/bitStream/meson.build ../src/meson.build ../test/meson.build meson-private/coredata.dat
  pool = console
 
 build reconfigure: REGENERATE_BUILD PHONY
  pool = console
 
-build ../src/bitStream/input/meson.build ../meson.build ../src/meson.build ../src/bitStream/output/meson.build ../src/encoder/meson.build ../src/bitStream/meson.build ../subprojects/googletest-release-1.8.1/googletest/meson.build ../subprojects/googletest-release-1.8.1/googlemock/meson.build ../subprojects/googletest-release-1.8.1/meson.build ../test/meson.build meson-private/coredata.dat: phony 
+build ../meson.build ../subprojects/googletest-release-1.8.1/googletest/meson.build ../subprojects/googletest-release-1.8.1/meson.build ../src/encoder/meson.build ../subprojects/cxxopts/meson.build ../src/bitStream/output/meson.build ../src/bitStream/input/meson.build ../subprojects/googletest-release-1.8.1/googlemock/meson.build ../src/bitStream/meson.build ../src/meson.build ../test/meson.build meson-private/coredata.dat: phony 
 
 default all
 

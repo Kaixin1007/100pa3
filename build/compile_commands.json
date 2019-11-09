@@ -19,13 +19,13 @@
   },
   {
     "directory": "/Code/cse100_pa3/build",
-    "command": "c++ -Isrc/25a6634@@compress.cpp.executable@exe -Isrc -I../src -Isrc/bitStream/input -I../src/bitStream/input -Isrc/bitStream/output -I../src/bitStream/output -Isrc/encoder -I../src/encoder -fdiagnostics-color=always --coverage -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++14 -g -MD -MQ 'src/25a6634@@compress.cpp.executable@exe/compress.cpp.o' -MF 'src/25a6634@@compress.cpp.executable@exe/compress.cpp.o.d' -o 'src/25a6634@@compress.cpp.executable@exe/compress.cpp.o' -c ../src/compress.cpp",
+    "command": "c++ -Isrc/25a6634@@compress.cpp.executable@exe -Isrc -I../src -Isrc/bitStream/input -I../src/bitStream/input -Isrc/bitStream/output -I../src/bitStream/output -Isrc/encoder -I../src/encoder -Isubprojects/cxxopts -I../subprojects/cxxopts -fdiagnostics-color=always --coverage -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++14 -g -MD -MQ 'src/25a6634@@compress.cpp.executable@exe/compress.cpp.o' -MF 'src/25a6634@@compress.cpp.executable@exe/compress.cpp.o.d' -o 'src/25a6634@@compress.cpp.executable@exe/compress.cpp.o' -c ../src/compress.cpp",
     "file": "../src/compress.cpp",
     "output": "src/25a6634@@compress.cpp.executable@exe/compress.cpp.o"
   },
   {
     "directory": "/Code/cse100_pa3/build",
-    "command": "c++ -Isrc/25a6634@@uncompress.cpp.executable@exe -Isrc -I../src -Isrc/bitStream/input -I../src/bitStream/input -Isrc/bitStream/output -I../src/bitStream/output -Isrc/encoder -I../src/encoder -fdiagnostics-color=always --coverage -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++14 -g -MD -MQ 'src/25a6634@@uncompress.cpp.executable@exe/uncompress.cpp.o' -MF 'src/25a6634@@uncompress.cpp.executable@exe/uncompress.cpp.o.d' -o 'src/25a6634@@uncompress.cpp.executable@exe/uncompress.cpp.o' -c ../src/uncompress.cpp",
+    "command": "c++ -Isrc/25a6634@@uncompress.cpp.executable@exe -Isrc -I../src -Isrc/bitStream/input -I../src/bitStream/input -Isrc/bitStream/output -I../src/bitStream/output -Isrc/encoder -I../src/encoder -Isubprojects/cxxopts -I../subprojects/cxxopts -fdiagnostics-color=always --coverage -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++14 -g -MD -MQ 'src/25a6634@@uncompress.cpp.executable@exe/uncompress.cpp.o' -MF 'src/25a6634@@uncompress.cpp.executable@exe/uncompress.cpp.o.d' -o 'src/25a6634@@uncompress.cpp.executable@exe/uncompress.cpp.o' -c ../src/uncompress.cpp",
     "file": "../src/uncompress.cpp",
     "output": "src/25a6634@@uncompress.cpp.executable@exe/uncompress.cpp.o"
   },
