@@ -8,6 +8,5 @@ __gcov_master D 0000000000000010
 __gcov_sort_n_vals T 00000000000000b7
 __gcov_var B 0000000000001028
 _init T
-_ZN15BitOutputStream3strEv T 00000000000000d6
 _ZN15BitOutputStream5flushEv T 0000000000000061
 _ZN15BitOutputStream8writeBitEi T 000000000000009b

@@ -4,6 +4,7 @@
  * Author:
  */
 #include "HCTree.hpp"
+
 void HCTree::deleteAll(HCNode*& root) {
     if (root == nullptr) return;
     deleteAll(root->c0);
@@ -56,19 +57,28 @@ void HCTree::build(const vector<unsigned int>& freqs) {
 /* TODO */
 void HCTree::encode(byte symbol, BitOutputStream& out) const {
     HCNode *parent, *node;
-    for (int i = 0; i < leaves.size(); i++) {
+    stack<int> stk;
+    int i;
+    for (i = 0; i < leaves.size(); i++) {
         if (leaves[i]->symbol == symbol) {
             // find the symbol
             node = leaves[i];
             while (node != root) {
                 parent = node->p;
-                if (parent->c0 == node)
-                    out.writeBit(0);
+                if (parent->c0 == node) stk.push(0);
+                // out.writeBit(0);
                 else
-                    out.writeBit(1);
+                    stk.push(1);
+                // out.writeBit(1);
                 node = parent;
             }
             break;
+        }
+    }
+    if (i <= leaves.size()) {
+        while (!stk.empty()) {
+            out.writeBit(stk.top());
+            stk.pop();
         }
     }
 }

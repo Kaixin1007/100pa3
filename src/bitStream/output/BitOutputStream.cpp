@@ -19,4 +19,3 @@ void BitOutputStream::writeBit(int i) {
     nbits++;
 }
 
-string BitOutputStream::str() { return ""; }

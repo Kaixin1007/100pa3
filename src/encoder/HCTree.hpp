@@ -9,11 +9,11 @@
 
 #include <fstream>
 #include <queue>
+#include <stack>
 #include <vector>
 #include "BitInputStream.hpp"
 #include "BitOutputStream.hpp"
 #include "HCNode.hpp"
-
 using namespace std;
 
 /** TODO: class header */

@@ -59,7 +59,7 @@ void trueDecompression(string inFileName, string outFileName) {
     HCTree tree;
     FileUtils fu;
     unsigned char nextChar;
-    int nextByte;
+    int nextByte, totalBit = 0;
     vector<unsigned char> temp;
     vector<unsigned int> freqs(256);
     ofstream out;
@@ -75,21 +75,31 @@ void trueDecompression(string inFileName, string outFileName) {
     for (int i = 0; i < 256; i++) {
         string frequency;
         while ((nextByte = myfile.get()) != '\n') {
-            // nextByte = myfile.get();
             nextChar = (unsigned char)nextByte;
             frequency += nextChar;
             freqs[i] = atoi(frequency.c_str());
         }
+        totalBit += freqs[i];
     }
+
     BitInputStream bis(myfile);
     tree.build(freqs);
-    nextByte = tree.decode(bis);
-    while (!bis.eof()) {
+    // nextByte = tree.decode(bis);
+    for (int i = 0; i < totalBit; i++) {
+        nextByte = tree.decode(bis);
         nextChar = (unsigned char)nextByte;
         temp.push_back(nextChar);
-        nextByte = tree.decode(bis);
-        // cout << nextByte << endl;
     }
+    // while (myfile.peek() != EOF) {
+    //     nextChar = (unsigned char)nextByte;
+    //     temp.push_back(nextChar);
+    //     nextByte = tree.decode(bis);
+    //     // cout << nextByte << endl;
+    // }
+    // // 最后buffer里的
+    // nextChar = (unsigned char)nextByte;
+    // temp.push_back(nextChar);
+
     myfile.close();
     out.open(outFileName, ios::binary);
     for (int i = 0; i < temp.size(); i++) out << temp[i];

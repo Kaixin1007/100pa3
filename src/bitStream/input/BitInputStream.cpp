@@ -19,11 +19,3 @@ unsigned int BitInputStream::readBit() {
     nbits++;
     return bit;
 }
-
-bool BitInputStream::eof() {
-    if (buf == -1) {
-        buf = 0;
-        return true;
-    }
-    return false;
-}

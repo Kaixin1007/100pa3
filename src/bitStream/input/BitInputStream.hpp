@@ -32,7 +32,7 @@ class BitInputStream {
     /* TODO: add function header */
     unsigned int readBit();
 
-    bool eof();
+    
 };
 
 #endif

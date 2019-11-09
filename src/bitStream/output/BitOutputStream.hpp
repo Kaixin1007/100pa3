@@ -31,8 +31,6 @@ class BitOutputStream {
 
     /* TODO: add function header */
     void writeBit(int i);
-
-    string str();
 };
 
 #endif
