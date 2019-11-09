@@ -133,7 +133,8 @@ int main(int argc, char* argv[]) {
     // pseudoDecompression(argv[1], argv[2]);
     // check if argument is vaild
     if (!fu.isValidFile(inFileName)) return -1;
-    trueDecompression(inFileName, outFileName);
+    pseudoDecompression(inFileName, outFileName);
+    // trueDecompression(inFileName, outFileName);
     // if (isAsciiOutput)
     //     pseudoDecompression(inFileName, outFileName);
     // else
