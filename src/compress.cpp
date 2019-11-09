@@ -83,9 +83,9 @@ void trueCompression(string inFileName, string outFileName) {
     for (int i = 0; i < 256; i++) {
         out << freqs[i] << endl;
     }
-    for (int i = 0; i < temp.size(); i++) {
-        tree.encode(temp[i], bos);
-    }
+    // for (int i = 0; i < temp.size(); i++) {
+    //     tree.encode(temp[i], bos);
+    // }
     // bug?
     bos.flush();
     out.close();
