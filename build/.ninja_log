@@ -80,3 +80,8 @@
 25898	30183	1573327577433590600	src/compress.cpp.executable	dbd1ad382b0914e5
 25925	30184	1573327577432652200	src/uncompress.cpp.executable	e995ee85c149cbc0
 30185	31184	0	meson-test	a85f1c56d359de93
+58	24645	1573327961708599100	src/25a6634@@compress.cpp.executable@exe/compress.cpp.o	acbaafdb9cb4b4c1
+58	24673	1573327961738856400	src/25a6634@@uncompress.cpp.executable@exe/uncompress.cpp.o	46167601894e85d7
+24649	28626	1573327965704341500	src/compress.cpp.executable	dbd1ad382b0914e5
+24676	28643	1573327965722886400	src/uncompress.cpp.executable	e995ee85c149cbc0
+28645	30414	0	meson-test	a85f1c56d359de93
