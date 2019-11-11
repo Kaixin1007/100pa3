@@ -20,5 +20,4 @@ TEST(BitInputStreamTests, SIMPLE_TEST) {
     // ASSERT_EQ(0, bis.readBit());
     // ASSERT_EQ(0, bis.readBit());
     // ASSERT_EQ(1, bis.readBit());
-    // cout << endl;
 }
