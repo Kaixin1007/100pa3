@@ -173,14 +173,6 @@ void HCTree::rebuild(string seq, byte symbol) {
 int HCTree::leaveSize() { return leaves.size(); }
 
 HCNode* HCTree::getNode(int i) { return leaves[i]; }
-//最长字符
-int HCTree::getDepth() { return getDepthHelper(root) - 1; }
-int HCTree::getDepthHelper(HCNode* node) {
-    if (node == nullptr) return 0;
-    int max1 = getDepthHelper(node->c0) + 1;
-    int max2 = getDepthHelper(node->c1) + 1;
-    return max1 > max2 ? max1 : max2;
-}
 
 void HCTree::encodeNode(BitOutputStream& out) { encodeNodeHelper(root, out); }
 

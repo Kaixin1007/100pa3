@@ -93,9 +93,10 @@ void trueCompression(string inFileName, string outFileName) {
         tree.encode(temp[i], bos);
     }
     int extrabit = bos.getBits();
-    bos.flush();
+    if (extrabit != 8) bos.flush();
     //当好满的时候会自动刷新 所以此时最后一位为0 不用更新
-    if (extrabit != 0) bos.writeChar(extrabit);
+    bos.writeChar(extrabit);
+    bos.flush();
     out.close();
     //写最长高度
     // height = (unsigned char)tree.getDepth();

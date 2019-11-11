@@ -14,9 +14,9 @@ void BitOutputStream::flush() {
 
 /* TODO */
 void BitOutputStream::writeBit(int i) {
+    if (nbits == 8) flush();
     buf = buf | (i << (7 - nbits));
     nbits++;
-    if (nbits == 8) flush();
 }
 
 void BitOutputStream::writeChar(unsigned char num) {
@@ -25,12 +25,6 @@ void BitOutputStream::writeChar(unsigned char num) {
         temp = pow(2, 7 - i);
         writeBit(num / temp);
         num = num % temp;
-
-        // if (num & temp == 0)
-        //     writeBit(0);
-        // else
-        //     writeBit(1);
-        // temp = temp >> 1;
     }
 }
 void BitOutputStream::writenBit(unsigned char num, int n) {

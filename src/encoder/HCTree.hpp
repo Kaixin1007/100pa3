@@ -53,15 +53,13 @@ class HCTree {
 
     void rebuild(string seq, byte symbol);
     int leaveSize();
-    int getDepth();
-    int getDepthHelper(HCNode* node);
     HCNode* getNode(int i);
 
     void encodeNode(BitOutputStream& out);
     void encodeNodeHelper(HCNode*& node, BitOutputStream& out);
 
     HCNode* decodeNodeHelper(BitInputStream& in, int max);
-    void rebuild(BitInputStream& in,int max);
+    void rebuild(BitInputStream& in, int max);
 };
 
 #endif  // HCTREE_HPP
