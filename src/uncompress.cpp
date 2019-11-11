@@ -115,17 +115,22 @@ void trueDecompression(string inFileName, string outFileName) {
     //     end = (myfile.tellg() == myfile.end);
     //     myfile.seekg(-1, myfile.cur);
     // }
-
-    // 最后buffer里的
+    if (trailZero == 0) {
+        trailZero = 8;
+        do {
+            nextByte = tree.decode(bis);
+            nextChar = (unsigned char)nextByte;
+            temp.push_back(nextChar);
+        } while (bis.getBits() < trailZero);
+    } else {
+        while (bis.getBits() < trailZero) {
+            nextByte = tree.decode(bis);
+            nextChar = (unsigned char)nextByte;
+            temp.push_back(nextChar);
+        }
+    }
 
     // 如果最后一位为0 表示前一位是满的
-    // if (trailZero == 0) trailZero == 7;
-    if (trailZero == 0) trailZero = 7;
-    while (bis.getBits() < trailZero) {
-        nextByte = tree.decode(bis);
-        nextChar = (unsigned char)nextByte;
-        temp.push_back(nextChar);
-    }
 
     myfile.close();
     out.open(outFileName, ios::binary);

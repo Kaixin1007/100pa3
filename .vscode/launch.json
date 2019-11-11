@@ -32,8 +32,8 @@
             "program": "${workspaceFolder}/build/src/uncompress.cpp.executable",
             "args": [
                 // "-ascii",
-                // "bash_comp.txt",
-                // "bash.png",
+                "check6_comp.txt",
+                "check6ard.txt",
                 // "images/bash.png",
                 // "bash_comp.txt",
                 "data/check1.txt",
