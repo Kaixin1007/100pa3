@@ -10,7 +10,7 @@
 #include "HCTree.hpp"
 #include "cxxopts.hpp"
 
-/* TODO: Pseudo decompression with ascii encoding and naive header (checkpoint)
+/*  Pseudo decompression with ascii encoding and naive header (checkpoint)
  */
 void pseudoDecompression(string inFileName, string outFileName) {
     ifstream myfile;
@@ -28,8 +28,9 @@ void pseudoDecompression(string inFileName, string outFileName) {
         out.close();
         return;
     }
-
+    // open file
     myfile.open(inFileName, ios::binary);
+    // read frequency
     for (int i = 0; i < 256; i++) {
         string frequency;
         while ((nextByte = myfile.get()) != '\n') {
@@ -39,16 +40,18 @@ void pseudoDecompression(string inFileName, string outFileName) {
             freqs[i] = atoi(frequency.c_str());
         }
     }
+    // build tree
     tree.build(freqs);
+    // decode
     nextByte = tree.decode(myfile);
     while (!myfile.eof()) {
         nextChar = (unsigned char)nextByte;
         temp.push_back(nextChar);
         nextByte = tree.decode(myfile);
-        // cout << nextByte << endl;
     }
     myfile.close();
     out.open(outFileName, ios::binary);
+    // output
     for (int i = 0; i < temp.size(); i++) out << temp[i];
     out.close();
 }
