@@ -59,9 +59,8 @@ void trueDecompression(string inFileName, string outFileName) {
     HCTree tree;
     FileUtils fu;
     unsigned char nextChar;
-    int nextByte, totalBit = 0;
+    int nextByte;
     vector<unsigned char> temp;
-    vector<unsigned int> freqs(256);
     ofstream out;
 
     // check file is empty
@@ -72,33 +71,61 @@ void trueDecompression(string inFileName, string outFileName) {
     }
 
     myfile.open(inFileName, ios::binary);
-    for (int i = 0; i < 256; i++) {
-        string frequency;
-        while ((nextByte = myfile.get()) != '\n') {
-            nextChar = (unsigned char)nextByte;
-            frequency += nextChar;
-            freqs[i] = atoi(frequency.c_str());
-        }
-        totalBit += freqs[i];
-    }
 
+    long begin, end;
     BitInputStream bis(myfile);
-    tree.build(freqs);
-    // nextByte = tree.decode(bis);
-    for (int i = 0; i < totalBit; i++) {
+    begin = myfile.tellg();
+
+    myfile.seekg(-1, myfile.end);
+    char trailZero = myfile.peek();
+    // read all the byte
+    myfile.seekg(-1, myfile.end);
+    end = myfile.tellg();
+    myfile.seekg(begin);
+    // cout << "size is: " << (end - begin) << " bytes.\n";
+
+    // read total ascii in header
+    unsigned int total = 0;
+    for (int i = 0; i < 8; i++) {
+        total |= (bis.readBit() << (7 - i));
+        // cout << myfile.tellg() << endl;
+    }
+    if (total == 0) total = 256;
+    // for (int i = 0; i < 7; i++) {
+    //     bis.readBit();
+    //     cout << myfile.tellg() << endl;
+    // }
+
+    tree.rebuild(bis, total);
+    cout << "size is: " << (myfile.tellg() - begin) << " bytes.\n";
+    // cout << myfile.tellg() << endl;
+    // myfile.seekg(1, myfile.cur);
+    while (end != myfile.tellg()) {
+        // cout << myfile.tellg() << endl;
         nextByte = tree.decode(bis);
         nextChar = (unsigned char)nextByte;
         temp.push_back(nextChar);
     }
-    // while (myfile.peek() != EOF) {
+    // myfile.seekg(-1, myfile.cur);
+    // while (!end) {
+    //     nextByte = tree.decode(bis);
     //     nextChar = (unsigned char)nextByte;
     //     temp.push_back(nextChar);
-    //     nextByte = tree.decode(bis);
-    //     // cout << nextByte << endl;
+    //     myfile.seekg(1, myfile.cur);
+    //     end = (myfile.tellg() == myfile.end);
+    //     myfile.seekg(-1, myfile.cur);
     // }
-    // // 最后buffer里的
-    // nextChar = (unsigned char)nextByte;
-    // temp.push_back(nextChar);
+
+    // 最后buffer里的
+
+    // 如果最后一位为0 表示前一位是满的
+    // if (trailZero == 0) trailZero == 7;
+    if (trailZero == 0) trailZero = 7;
+    while (bis.getBits() < trailZero) {
+        nextByte = tree.decode(bis);
+        nextChar = (unsigned char)nextByte;
+        temp.push_back(nextChar);
+    }
 
     myfile.close();
     out.open(outFileName, ios::binary);
@@ -133,10 +160,10 @@ int main(int argc, char* argv[]) {
     // pseudoDecompression(argv[1], argv[2]);
     // check if argument is vaild
     if (!fu.isValidFile(inFileName)) return -1;
-    trueDecompression(inFileName, outFileName);
-    // if (isAsciiOutput)
-    //     pseudoDecompression(inFileName, outFileName);
-    // else
-    //     trueDecompression(inFileName, outFileName);
+    // trueDecompression(inFileName, outFileName);
+    if (isAsciiOutput)
+        pseudoDecompression(inFileName, outFileName);
+    else
+        trueDecompression(inFileName, outFileName);
     return 0;
 }

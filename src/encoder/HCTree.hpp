@@ -21,7 +21,7 @@ class HCTree {
   private:
     HCNode* root;            // the root of HCTree
     vector<HCNode*> leaves;  // a vector storing pointers to all leaf HCNodes
-
+    int height;
     typedef priority_queue<HCNode*, vector<HCNode*>, HCNodePtrComp> my_quene;
     void deleteAll(HCNode*& root);
 
@@ -30,6 +30,7 @@ class HCTree {
     HCTree() {
         root = nullptr;
         leaves = {};
+        height = 0;
     }
 
     /* TODO: add function header */
@@ -49,6 +50,18 @@ class HCTree {
 
     /* TODO: add function header */
     byte decode(istream& in) const;
+
+    void rebuild(string seq, byte symbol);
+    int leaveSize();
+    int getDepth();
+    int getDepthHelper(HCNode* node);
+    HCNode* getNode(int i);
+
+    void encodeNode(BitOutputStream& out);
+    void encodeNodeHelper(HCNode*& node, BitOutputStream& out);
+
+    HCNode* decodeNodeHelper(BitInputStream& in, int max);
+    void rebuild(BitInputStream& in,int max);
 };
 
 #endif  // HCTREE_HPP

@@ -31,8 +31,8 @@ class BitInputStream {
 
     /* TODO: add function header */
     unsigned int readBit();
-
-    
+    unsigned int readChar();
+    int getBits();
 };
 
 #endif

@@ -27,9 +27,9 @@ class SimpleHCTreeFixture : public ::testing::Test {
         freqs['a'] = 3;
         freqs['u'] = 9;
         tree.build(freqs);
-        freqs1['a'] = 5;
-        tree1.build(freqs1);
-        // cout << *(tree.root) << endl;
+        // freqs1['a'] = 5;
+        // tree1.build(freqs1);
+        cout <<tree.getDepth()<<endl;
     }
 };
 
@@ -92,5 +92,12 @@ TEST_F(SimpleHCTreeFixture, TEST_DECODE) {
 
     // istringstream is3("1111");
     // ASSERT_EQ(tree.decode(is3), 'n');
+    cout << endl;
+}
+
+TEST_F(SimpleHCTreeFixture, TEST_REBUILD) {
+    tree1.rebuild("01", 'a');
+    tree1.rebuild("00", 'b');
+    tree1.rebuild("10", '+');
     cout << endl;
 }

@@ -29,13 +29,15 @@
             "name": "c++ debug compress",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/src/UNcompress.cpp.executable",
+            "program": "${workspaceFolder}/build/src/compress.cpp.executable",
             "args": [
                 // "-ascii",
-                "check2_comp.txt",
-                "check2_uncomp.txt",
-                // "data/check1.txt",
-                // "check1_comp.txt"
+                // "bash_comp.txt",
+                // "bash.png",
+                "images/bash.png",
+                "bash_comp.txt",
+                // "data/check5.txt",
+                // "check5_comp.txt"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

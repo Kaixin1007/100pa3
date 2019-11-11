@@ -6,8 +6,8 @@
 #ifndef BITOUTPUTSTREAM_HPP
 #define BITOUTPUTSTREAM_HPP
 
+#include <cmath>
 #include <iostream>
-
 typedef unsigned char byte;
 
 using namespace std;
@@ -31,6 +31,10 @@ class BitOutputStream {
 
     /* TODO: add function header */
     void writeBit(int i);
+
+    void writeChar(unsigned char num);
+    void writenBit(unsigned char num, int n);
+    int getBits();
 };
 
 #endif

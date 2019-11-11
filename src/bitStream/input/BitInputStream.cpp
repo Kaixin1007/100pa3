@@ -19,3 +19,12 @@ unsigned int BitInputStream::readBit() {
     nbits++;
     return bit;
 }
+unsigned int BitInputStream::readChar() {
+    unsigned char num = 0;
+    for (int i = 0; i < 8; i++) {
+        num |= (readBit() << (7 - i));
+    }
+
+    return num;
+}
+int BitInputStream::getBits() { return nbits; }

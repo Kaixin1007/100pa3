@@ -33,8 +33,7 @@ void HCTree::build(const vector<unsigned int>& freqs) {
         root = forest.top();
         next = new HCNode(root->count, root->symbol, 0, 0, root);
         leaves.push_back(next);
-        root->c1 = next;
-
+        root->c0 = next;
         return;
     }
     while (forest.size() > 1) {
@@ -56,25 +55,28 @@ void HCTree::build(const vector<unsigned int>& freqs) {
 
 /* TODO */
 void HCTree::encode(byte symbol, BitOutputStream& out) const {
-    HCNode *parent, *node;
+    HCNode *parent, *node, *temp = root;
     stack<int> stk;
     int i;
+
     for (i = 0; i < leaves.size(); i++) {
         if (leaves[i]->symbol == symbol) {
             // find the symbol
             node = leaves[i];
             while (node != root) {
                 parent = node->p;
-                if (parent->c0 == node) stk.push(0);
-                // out.writeBit(0);
+                if (parent->c0 == node)
+                    stk.push(0);
+
                 else
                     stk.push(1);
-                // out.writeBit(1);
+
                 node = parent;
             }
             break;
         }
     }
+    //如果有进入if里面
     if (i <= leaves.size()) {
         while (!stk.empty()) {
             out.writeBit(stk.top());
@@ -87,6 +89,7 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const {
 void HCTree::encode(byte symbol, ostream& out) const {
     string bitStr;
     HCNode *parent, *node;
+
     for (int i = 0; i < leaves.size(); i++) {
         if (leaves[i]->symbol == symbol) {
             // find the symbol
@@ -143,4 +146,70 @@ byte HCTree::decode(istream& in) const {
     // if (nextByte == EOF) isEnd = true;
 
     return node->symbol;
+}
+void HCTree::rebuild(string seq, byte symbol) {
+    if (root == nullptr) {
+        root = new HCNode(0, symbol, 0, 0, 0);
+    }
+    HCNode *node = root, *next;
+    for (int i = 0; i < seq.length(); i++) {
+        if (seq[i] == '0') {
+            if (node->c0 == nullptr) {
+                next = new HCNode(0, symbol, 0, 0, node);
+                node->c0 = next;
+            }
+            node = node->c0;
+        } else {
+            if (node->c1 == nullptr) {
+                next = new HCNode(0, symbol, 0, 0, node);
+                node->c1 = next;
+            }
+            node = node->c1;
+        }
+    }
+    leaves.push_back(node);
+}
+
+int HCTree::leaveSize() { return leaves.size(); }
+
+HCNode* HCTree::getNode(int i) { return leaves[i]; }
+//最长字符
+int HCTree::getDepth() { return getDepthHelper(root) - 1; }
+int HCTree::getDepthHelper(HCNode* node) {
+    if (node == nullptr) return 0;
+    int max1 = getDepthHelper(node->c0) + 1;
+    int max2 = getDepthHelper(node->c1) + 1;
+    return max1 > max2 ? max1 : max2;
+}
+
+void HCTree::encodeNode(BitOutputStream& out) { encodeNodeHelper(root, out); }
+
+void HCTree::encodeNodeHelper(HCNode*& node, BitOutputStream& out) {
+    if (node->c0 == nullptr && node->c1 == nullptr) {
+        out.writeBit(1);
+
+        out.writeChar(node->symbol);
+    } else {
+        out.writeBit(0);
+
+        if (node->c0 != nullptr) encodeNodeHelper(node->c0, out);
+        if (node->c1 != nullptr) encodeNodeHelper(node->c1, out);
+    }
+}
+HCNode* HCTree::decodeNodeHelper(BitInputStream& in, int max) {
+    if (leaves.size() >= max) {
+        return nullptr;
+    }
+    if (in.readBit() == 1) {
+        HCNode* node = new HCNode(0, in.readChar(), 0, 0, 0);
+        leaves.push_back(node);
+        return node;
+    } else {
+        HCNode* left = decodeNodeHelper(in, max);
+        HCNode* right = decodeNodeHelper(in, max);
+        return new HCNode(0, 0, left, right, 0);
+    }
+}
+void HCTree::rebuild(BitInputStream& in, int max) {
+    root = decodeNodeHelper(in, max);
 }
