@@ -1,7 +1,7 @@
-/**
- * TODO: file header
- *
- * Author:
+/*
+ * @Descripttion:bitwise operations to read each bit in the buffer.
+ * @version: 1.0
+ * @Author: Kaixin Lin
  */
 #ifndef BITINPUTSTREAM_HPP
 #define BITINPUTSTREAM_HPP
@@ -12,7 +12,10 @@ typedef unsigned char byte;
 
 using namespace std;
 
-/** TODO: class header */
+/**
+ * @name: BitInputStream
+ * @msg: BitInputStream class for bit operations
+ */
 class BitInputStream {
   private:
     char buf;     // one byte buffer of bits
@@ -20,18 +23,39 @@ class BitInputStream {
     istream& in;  // reference to the input stream to use
 
   public:
-    /* TODO: add function header and implement */
+    /**
+     * @name: BitInputStream
+     * @msg: construction function for BitInputStream
+     */
     explicit BitInputStream(istream& is) : in(is) {
         nbits = -1;
         buf = 0;
     };
 
-    /* TODO: add function header */
+    /**
+     * @name: fill
+     * @msg: put buffer to inputstream
+     * @return:void
+     */
     void fill();
 
-    /* TODO: add function header */
+    /**
+     * @name: readBit
+     * @msg: read bit to buffer
+     * @return: current bit
+     */
     unsigned int readBit();
+
+    /**
+     * @name: readChar
+     * @msg: read byte to buffer
+     * @return: current byte
+     */
     unsigned int readChar();
+    /**
+     * @name: getBits
+     * @msg: get the value of nbits
+     */
     int getBits();
 };
 

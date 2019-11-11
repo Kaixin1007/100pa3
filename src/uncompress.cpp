@@ -1,8 +1,9 @@
-/**
- * TODO: file header
- *
- * Author:
+/*
+ * @Descripttion: implement uncompress file in byte and bit for PA3
+ * @version: 1.0
+ * @Author: Kaixin Lin
  */
+
 #include <fstream>
 #include <iostream>
 #include "FileUtils.hpp"
@@ -10,7 +11,9 @@
 #include "HCTree.hpp"
 #include "cxxopts.hpp"
 
-/*  Pseudo decompression with ascii encoding and naive header (checkpoint)
+/**
+ * @name: pseudoDecompression
+ * @msg: Pseudo decompression with ascii encoding and naive header (checkpoint)
  */
 void pseudoDecompression(string inFileName, string outFileName) {
     ifstream myfile;
@@ -56,7 +59,10 @@ void pseudoDecompression(string inFileName, string outFileName) {
     out.close();
 }
 
-/* TODO: True decompression with bitwise i/o and small header (final) */
+/**
+ * @name: trueDecompression
+ * @msg: True decompression with bitwise i/o and small header (final)
+ */
 void trueDecompression(string inFileName, string outFileName) {
     ifstream myfile;
     HCTree tree;
@@ -101,8 +107,6 @@ void trueDecompression(string inFileName, string outFileName) {
 
     tree.rebuild(bis, total);
     cout << "size is: " << (myfile.tellg() - begin) << " bytes.\n";
-    // cout << myfile.tellg() << endl;
-    // myfile.seekg(1, myfile.cur);
     while (end != myfile.tellg()) {
         // cout << myfile.tellg() << endl;
         nextByte = tree.decode(bis);
@@ -133,15 +137,13 @@ void trueDecompression(string inFileName, string outFileName) {
         }
     }
 
-    // 如果最后一位为0 表示前一位是满的
-
     myfile.close();
     out.open(outFileName, ios::binary);
     for (int i = 0; i < temp.size(); i++) out << temp[i];
     out.close();
 }
 
-/* TODO: Main program that runs the uncompress */
+/*  Main program that runs the uncompress */
 int main(int argc, char* argv[]) {
     cxxopts::Options options("./uncompress",
                              "Uncompresses files using Huffman Encoding");
@@ -165,10 +167,9 @@ int main(int argc, char* argv[]) {
     }
 
     FileUtils fu;
-    // pseudoDecompression(argv[1], argv[2]);
     // check if argument is vaild
     if (!fu.isValidFile(inFileName)) return -1;
-    // trueDecompression(inFileName, outFileName);
+
     if (isAsciiOutput)
         pseudoDecompression(inFileName, outFileName);
     else

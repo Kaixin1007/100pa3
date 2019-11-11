@@ -1,3 +1,8 @@
+/*
+ * @Descripttion:
+ * @version: 1.0
+ * @Author: Kaixin Lin
+ */
 #include <iostream>
 #include <string>
 
@@ -14,9 +19,9 @@ TEST(BitInputStreamTests, SIMPLE_TEST) {
     stringstream ss;
     ss.str(ascii);
     BitInputStream bis(ss);
-    // ASSERT_EQ(144, bis.readChar());
-    // ss.str(ascii);
+    ASSERT_EQ(bis.getBits(), -1);
+    ASSERT_EQ(144, bis.readChar());
+    ss.str(ascii);
     ASSERT_EQ(1, bis.readBit());
     ASSERT_EQ(0, bis.readBit());
-    
 }

@@ -1,7 +1,8 @@
-/**
- * TODO: file header
- *
- * Author:
+/*
+ * @Descripttion: definition the operation of Huffman Tree for compression and
+ * uncompression in byte and bit for PA3
+ * @version: 1.0
+ * @Author: Kaixin Lin
  */
 
 #ifndef HCTREE_HPP
@@ -15,50 +16,107 @@
 #include "BitOutputStream.hpp"
 #include "HCNode.hpp"
 using namespace std;
-
-/** TODO: class header */
+/**
+ * @name: HCTree
+ * @msg:  the class of Huffman Tree for compression and uncompression
+ */
 class HCTree {
   private:
     HCNode* root;            // the root of HCTree
     vector<HCNode*> leaves;  // a vector storing pointers to all leaf HCNodes
-    int height;
     typedef priority_queue<HCNode*, vector<HCNode*>, HCNodePtrComp> my_quene;
+
+    /**
+     * @name: deleteAll
+     * @msg: deconstruction helper function
+     */
     void deleteAll(HCNode*& root);
 
   public:
-    /* TODO: add function header and implement */
+    /**
+     * @name: HCTree
+     * @msg: construction for HCTree
+     */
     HCTree() {
         root = nullptr;
         leaves = {};
-        height = 0;
     }
 
-    /* TODO: add function header */
+    /**
+     * @name: ~HCTree
+     * @msg: deconstruction for HCTree
+     */
     ~HCTree();
 
-    /* TODO: add function header */
+    /**
+     * @name: build
+     * @msg: build Huffman by frequencies
+     */
     void build(const vector<unsigned int>& freqs);
 
-    /* TODO: add function header */
+    /**
+     * @name: encode
+     * @msg: encode stream in bit
+     */
     void encode(byte symbol, BitOutputStream& out) const;
 
-    /* TODO: add function header */
+    /**
+     * @name: encode
+     * @msg: encode stream in byte
+     */
     void encode(byte symbol, ostream& out) const;
 
-    /* TODO: add function header */
+    /**
+     * @name: decode
+     * @msg: decode stream in bit
+     * @return: the decode byte
+     */
     byte decode(BitInputStream& in) const;
 
-    /* TODO: add function header */
+    /**
+     * @name: decode
+     * @msg: decode stream in byte
+     * @return: the decode byte
+     */
     byte decode(istream& in) const;
 
-    void rebuild(string seq, byte symbol);
+    /**
+     * @name: leaveSize
+     * @msg: get leaves' size
+     * @return: leaves' size
+     */
     int leaveSize();
+
+    /**
+     * @name:getNode
+     * @msg: get the leaves' ith node
+     */
     HCNode* getNode(int i);
 
+    /**
+     * @name: encodeNode
+     * @msg: interator the Huffman tree to encode
+     * for no-leaf node, we input 0, for leaf node, we input 1 and then
+     * input the symbol(from left to right)
+     */
     void encodeNode(BitOutputStream& out);
+
+    /**
+     * @name: encodeNodeHelper
+     * @msg: encodeNodeHelper function to iterator the tree
+     */
     void encodeNodeHelper(HCNode*& node, BitOutputStream& out);
 
+    /**
+     * @name: decodeNodeHelper
+     * @msg: decode node helpfer function to iterator rebuild the tree
+     */
     HCNode* decodeNodeHelper(BitInputStream& in, int max);
+
+    /**
+     * @name: rebuild
+     * @msg: rebuild the tree according the encode rule
+     */
     void rebuild(BitInputStream& in, int max);
 };
 

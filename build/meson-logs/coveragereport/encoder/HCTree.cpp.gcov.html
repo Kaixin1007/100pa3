@@ -1,0 +1,339 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Code coverage - encoder/HCTree.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">encoder</a> - HCTree.cpp<span style="font-size: 80%;"> (source / <a href="HCTree.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Code coverage</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">105</td>
+            <td class="headerCovTableEntry">109</td>
+            <td class="headerCovTableEntryHi">96.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-11-11 08:41:41</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+            | Branches:
+            <span class="coverLegendCov">+</span> taken
+            <span class="coverLegendNoCov">-</span> not taken
+            <span class="coverLegendNoCov">#</span> not executed
+</td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">76</td>
+            <td class="headerCovTableEntry">112</td>
+            <td class="headerCovTableEntryLo">67.9 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : /*</a>
+<span class="lineNum">       2 </span>                :            :  * @Descripttion: implemention the operation of Huffman Tree for compression and
+<span class="lineNum">       3 </span>                :            :  * uncompression in byte and bit for PA3
+<span class="lineNum">       4 </span>                :            :  * @version: 1.0
+<span class="lineNum">       5 </span>                :            :  * @Author: Kaixin Lin
+<span class="lineNum">       6 </span>                :            :  */
+<span class="lineNum">       7 </span>                :            : #include &quot;HCTree.hpp&quot;
+<span class="lineNum">       8 </span>                :            : 
+<span class="lineNum">       9 </span>                :            : /**
+<span class="lineNum">      10 </span>                :            :  * @name: deleteAll
+<a name="11"><span class="lineNum">      11 </span>                :            :  * @msg: deconstruction helper function</a>
+<span class="lineNum">      12 </span>                :            :  */
+<span class="lineNum">      13 </span>                :<span class="lineCov">        116 : void HCTree::deleteAll(HCNode*&amp; root) {</span>
+<span class="lineNum">      14 </span>        [<span class="branchCov" title="Branch 0 was taken 64 times"> + </span><span class="branchCov" title="Branch 1 was taken 52 times"> + </span>]:<span class="lineCov">        116 :     if (root == nullptr) return;</span>
+<span class="lineNum">      15 </span>                :<span class="lineCov">         52 :     deleteAll(root-&gt;c0);</span>
+<span class="lineNum">      16 </span>                :<span class="lineCov">         52 :     deleteAll(root-&gt;c1);</span>
+<span class="lineNum">      17 </span>                :<span class="lineCov">         52 :     delete (root);</span>
+<span class="lineNum">      18 </span>                :            : }
+<span class="lineNum">      19 </span>                :            : /**
+<span class="lineNum">      20 </span>                :            :  * @name: ~HCTree
+<a name="21"><span class="lineNum">      21 </span>                :            :  * @msg: deconstruction for HCTree</a>
+<span class="lineNum">      22 </span>                :            :  */
+<span class="lineNum">      23 </span>                :<span class="lineCov">         24 : HCTree::~HCTree() {</span>
+<span class="lineNum">      24 </span>                :<span class="lineCov">         12 :     deleteAll(root);</span>
+<span class="lineNum">      25 </span>                :<span class="lineCov">         12 :     vector&lt;HCNode*&gt;().swap(leaves);</span>
+<span class="lineNum">      26 </span>                :<span class="lineCov">         12 : }</span>
+<span class="lineNum">      27 </span>                :            : 
+<span class="lineNum">      28 </span>                :            : /**
+<span class="lineNum">      29 </span>                :            :  * @name: build
+<a name="30"><span class="lineNum">      30 </span>                :            :  * @msg: build Huffman by frequencies</a>
+<span class="lineNum">      31 </span>                :            :  */
+<span class="lineNum">      32 </span>                :<span class="lineCov">          9 : void HCTree::build(const vector&lt;unsigned int&gt;&amp; freqs) {</span>
+<span class="lineNum">      33 </span>                :<span class="lineCov">         18 :     my_quene forest;</span>
+<span class="lineNum">      34 </span>                :            :     HCNode *least1, *least2, *next;
+<span class="lineNum">      35 </span>                :            :     // creat forest
+<span class="lineNum">      36 </span>        [<span class="branchCov" title="Branch 1 was taken 2304 times"> + </span><span class="branchCov" title="Branch 2 was taken 9 times"> + </span>]:<span class="lineCov">       2313 :     for (int i = 0; i &lt; freqs.size(); i++) {</span>
+<span class="lineNum">      37 </span>        [<span class="branchCov" title="Branch 1 was taken 27 times"> + </span><span class="branchCov" title="Branch 2 was taken 2277 times"> + </span>]:<span class="lineCov">       2304 :         if (freqs[i] != 0) {</span>
+<span class="lineNum">      38 </span>[<span class="branchCov" title="Branch 2 was taken 27 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 6 was taken 27 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]:<span class="lineCov">         27 :             forest.push(new HCNode(freqs[i], (byte)i));</span>
+<span class="lineNum">      39 </span>                :            :         }
+<span class="lineNum">      40 </span>                :            :     }
+<span class="lineNum">      41 </span>                :            :     // edge cast for size = 0 and size = 1
+<span class="lineNum">      42 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchCov" title="Branch 2 was taken 6 times"> + </span>]:<span class="lineCov">          9 :     if (forest.size() == 0)</span>
+<span class="lineNum">      43 </span>                :<span class="lineCov">          3 :         return;</span>
+<span class="lineNum">      44 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchCov" title="Branch 2 was taken 3 times"> + </span>]:<span class="lineCov">          6 :     else if (forest.size() == 1) {</span>
+<span class="lineNum">      45 </span>                :<span class="lineCov">          3 :         root = forest.top();</span>
+<span class="lineNum">      46 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :         next = new HCNode(root-&gt;count, root-&gt;symbol, 0, 0, root);</span>
+<span class="lineNum">      47 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :         leaves.push_back(next);</span>
+<span class="lineNum">      48 </span>                :<span class="lineCov">          3 :         root-&gt;c0 = next;</span>
+<span class="lineNum">      49 </span>                :<span class="lineCov">          3 :         return;</span>
+<span class="lineNum">      50 </span>                :            :     }
+<span class="lineNum">      51 </span>                :            :     // loop until get a tree
+<span class="lineNum">      52 </span>        [<span class="branchCov" title="Branch 1 was taken 21 times"> + </span><span class="branchCov" title="Branch 2 was taken 3 times"> + </span>]:<span class="lineCov">         24 :     while (forest.size() &gt; 1) {</span>
+<span class="lineNum">      53 </span>                :            :         // get the min
+<span class="lineNum">      54 </span>                :<span class="lineCov">         21 :         least1 = forest.top();</span>
+<span class="lineNum">      55 </span>        [<span class="branchCov" title="Branch 1 was taken 21 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         21 :         forest.pop();</span>
+<span class="lineNum">      56 </span>                :<span class="lineCov">         21 :         least2 = forest.top();</span>
+<span class="lineNum">      57 </span>        [<span class="branchCov" title="Branch 1 was taken 21 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         21 :         forest.pop();</span>
+<span class="lineNum">      58 </span>                :            :         // update
+<span class="lineNum">      59 </span>                :<span class="lineCov">         63 :         next = new HCNode(least1-&gt;count + least2-&gt;count, least2-&gt;symbol, least1,</span>
+<span class="lineNum">      60 </span>        [<span class="branchCov" title="Branch 1 was taken 21 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         21 :                           least2);</span>
+<span class="lineNum">      61 </span>                :<span class="lineCov">         21 :         least1-&gt;p = least2-&gt;p = next;</span>
+<span class="lineNum">      62 </span>[<span class="branchCov" title="Branch 0 was taken 12 times"> + </span><span class="branchCov" title="Branch 1 was taken 9 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 12 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         21 :         if (least1-&gt;c0 == 0 &amp; least1-&gt;c1 == 0) leaves.push_back(least1);</span>
+<span class="lineNum">      63 </span>[<span class="branchCov" title="Branch 0 was taken 12 times"> + </span><span class="branchCov" title="Branch 1 was taken 9 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 12 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         21 :         if (least2-&gt;c0 == 0 &amp; least2-&gt;c1 == 0) leaves.push_back(least2);</span>
+<span class="lineNum">      64 </span>        [<span class="branchCov" title="Branch 1 was taken 21 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         21 :         forest.push(next);</span>
+<span class="lineNum">      65 </span>                :            :     }
+<span class="lineNum">      66 </span>        [<span class="branchCov" title="Branch 2 was taken 3 times"> + </span><span class="branchCov" title="Branch 3 was taken 6 times"> + </span>]:<span class="lineCov">          9 :     root = forest.top();</span>
+<span class="lineNum">      67 </span>                :            : }
+<span class="lineNum">      68 </span>                :            : 
+<span class="lineNum">      69 </span>                :            : /**
+<span class="lineNum">      70 </span>                :            :  * @name: encode
+<a name="71"><span class="lineNum">      71 </span>                :            :  * @msg: encode stream in bit</a>
+<span class="lineNum">      72 </span>                :            :  */
+<span class="lineNum">      73 </span>                :<span class="lineCov">          1 : void HCTree::encode(byte symbol, BitOutputStream&amp; out) const {</span>
+<span class="lineNum">      74 </span>                :<span class="lineCov">          1 :     HCNode *parent, *node, *temp = root;</span>
+<span class="lineNum">      75 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          2 :     stack&lt;int&gt; stk;</span>
+<span class="lineNum">      76 </span>                :            :     int i;
+<span class="lineNum">      77 </span>                :            : 
+<span class="lineNum">      78 </span>        [<span class="branchCov" title="Branch 1 was taken 8 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          8 :     for (i = 0; i &lt; leaves.size(); i++) {</span>
+<span class="lineNum">      79 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchCov" title="Branch 2 was taken 7 times"> + </span>]:<span class="lineCov">          8 :         if (leaves[i]-&gt;symbol == symbol) {</span>
+<span class="lineNum">      80 </span>                :            :             // find the symbol
+<span class="lineNum">      81 </span>                :<span class="lineCov">          1 :             node = leaves[i];</span>
+<span class="lineNum">      82 </span>        [<span class="branchCov" title="Branch 0 was taken 1 time"> + </span><span class="branchCov" title="Branch 1 was taken 1 time"> + </span>]:<span class="lineCov">          2 :             while (node != root) {</span>
+<span class="lineNum">      83 </span>                :<span class="lineCov">          1 :                 parent = node-&gt;p;</span>
+<span class="lineNum">      84 </span>        [<span class="branchCov" title="Branch 0 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          1 :                 if (parent-&gt;c0 == node)</span>
+<span class="lineNum">      85 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          1 :                     stk.push(0);</span>
+<span class="lineNum">      86 </span>                :            : 
+<span class="lineNum">      87 </span>                :            :                 else
+<span class="lineNum">      88 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :                     stk.push(1);</span>
+<span class="lineNum">      89 </span>                :            : 
+<span class="lineNum">      90 </span>                :<span class="lineCov">          1 :                 node = parent;</span>
+<span class="lineNum">      91 </span>                :            :             }
+<span class="lineNum">      92 </span>                :<span class="lineCov">          1 :             break;</span>
+<span class="lineNum">      93 </span>                :            :         }
+<span class="lineNum">      94 </span>                :            :     }
+<span class="lineNum">      95 </span>                :            :     // output the code
+<span class="lineNum">      96 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          1 :     if (i &lt;= leaves.size()) {</span>
+<span class="lineNum">      97 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchCov" title="Branch 2 was taken 1 time"> + </span>]:<span class="lineCov">          2 :         while (!stk.empty()) {</span>
+<span class="lineNum">      98 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          1 :             out.writeBit(stk.top());</span>
+<span class="lineNum">      99 </span>                :<span class="lineCov">          1 :             stk.pop();</span>
+<span class="lineNum">     100 </span>                :            :         }
+<span class="lineNum">     101 </span>                :            :     }
+<span class="lineNum">     102 </span>                :<span class="lineCov">          1 : }</span>
+<span class="lineNum">     103 </span>                :            : 
+<span class="lineNum">     104 </span>                :            : /**
+<span class="lineNum">     105 </span>                :            :  * @name: encode
+<a name="106"><span class="lineNum">     106 </span>                :            :  * @msg: encode stream in byte</a>
+<span class="lineNum">     107 </span>                :            :  */
+<span class="lineNum">     108 </span>                :<span class="lineCov">          6 : void HCTree::encode(byte symbol, ostream&amp; out) const {</span>
+<span class="lineNum">     109 </span>        [<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         12 :     string bitStr;</span>
+<span class="lineNum">     110 </span>                :            :     HCNode *parent, *node;
+<span class="lineNum">     111 </span>        [<span class="branchCov" title="Branch 1 was taken 29 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         29 :     for (int i = 0; i &lt; leaves.size(); i++) {</span>
+<span class="lineNum">     112 </span>        [<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchCov" title="Branch 2 was taken 23 times"> + </span>]:<span class="lineCov">         29 :         if (leaves[i]-&gt;symbol == symbol) {</span>
+<span class="lineNum">     113 </span>                :            :             // find the symbol
+<span class="lineNum">     114 </span>                :<span class="lineCov">          6 :             node = leaves[i];</span>
+<span class="lineNum">     115 </span>        [<span class="branchCov" title="Branch 0 was taken 20 times"> + </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>]:<span class="lineCov">         26 :             while (node != root) {</span>
+<span class="lineNum">     116 </span>                :<span class="lineCov">         20 :                 parent = node-&gt;p;</span>
+<span class="lineNum">     117 </span>        [<span class="branchCov" title="Branch 0 was taken 8 times"> + </span><span class="branchCov" title="Branch 1 was taken 12 times"> + </span>]:<span class="lineCov">         20 :                 if (parent-&gt;c0 == node)</span>
+<span class="lineNum">     118 </span>        [<span class="branchCov" title="Branch 1 was taken 8 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          8 :                     bitStr += '0';</span>
+<span class="lineNum">     119 </span>                :            :                 else
+<span class="lineNum">     120 </span>        [<span class="branchCov" title="Branch 1 was taken 12 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         12 :                     bitStr += '1';</span>
+<span class="lineNum">     121 </span>                :<span class="lineCov">         20 :                 node = parent;</span>
+<span class="lineNum">     122 </span>                :            :             }
+<span class="lineNum">     123 </span>                :<span class="lineCov">          6 :             break;</span>
+<span class="lineNum">     124 </span>                :            :         }
+<span class="lineNum">     125 </span>                :            :     }
+<span class="lineNum">     126 </span>                :            : 
+<span class="lineNum">     127 </span>                :            :     // output the code
+<span class="lineNum">     128 </span>        [<span class="branchCov" title="Branch 1 was taken 20 times"> + </span><span class="branchCov" title="Branch 2 was taken 6 times"> + </span>]:<span class="lineCov">         26 :     for (int i = 0; i &lt; bitStr.size(); i++) {</span>
+<span class="lineNum">     129 </span>[<span class="branchCov" title="Branch 2 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 20 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">         20 :         out &lt;&lt; bitStr[bitStr.size() - i - 1];</span>
+<span class="lineNum">     130 </span>                :            :     }
+<span class="lineNum">     131 </span>                :<span class="lineCov">          6 : }</span>
+<span class="lineNum">     132 </span>                :            : 
+<span class="lineNum">     133 </span>                :            : /**
+<span class="lineNum">     134 </span>                :            :  * @name: decode
+<span class="lineNum">     135 </span>                :            :  * @msg: decode stream in bit
+<a name="136"><span class="lineNum">     136 </span>                :            :  * @return: the decode byte</a>
+<span class="lineNum">     137 </span>                :            :  */
+<span class="lineNum">     138 </span>                :<span class="lineCov">          3 : byte HCTree::decode(BitInputStream&amp; in) const {</span>
+<span class="lineNum">     139 </span>                :<span class="lineCov">          3 :     HCNode* node = root;</span>
+<span class="lineNum">     140 </span>                :            :     int nextByte;
+<span class="lineNum">     141 </span>                :            :     byte code;
+<span class="lineNum">     142 </span>                :            : 
+<span class="lineNum">     143 </span>                :            :     while (1) {
+<span class="lineNum">     144 </span>                :            :         // read bit
+<span class="lineNum">     145 </span>                :<span class="lineCov">          8 :         nextByte = in.readBit();</span>
+<span class="lineNum">     146 </span>                :<span class="lineCov">          8 :         code = (unsigned char)nextByte;</span>
+<span class="lineNum">     147 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          8 :         if (code == 0) {</span>
+<span class="lineNum">     148 </span>                :<span class="lineCov">          4 :             node = node-&gt;c0;</span>
+<span class="lineNum">     149 </span>                :            :         } else {
+<span class="lineNum">     150 </span>                :<span class="lineCov">          4 :             node = node-&gt;c1;</span>
+<span class="lineNum">     151 </span>                :            :         }
+<span class="lineNum">     152 </span>                :            :         // if the node go to the root, break
+<span class="lineNum">     153 </span>[<span class="branchCov" title="Branch 0 was taken 3 times"> + </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          8 :         if (node-&gt;c0 == nullptr &amp;&amp; node-&gt;c1 == nullptr) break;</span>
+<span class="lineNum">     154 </span>                :            :     }
+<span class="lineNum">     155 </span>                :            : 
+<span class="lineNum">     156 </span>                :<span class="lineCov">          3 :     return node-&gt;symbol;</span>
+<span class="lineNum">     157 </span>                :            : }
+<span class="lineNum">     158 </span>                :            : /**
+<span class="lineNum">     159 </span>                :            :  * @name: decode
+<span class="lineNum">     160 </span>                :            :  * @msg: decode stream in byte
+<a name="161"><span class="lineNum">     161 </span>                :            :  * @return: the decode byte</a>
+<span class="lineNum">     162 </span>                :            :  */
+<span class="lineNum">     163 </span>                :<span class="lineCov">          3 : byte HCTree::decode(istream&amp; in) const {</span>
+<span class="lineNum">     164 </span>                :<span class="lineCov">          3 :     HCNode* node = root;</span>
+<span class="lineNum">     165 </span>                :            :     int nextByte;
+<span class="lineNum">     166 </span>                :            :     byte code;
+<span class="lineNum">     167 </span>                :            :     while (1) {
+<span class="lineNum">     168 </span>                :<span class="lineCov">          8 :         nextByte = in.get();</span>
+<span class="lineNum">     169 </span>                :<span class="lineCov">          8 :         code = (unsigned char)nextByte;</span>
+<span class="lineNum">     170 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          8 :         if (code == '0') {</span>
+<span class="lineNum">     171 </span>                :<span class="lineCov">          4 :             node = node-&gt;c0;</span>
+<span class="lineNum">     172 </span>                :            :         } else {
+<span class="lineNum">     173 </span>                :<span class="lineCov">          4 :             node = node-&gt;c1;</span>
+<span class="lineNum">     174 </span>                :            :         }
+<span class="lineNum">     175 </span>                :            :         // if the node go to the root, break
+<span class="lineNum">     176 </span>[<span class="branchCov" title="Branch 0 was taken 3 times"> + </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          8 :         if (node-&gt;c0 == nullptr &amp;&amp; node-&gt;c1 == nullptr) break;</span>
+<span class="lineNum">     177 </span>                :            :     }
+<span class="lineNum">     178 </span>                :            : 
+<span class="lineNum">     179 </span>                :<span class="lineCov">          3 :     return node-&gt;symbol;</span>
+<span class="lineNum">     180 </span>                :            : }
+<span class="lineNum">     181 </span>                :            : 
+<span class="lineNum">     182 </span>                :            : /**
+<span class="lineNum">     183 </span>                :            :  * @name: leaveSize
+<span class="lineNum">     184 </span>                :            :  * @msg: get leaves' size
+<a name="185"><span class="lineNum">     185 </span>                :            :  * @return: leaves' size</a>
+<span class="lineNum">     186 </span>                :            :  */
+<span class="lineNum">     187 </span>                :<span class="lineCov">          6 : int HCTree::leaveSize() { return leaves.size(); }</span>
+<span class="lineNum">     188 </span>                :            : 
+<span class="lineNum">     189 </span>                :            : /**
+<span class="lineNum">     190 </span>                :            :  * @name:getNode
+<a name="191"><span class="lineNum">     191 </span>                :            :  * @msg: get the leaves' ith node</a>
+<span class="lineNum">     192 </span>                :            :  */
+<span class="lineNum">     193 </span>                :<span class="lineCov">          6 : HCNode* HCTree::getNode(int i) { return leaves[i]; }</span>
+<span class="lineNum">     194 </span>                :            : 
+<span class="lineNum">     195 </span>                :            : /**
+<span class="lineNum">     196 </span>                :            :  * @name: encodeNode
+<span class="lineNum">     197 </span>                :            :  * @msg: interator the Huffman tree to encode
+<span class="lineNum">     198 </span>                :            :  * for no-leaf node, we input 0, for leaf node, we input 1 and then
+<a name="199"><span class="lineNum">     199 </span>                :            :  * input the symbol(from left to right)</a>
+<span class="lineNum">     200 </span>                :            :  */
+<span class="lineNum">     201 </span>                :<span class="lineCov">          2 : void HCTree::encodeNode(BitOutputStream&amp; out) { encodeNodeHelper(root, out); }</span>
+<span class="lineNum">     202 </span>                :            : 
+<span class="lineNum">     203 </span>                :            : /**
+<span class="lineNum">     204 </span>                :            :  * @name: encodeNodeHelper
+<a name="205"><span class="lineNum">     205 </span>                :            :  * @msg: encodeNodeHelper function to iterator the tree</a>
+<span class="lineNum">     206 </span>                :            :  */
+<span class="lineNum">     207 </span>                :<span class="lineCov">         15 : void HCTree::encodeNodeHelper(HCNode*&amp; node, BitOutputStream&amp; out) {</span>
+<span class="lineNum">     208 </span>                :            :     // leaf node
+<span class="lineNum">     209 </span>[<span class="branchCov" title="Branch 0 was taken 8 times"> + </span><span class="branchCov" title="Branch 1 was taken 7 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 8 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">         15 :     if (node-&gt;c0 == nullptr &amp;&amp; node-&gt;c1 == nullptr) {</span>
+<span class="lineNum">     210 </span>                :<span class="lineCov">          8 :         out.writeBit(1);</span>
+<span class="lineNum">     211 </span>                :<span class="lineCov">          8 :         out.writeChar(node-&gt;symbol);</span>
+<span class="lineNum">     212 </span>                :            :     } else {
+<span class="lineNum">     213 </span>                :            :         // no leaf node
+<span class="lineNum">     214 </span>                :<span class="lineCov">          7 :         out.writeBit(0);</span>
+<span class="lineNum">     215 </span>        [<span class="branchCov" title="Branch 0 was taken 7 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          7 :         if (node-&gt;c0 != nullptr) encodeNodeHelper(node-&gt;c0, out);</span>
+<span class="lineNum">     216 </span>        [<span class="branchCov" title="Branch 0 was taken 7 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">          7 :         if (node-&gt;c1 != nullptr) encodeNodeHelper(node-&gt;c1, out);</span>
+<span class="lineNum">     217 </span>                :            :     }
+<span class="lineNum">     218 </span>                :<span class="lineCov">         15 : }</span>
+<span class="lineNum">     219 </span>                :            : 
+<span class="lineNum">     220 </span>                :            : /**
+<span class="lineNum">     221 </span>                :            :  * @name: decodeNodeHelper
+<a name="222"><span class="lineNum">     222 </span>                :            :  * @msg: decode node helpfer function to iterator rebuild the tree</a>
+<span class="lineNum">     223 </span>                :            :  */
+<span class="lineNum">     224 </span>                :<span class="lineCov">          1 : HCNode* HCTree::decodeNodeHelper(BitInputStream&amp; in, int max) {</span>
+<span class="lineNum">     225 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 1 time"> + </span>]:<span class="lineCov">          1 :     if (leaves.size() &gt;= max) {</span>
+<span class="lineNum">     226 </span>                :<span class="lineNoCov">          0 :         return nullptr;</span>
+<span class="lineNum">     227 </span>                :            :     }
+<span class="lineNum">     228 </span>                :            :     // leaf node
+<span class="lineNum">     229 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          1 :     if (in.readBit() == 1) {</span>
+<span class="lineNum">     230 </span>[<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          1 :         HCNode* node = new HCNode(0, in.readChar(), 0, 0, 0);</span>
+<span class="lineNum">     231 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          1 :         leaves.push_back(node);</span>
+<span class="lineNum">     232 </span>                :<span class="lineCov">          1 :         return node;</span>
+<span class="lineNum">     233 </span>                :            :     } else {
+<span class="lineNum">     234 </span>                :            :         // no leaf node
+<span class="lineNum">     235 </span>                :<span class="lineNoCov">          0 :         HCNode* left = decodeNodeHelper(in, max);</span>
+<span class="lineNum">     236 </span>                :<span class="lineNoCov">          0 :         HCNode* right = decodeNodeHelper(in, max);</span>
+<span class="lineNum">     237 </span>                :<span class="lineCov">          1 :         return new HCNode(0, 0, left, right, 0);</span>
+<span class="lineNum">     238 </span>                :            :     }
+<span class="lineNum">     239 </span>                :            : }
+<span class="lineNum">     240 </span>                :            : 
+<span class="lineNum">     241 </span>                :            : /**
+<span class="lineNum">     242 </span>                :            :  * @name: rebuild
+<a name="243"><span class="lineNum">     243 </span>                :            :  * @msg: rebuild the tree according the encode rule</a>
+<span class="lineNum">     244 </span>                :            :  */
+<a name="245"><span class="lineNum">     245 </span>                :<span class="lineCov">          1 : void HCTree::rebuild(BitInputStream&amp; in, int max) {</span></a>
+<span class="lineNum">     246 </span>                :<span class="lineCov">          1 :     root = decodeNodeHelper(in, max);</span>
+<span class="lineNum">     247 </span>[<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         12 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

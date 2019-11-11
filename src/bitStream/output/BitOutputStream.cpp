@@ -1,24 +1,35 @@
-/**
- * TODO: file header
- *
- * Author:
+/*
+ * @Descripttion:bitwise operations to write each bit in the buffer.
+ * @version: 1.0
+ * @Author: Kaixin Lin
  */
+
 #include "BitOutputStream.hpp"
 
-/* TODO */
+/**
+ * @name: flush
+ * @msg: put the buffer to outputstream
+ * @return: void
+ */
 void BitOutputStream::flush() {
     out.put(buf);
     buf = 0;
     nbits = 0;
 }
 
-/* TODO */
+/**
+ * @name: writeBit
+ * @msg: write bit to buffer
+ */
 void BitOutputStream::writeBit(int i) {
     if (nbits == 8) flush();
     buf = buf | (i << (7 - nbits));
     nbits++;
 }
-
+/**
+ * @name: writeChar
+ * @msg: write byte to buffer
+ */
 void BitOutputStream::writeChar(unsigned char num) {
     unsigned char temp = 0;
     for (int i = 0; i < 8; i++) {
@@ -27,12 +38,9 @@ void BitOutputStream::writeChar(unsigned char num) {
         num = num % temp;
     }
 }
-void BitOutputStream::writenBit(unsigned char num, int n) {
-    unsigned char temp = 0;
-    for (int i = 0; i < n; i++) {
-        temp = pow(2, n - 1 - i);
-        writeBit(num / temp);
-        num = num % temp;
-    }
-}
+
+/**
+ * @name: getBits
+ * @msg: get the value of nbits
+ */
 int BitOutputStream::getBits() { return nbits; }

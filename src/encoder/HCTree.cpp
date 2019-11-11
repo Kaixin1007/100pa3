@@ -1,23 +1,34 @@
-/**
- * TODO: file header
- *
- * Author:
+/*
+ * @Descripttion: implemention the operation of Huffman Tree for compression and
+ * uncompression in byte and bit for PA3
+ * @version: 1.0
+ * @Author: Kaixin Lin
  */
 #include "HCTree.hpp"
 
+/**
+ * @name: deleteAll
+ * @msg: deconstruction helper function
+ */
 void HCTree::deleteAll(HCNode*& root) {
     if (root == nullptr) return;
     deleteAll(root->c0);
     deleteAll(root->c1);
     delete (root);
 }
-/* TODO */
+/**
+ * @name: ~HCTree
+ * @msg: deconstruction for HCTree
+ */
 HCTree::~HCTree() {
     deleteAll(root);
     vector<HCNode*>().swap(leaves);
 }
 
-/* TODO */
+/**
+ * @name: build
+ * @msg: build Huffman by frequencies
+ */
 void HCTree::build(const vector<unsigned int>& freqs) {
     my_quene forest;
     HCNode *least1, *least2, *next;
@@ -27,6 +38,7 @@ void HCTree::build(const vector<unsigned int>& freqs) {
             forest.push(new HCNode(freqs[i], (byte)i));
         }
     }
+    // edge cast for size = 0 and size = 1
     if (forest.size() == 0)
         return;
     else if (forest.size() == 1) {
@@ -36,13 +48,14 @@ void HCTree::build(const vector<unsigned int>& freqs) {
         root->c0 = next;
         return;
     }
+    // loop until get a tree
     while (forest.size() > 1) {
-        // 得到最小的两个
+        // get the min
         least1 = forest.top();
         forest.pop();
         least2 = forest.top();
         forest.pop();
-        //更新
+        // update
         next = new HCNode(least1->count + least2->count, least2->symbol, least1,
                           least2);
         least1->p = least2->p = next;
@@ -53,7 +66,10 @@ void HCTree::build(const vector<unsigned int>& freqs) {
     root = forest.top();
 }
 
-/* TODO */
+/**
+ * @name: encode
+ * @msg: encode stream in bit
+ */
 void HCTree::encode(byte symbol, BitOutputStream& out) const {
     HCNode *parent, *node, *temp = root;
     stack<int> stk;
@@ -76,7 +92,7 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const {
             break;
         }
     }
-    //如果有进入if里面
+    // output the code
     if (i <= leaves.size()) {
         while (!stk.empty()) {
             out.writeBit(stk.top());
@@ -85,11 +101,13 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const {
     }
 }
 
-/* TODO */
+/**
+ * @name: encode
+ * @msg: encode stream in byte
+ */
 void HCTree::encode(byte symbol, ostream& out) const {
     string bitStr;
     HCNode *parent, *node;
-
     for (int i = 0; i < leaves.size(); i++) {
         if (leaves[i]->symbol == symbol) {
             // find the symbol
@@ -105,103 +123,125 @@ void HCTree::encode(byte symbol, ostream& out) const {
             break;
         }
     }
-    // output
 
+    // output the code
     for (int i = 0; i < bitStr.size(); i++) {
         out << bitStr[bitStr.size() - i - 1];
     }
 }
-/* TODO */
+
+/**
+ * @name: decode
+ * @msg: decode stream in bit
+ * @return: the decode byte
+ */
 byte HCTree::decode(BitInputStream& in) const {
     HCNode* node = root;
     int nextByte;
     byte code;
-    while ((nextByte = in.readBit()) != EOF) {
+
+    while (1) {
+        // read bit
+        nextByte = in.readBit();
         code = (unsigned char)nextByte;
         if (code == 0) {
             node = node->c0;
         } else {
             node = node->c1;
         }
+        // if the node go to the root, break
         if (node->c0 == nullptr && node->c1 == nullptr) break;
     }
-    // if (nextByte == EOF) isEnd = true;
 
     return node->symbol;
 }
-/* TODO */
+/**
+ * @name: decode
+ * @msg: decode stream in byte
+ * @return: the decode byte
+ */
 byte HCTree::decode(istream& in) const {
     HCNode* node = root;
     int nextByte;
     byte code;
-    while ((nextByte = in.get()) != EOF) {
+    while (1) {
+        nextByte = in.get();
         code = (unsigned char)nextByte;
         if (code == '0') {
             node = node->c0;
         } else {
             node = node->c1;
         }
+        // if the node go to the root, break
         if (node->c0 == nullptr && node->c1 == nullptr) break;
     }
-    // if (nextByte == EOF) isEnd = true;
 
     return node->symbol;
 }
-void HCTree::rebuild(string seq, byte symbol) {
-    if (root == nullptr) {
-        root = new HCNode(0, symbol, 0, 0, 0);
-    }
-    HCNode *node = root, *next;
-    for (int i = 0; i < seq.length(); i++) {
-        if (seq[i] == '0') {
-            if (node->c0 == nullptr) {
-                next = new HCNode(0, symbol, 0, 0, node);
-                node->c0 = next;
-            }
-            node = node->c0;
-        } else {
-            if (node->c1 == nullptr) {
-                next = new HCNode(0, symbol, 0, 0, node);
-                node->c1 = next;
-            }
-            node = node->c1;
-        }
-    }
-    leaves.push_back(node);
-}
 
+/**
+ * @name: leaveSize
+ * @msg: get leaves' size
+ * @return: leaves' size
+ */
 int HCTree::leaveSize() { return leaves.size(); }
 
+/**
+ * @name:getNode
+ * @msg: get the leaves' ith node
+ */
 HCNode* HCTree::getNode(int i) { return leaves[i]; }
 
+/**
+ * @name: encodeNode
+ * @msg: interator the Huffman tree to encode
+ * for no-leaf node, we input 0, for leaf node, we input 1 and then
+ * input the symbol(from left to right)
+ */
 void HCTree::encodeNode(BitOutputStream& out) { encodeNodeHelper(root, out); }
 
+/**
+ * @name: encodeNodeHelper
+ * @msg: encodeNodeHelper function to iterator the tree
+ */
 void HCTree::encodeNodeHelper(HCNode*& node, BitOutputStream& out) {
+    // leaf node
     if (node->c0 == nullptr && node->c1 == nullptr) {
         out.writeBit(1);
-
         out.writeChar(node->symbol);
     } else {
+        // no leaf node
         out.writeBit(0);
-
         if (node->c0 != nullptr) encodeNodeHelper(node->c0, out);
         if (node->c1 != nullptr) encodeNodeHelper(node->c1, out);
     }
 }
+
+/**
+ * @name: decodeNodeHelper
+ * @msg: decode node helpfer function to iterator rebuild the tree
+ */
 HCNode* HCTree::decodeNodeHelper(BitInputStream& in, int max) {
     if (leaves.size() >= max) {
         return nullptr;
     }
+    // leaf node
     if (in.readBit() == 1) {
         HCNode* node = new HCNode(0, in.readChar(), 0, 0, 0);
         leaves.push_back(node);
         return node;
     } else {
+        // no leaf node
         HCNode* left = decodeNodeHelper(in, max);
         HCNode* right = decodeNodeHelper(in, max);
         return new HCNode(0, 0, left, right, 0);
     }
 }
+
+/**
+ * @name: rebuild
+ * @msg: rebuild the tree according the encode rule
+ */
 void HCTree::rebuild(BitInputStream& in, int max) {
     root = decodeNodeHelper(in, max);
 }

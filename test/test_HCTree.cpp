@@ -1,3 +1,8 @@
+/*
+ * @Descripttion:
+ * @version: 1.0
+ * @Author: Kaixin Lin
+ */
 #include <iostream>
 #include <string>
 #include <vector>
@@ -12,11 +17,13 @@ class SimpleHCTreeFixture : public ::testing::Test {
   protected:
     HCTree tree;
     HCTree tree1;
+    HCTree tree2;
 
   public:
     SimpleHCTreeFixture() {
-        // initialization code here
+        HCTree tree3;
         vector<unsigned int> freqs(256);
+        tree3.build(freqs);
         vector<unsigned int> freqs1(256);
         freqs[','] = 1;
         freqs['p'] = 1;
@@ -27,9 +34,11 @@ class SimpleHCTreeFixture : public ::testing::Test {
         freqs['a'] = 3;
         freqs['u'] = 9;
         tree.build(freqs);
-        // freqs1['a'] = 5;
-        // tree1.build(freqs1);
-        cout <<tree.leaveSize()<<endl;
+        freqs1['a'] = 5;
+        tree2.build(freqs1);
+        cout << tree.leaveSize();
+
+        tree.getNode(0);
     }
 };
 
@@ -90,14 +99,18 @@ TEST_F(SimpleHCTreeFixture, TEST_DECODE) {
     BitInputStream bis2(ss);
     ASSERT_EQ(tree.decode(bis2), 'a');
 
-    // istringstream is3("1111");
-    // ASSERT_EQ(tree.decode(is3), 'n');
     cout << endl;
 }
 
 TEST_F(SimpleHCTreeFixture, TEST_REBUILD) {
-    tree1.rebuild("01", 'a');
-    tree1.rebuild("00", 'b');
-    tree1.rebuild("10", '+');
-    cout << endl;
+    ostringstream os;
+    BitOutputStream bos(os);
+    tree.encodeNode(bos);
+
+    string bitsStr = "10010000";
+    string ascii = string(1, stoi(bitsStr, nullptr, 2));
+    stringstream ss;
+    ss.str(ascii);
+    BitInputStream bis(ss);
+    tree1.rebuild(bis, 2);
 }

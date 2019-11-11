@@ -1,3 +1,8 @@
+/*
+ * @Descripttion:
+ * @version: 1.0
+ * @Author: Kaixin Lin
+ */
 /**
  * TODO: file header
  *
@@ -12,7 +17,10 @@ typedef unsigned char byte;
 
 using namespace std;
 
-/** TODO: class header */
+/**
+ * @name: BitOutputStream
+ * @msg: BitOutputStream class for bit operations
+ */
 class BitOutputStream {
   private:
     char buf;      // one byte buffer of bits
@@ -20,20 +28,36 @@ class BitOutputStream {
     ostream& out;  // reference to the output stream to use
 
   public:
-    /* TODO: add function header and implement */
+    /**
+     * @name: BitOutputStream
+     * @msg: constructor for BitOutputStream
+     */
     explicit BitOutputStream(ostream& os) : out(os) {
         buf = 0;
         nbits = 0;
     }
 
-    /* TODO: add function header */
+    /**
+     * @name: flush
+     * @msg: put the buffer to outputstream
+     * @return: void
+     */
     void flush();
 
-    /* TODO: add function header */
+    /**
+     * @name: writeBit
+     * @msg: write bit to buffer
+     */
     void writeBit(int i);
-
+    /**
+     * @name: writeChar
+     * @msg: write byte to buffer
+     */
     void writeChar(unsigned char num);
-    void writenBit(unsigned char num, int n);
+    /**
+     * @name: getBits
+     * @msg: get the value of nbits
+     */
     int getBits();
 };
 

@@ -1,7 +1,7 @@
-/**
- * TODO: file header
- *
- * Author:
+/*
+ * @Descripttion: definition the Node in Huffman Tree for Huffman Coding
+ * @version: 1.0
+ * @Author: Kaixin Lin
  */
 
 #ifndef HCNODE_HPP
