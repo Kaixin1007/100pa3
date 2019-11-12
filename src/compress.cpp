@@ -136,9 +136,10 @@ int main(int argc, char* argv[]) {
     // check if argument is vaild
     FileUtils fu;
     if (!fu.isValidFile(inFileName)) return -1;
-
-    if (isAsciiOutput)
-        pseudoCompression(inFileName, outFileName);
-    else
-        trueCompression(inFileName, outFileName);
+    trueCompression(inFileName, outFileName);
+    // if (isAsciiOutput)
+    //     pseudoCompression(inFileName, outFileName);
+    // else
+    //     trueCompression(inFileName, outFileName);
+    return 0;
 }
