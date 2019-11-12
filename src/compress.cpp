@@ -106,7 +106,88 @@ void trueCompression(string inFileName, string outFileName) {
     bos.flush();
     out.close();
 }
+/**
+ * @name: trueCompression
+ * @msg: True compression with bitwise i/o and small header (final)
+ */
+void extraCompression(string inFileName, string outFileName) {
+    ifstream myfile;
+    HCTree tree;
+    FileUtils fu;
+    unsigned short nextShort;
+    int nextByte, tempByte, total = 0;
+    vector<unsigned short> temp;
+    vector<unsigned int> freqs(65536);
+    ofstream out;
+    BitOutputStream bos(out);
+    bos.flag_2Node = 1;  // open write 2node mode
+    // check file is empty
+    if (fu.isEmptyFile(inFileName)) {
+        out.open(outFileName);
+        out.close();
+        return;
+    }
 
+    myfile.open(inFileName, ios::binary);
+    bool readEOF = false;
+    int isOdd = 0;
+    if ((nextByte = myfile.get()) != EOF) {
+        if ((tempByte = myfile.get()) != EOF) {
+            nextByte |= (nextByte << 8);
+            nextByte |= tempByte;
+        } else {
+            isOdd = 1;
+            readEOF = true;
+        }
+
+    } else
+        readEOF = true;
+    while (readEOF == false) {
+        nextShort = (unsigned short)nextByte;
+        freqs[nextShort]++;
+        temp.push_back(nextShort);
+        if ((nextByte = myfile.get()) != EOF) {
+            if ((tempByte = myfile.get()) != EOF) {
+                nextByte |= (nextByte << 8);
+                nextByte |= tempByte;
+            } else {
+                isOdd = 1;
+                readEOF = true;
+            }
+        } else
+            readEOF = true;
+    }
+    myfile.close();
+
+    for (int i = 0; i < freqs.size(); i++) {
+        if (freqs[i] != 0) total++;
+    }
+
+    tree.build(freqs);
+    out.open(outFileName, ios::binary);
+
+    // write header
+    // first total header
+    bos.writeShort((unsigned short)total);
+    // write Is odd end
+    bos.writeShort((unsigned short)isOdd);
+
+    if (isOdd) bos.writeShort((unsigned short)nextByte);
+
+    tree.encodeNode(bos);
+
+    // encode
+    for (int i = 0; i < temp.size(); i++) {
+        tree.encode(temp[i], bos);
+    }
+    int extrabit = bos.getBits();
+    // edge case
+    if (extrabit != 16) bos.flush();
+
+    bos.writeShort(extrabit);
+    bos.flush();
+    out.close();
+}
 /* Main program that runs the compress */
 int main(int argc, char* argv[]) {
     cxxopts::Options options("./compress",
@@ -139,6 +220,8 @@ int main(int argc, char* argv[]) {
 
     if (isAsciiOutput)
         pseudoCompression(inFileName, outFileName);
+    else if (isBlockOutput)
+        extraCompression(inFileName, outFileName);
     else
         trueCompression(inFileName, outFileName);
     return 0;

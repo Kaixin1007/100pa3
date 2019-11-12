@@ -1,4 +1,9 @@
 /*
+ * @Descripttion:
+ * @version: 1.0
+ * @Author: Kaixin Lin
+ */
+/*
  * @Descripttion: definition the Node in Huffman Tree for Huffman Coding
  * @version: 1.0
  * @Author: Kaixin Lin
@@ -18,13 +23,13 @@ using namespace std;
 class HCNode {
   public:
     unsigned int count;  // the freqency of the symbol
-    byte symbol;         // byte in the file we're keeping track of
+    short symbol;        // byte in the file we're keeping track of
     HCNode* c0;          // pointer to '0' child
     HCNode* c1;          // pointer to '1' child
     HCNode* p;           // pointer to parent
 
     /* Constructor that initialize a HCNode */
-    HCNode(unsigned int count, byte symbol, HCNode* c0 = 0, HCNode* c1 = 0,
+    HCNode(unsigned int count, short symbol, HCNode* c0 = 0, HCNode* c1 = 0,
            HCNode* p = 0)
         : count(count), symbol(symbol), c0(c0), c1(c1), p(p) {}
 };

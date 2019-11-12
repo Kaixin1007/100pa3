@@ -3,11 +3,6 @@
  * @version: 1.0
  * @Author: Kaixin Lin
  */
-/**
- * TODO: file header
- *
- * Author:
- */
 #ifndef BITOUTPUTSTREAM_HPP
 #define BITOUTPUTSTREAM_HPP
 
@@ -28,6 +23,7 @@ class BitOutputStream {
     ostream& out;  // reference to the output stream to use
 
   public:
+    int flag_2Node;
     /**
      * @name: BitOutputStream
      * @msg: constructor for BitOutputStream
@@ -35,6 +31,7 @@ class BitOutputStream {
     explicit BitOutputStream(ostream& os) : out(os) {
         buf = 0;
         nbits = 0;
+        flag_2Node = 0;
     }
 
     /**
@@ -59,6 +56,12 @@ class BitOutputStream {
      * @msg: get the value of nbits
      */
     int getBits();
+
+    /**
+     * @name: writeShort
+     * @msg: write short to buffer
+     */
+    void writeShort(unsigned short num);
 };
 
 #endif

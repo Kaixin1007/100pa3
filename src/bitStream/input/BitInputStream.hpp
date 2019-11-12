@@ -23,6 +23,7 @@ class BitInputStream {
     istream& in;  // reference to the input stream to use
 
   public:
+    int flag_2Node;
     /**
      * @name: BitInputStream
      * @msg: construction function for BitInputStream
@@ -30,6 +31,7 @@ class BitInputStream {
     explicit BitInputStream(istream& is) : in(is) {
         nbits = -1;
         buf = 0;
+        flag_2Node = 0;
     };
 
     /**
@@ -57,6 +59,13 @@ class BitInputStream {
      * @msg: get the value of nbits
      */
     int getBits();
+
+    /**
+     * @name: readShort
+     * @msg: read Short to buffer
+     * @return: current Short
+     */
+    unsigned int readShort();
 };
 
 #endif

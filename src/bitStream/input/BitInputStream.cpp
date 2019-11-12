@@ -1,4 +1,9 @@
 /*
+ * @Descripttion:
+ * @version: 1.0
+ * @Author: Kaixin Lin
+ */
+/*
  * @Descripttion:bitwise operations to read each bit in the buffer.
  * @version: 1.0
  * @Author: Kaixin Lin
@@ -19,12 +24,22 @@ void BitInputStream::fill() { buf = in.get(); }
  * @return: current bit
  */
 unsigned int BitInputStream::readBit() {
-    if (nbits == 8 || nbits == -1) {
-        nbits = 0;
-        fill();
-    }
+    unsigned int bit;
+    if (flag_2Node == 0) {
+        if (nbits == 8 || nbits == -1) {
+            nbits = 0;
+            fill();
+        }
 
-    unsigned int bit = (buf >> (7 - nbits)) & 0x01;
+        bit = (buf >> (7 - nbits)) & 0x01;
+
+    } else {
+        if (nbits == 16 || nbits == -1) {
+            nbits = 0;
+            fill();
+        }
+        bit = (buf >> (15 - nbits)) & 0x01;
+    }
     nbits++;
     return bit;
 }
@@ -42,7 +57,19 @@ unsigned int BitInputStream::readChar() {
 
     return num;
 }
+/**
+ * @name: readShort
+ * @msg: read Short to buffer
+ * @return: current Short
+ */
+unsigned int BitInputStream::readShort() {
+    unsigned char num = 0;
+    for (int i = 0; i < 16; i++) {
+        num |= (readBit() << (15 - i));
+    }
 
+    return num;
+}
 /**
  * @name: getBits
  * @msg: get the value of nbits

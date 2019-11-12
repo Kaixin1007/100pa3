@@ -22,8 +22,13 @@ void BitOutputStream::flush() {
  * @msg: write bit to buffer
  */
 void BitOutputStream::writeBit(int i) {
-    if (nbits == 8) flush();
-    buf = buf | (i << (7 - nbits));
+    if (flag_2Node == 0) {
+        if (nbits == 8) flush();
+        buf = buf | (i << (7 - nbits));
+    } else {
+        if (nbits == 16) flush();
+        buf = buf | (i << (15 - nbits));
+    }
     nbits++;
 }
 /**
@@ -44,3 +49,16 @@ void BitOutputStream::writeChar(unsigned char num) {
  * @msg: get the value of nbits
  */
 int BitOutputStream::getBits() { return nbits; }
+
+/**
+ * @name: writeChar
+ * @msg: write byte to buffer
+ */
+void BitOutputStream::writeShort(unsigned short num) {
+    unsigned char temp = 0;
+    for (int i = 0; i < 16; i++) {
+        temp = pow(2, 15 - i);
+        writeBit(num / temp);
+        num = num % temp;
+    }
+}

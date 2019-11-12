@@ -33,6 +33,7 @@ class HCTree {
     void deleteAll(HCNode*& root);
 
   public:
+    int flag_2Node;
     /**
      * @name: HCTree
      * @msg: construction for HCTree
@@ -40,6 +41,7 @@ class HCTree {
     HCTree() {
         root = nullptr;
         leaves = {};
+        flag_2Node = 0;
     }
 
     /**
@@ -58,11 +60,11 @@ class HCTree {
      * @name: encode
      * @msg: encode stream in bit
      */
-    void encode(byte symbol, BitOutputStream& out) const;
+    void encode(short symbol, BitOutputStream& out) const;
 
     /**
      * @name: encode
-     * @msg: encode stream in byte
+     * @msg: encode stream in bit
      */
     void encode(byte symbol, ostream& out) const;
 
@@ -71,7 +73,7 @@ class HCTree {
      * @msg: decode stream in bit
      * @return: the decode byte
      */
-    byte decode(BitInputStream& in) const;
+    short decode(BitInputStream& in) const;
 
     /**
      * @name: decode

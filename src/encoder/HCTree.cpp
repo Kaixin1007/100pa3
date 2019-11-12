@@ -70,7 +70,7 @@ void HCTree::build(const vector<unsigned int>& freqs) {
  * @name: encode
  * @msg: encode stream in bit
  */
-void HCTree::encode(byte symbol, BitOutputStream& out) const {
+void HCTree::encode(short symbol, BitOutputStream& out) const {
     HCNode *parent, *node, *temp = root;
     stack<int> stk;
     int i;
@@ -135,7 +135,7 @@ void HCTree::encode(byte symbol, ostream& out) const {
  * @msg: decode stream in bit
  * @return: the decode byte
  */
-byte HCTree::decode(BitInputStream& in) const {
+short HCTree::decode(BitInputStream& in) const {
     HCNode* node = root;
     int nextByte;
     byte code;
@@ -245,3 +245,4 @@ HCNode* HCTree::decodeNodeHelper(BitInputStream& in, int max) {
 void HCTree::rebuild(BitInputStream& in, int max) {
     root = decodeNodeHelper(in, max);
 }
+

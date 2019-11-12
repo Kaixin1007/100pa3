@@ -31,7 +31,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/src/compress.cpp.executable",
             "args": [
-                // "-ascii",
+                "-block",
                 // "harry_comp.txt",
                 // "harryard.txt",
                 // "images/bash.png",
