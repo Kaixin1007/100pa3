@@ -150,10 +150,13 @@ int main(int argc, char* argv[]) {
     options.positional_help("./path_to_input_file ./path_to_output_file");
 
     bool isAsciiOutput = false;
+    bool isBlockOutput = false;
     string inFileName, outFileName;
     options.allow_unrecognised_options().add_options()(
         "ascii", "Write output in ascii mode instead of bit stream",
         cxxopts::value<bool>(isAsciiOutput))(
+        "block", "Write output in two byte symbols instead of one byte",
+        cxxopts::value<bool>(isBlockOutput))(
         "input", "", cxxopts::value<string>(inFileName))(
         "output", "", cxxopts::value<string>(outFileName))(
         "h,help", "Print help and exit");
