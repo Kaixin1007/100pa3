@@ -1,4 +1,9 @@
 /*
+ * @Descripttion:
+ * @version: 1.0
+ * @Author: Kaixin Lin
+ */
+/*
  * @Descripttion:bitwise operations to read each bit in the buffer.
  * @version: 1.0
  * @Author: Kaixin Lin
@@ -18,7 +23,7 @@ using namespace std;
  */
 class BitInputStream {
   private:
-    char buf;     // one byte buffer of bits
+    short buf;    // one byte buffer of bits
     int nbits;    // number of bits have been writen to buf
     istream& in;  // reference to the input stream to use
 

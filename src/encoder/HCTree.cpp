@@ -35,7 +35,7 @@ void HCTree::build(const vector<unsigned int>& freqs) {
     // creat forest
     for (int i = 0; i < freqs.size(); i++) {
         if (freqs[i] != 0) {
-            forest.push(new HCNode(freqs[i], (byte)i));
+            forest.push(new HCNode(freqs[i], (short)i));
         }
     }
     // edge cast for size = 0 and size = 1
@@ -143,7 +143,7 @@ short HCTree::decode(BitInputStream& in) const {
     while (1) {
         // read bit
         nextByte = in.readBit();
-        code = (unsigned char)nextByte;
+        code = (unsigned short)nextByte;
         if (code == 0) {
             node = node->c0;
         } else {
@@ -208,7 +208,10 @@ void HCTree::encodeNodeHelper(HCNode*& node, BitOutputStream& out) {
     // leaf node
     if (node->c0 == nullptr && node->c1 == nullptr) {
         out.writeBit(1);
-        out.writeChar(node->symbol);
+        if (flag_2Node == 1)
+            out.writeShort(node->symbol);
+        else
+            out.writeChar(node->symbol);
     } else {
         // no leaf node
         out.writeBit(0);
@@ -227,7 +230,7 @@ HCNode* HCTree::decodeNodeHelper(BitInputStream& in, int max) {
     }
     // leaf node
     if (in.readBit() == 1) {
-        HCNode* node = new HCNode(0, in.readChar(), 0, 0, 0);
+        HCNode* node = new HCNode(0, in.readShort(), 0, 0, 0);
         leaves.push_back(node);
         return node;
     } else {
@@ -245,4 +248,3 @@ HCNode* HCTree::decodeNodeHelper(BitInputStream& in, int max) {
 void HCTree::rebuild(BitInputStream& in, int max) {
     root = decodeNodeHelper(in, max);
 }
-

@@ -4,6 +4,16 @@
  * @Author: Kaixin Lin
  */
 /*
+ * @Descripttion:
+ * @version: 1.0
+ * @Author: Kaixin Lin
+ */
+/*
+ * @Descripttion:
+ * @version: 1.0
+ * @Author: Kaixin Lin
+ */
+/*
  * @Descripttion:bitwise operations to read each bit in the buffer.
  * @version: 1.0
  * @Author: Kaixin Lin
@@ -16,7 +26,17 @@
  * @msg: put buffer to inputstream
  * @return:void
  */
-void BitInputStream::fill() { buf = in.get(); }
+void BitInputStream::fill() {
+    byte temp;
+    if (flag_2Node == 0)
+        buf = in.get();
+    else {
+        buf = in.get();
+        buf = buf << 8;
+        temp = in.get();
+        buf |= temp;
+    }
+}
 
 /**
  * @name: readBit
@@ -63,7 +83,7 @@ unsigned int BitInputStream::readChar() {
  * @return: current Short
  */
 unsigned int BitInputStream::readShort() {
-    unsigned char num = 0;
+    unsigned short num = 0;
     for (int i = 0; i < 16; i++) {
         num |= (readBit() << (15 - i));
     }

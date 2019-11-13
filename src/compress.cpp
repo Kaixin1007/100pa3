@@ -120,6 +120,7 @@ void extraCompression(string inFileName, string outFileName) {
     vector<unsigned int> freqs(65536);
     ofstream out;
     BitOutputStream bos(out);
+    tree.flag_2Node = 1;
     bos.flag_2Node = 1;  // open write 2node mode
     // check file is empty
     if (fu.isEmptyFile(inFileName)) {
@@ -133,8 +134,11 @@ void extraCompression(string inFileName, string outFileName) {
     int isOdd = 0;
     if ((nextByte = myfile.get()) != EOF) {
         if ((tempByte = myfile.get()) != EOF) {
-            nextByte |= (nextByte << 8);
+            nextByte = (nextByte << 8);
             nextByte |= tempByte;
+            nextShort = (unsigned short)nextByte;
+            temp.push_back(nextShort);
+            freqs[nextShort]++;
         } else {
             isOdd = 1;
             readEOF = true;
@@ -143,13 +147,13 @@ void extraCompression(string inFileName, string outFileName) {
     } else
         readEOF = true;
     while (readEOF == false) {
-        nextShort = (unsigned short)nextByte;
-        freqs[nextShort]++;
-        temp.push_back(nextShort);
         if ((nextByte = myfile.get()) != EOF) {
             if ((tempByte = myfile.get()) != EOF) {
-                nextByte |= (nextByte << 8);
+                nextByte = (nextByte << 8);
                 nextByte |= tempByte;
+                nextShort = (unsigned short)nextByte;
+                temp.push_back(nextShort);
+                freqs[nextShort]++;
             } else {
                 isOdd = 1;
                 readEOF = true;
@@ -220,9 +224,11 @@ int main(int argc, char* argv[]) {
 
     if (isAsciiOutput)
         pseudoCompression(inFileName, outFileName);
-    else if (isBlockOutput)
-        extraCompression(inFileName, outFileName);
     else
-        trueCompression(inFileName, outFileName);
+        extraCompression(inFileName, outFileName);
+    // else if (isBlockOutput)
+    //     extraCompression(inFileName, outFileName);
+    // else
+    //     trueCompression(inFileName, outFileName);
     return 0;
 }

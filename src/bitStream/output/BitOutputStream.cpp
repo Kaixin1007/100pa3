@@ -1,4 +1,9 @@
 /*
+ * @Descripttion:
+ * @version: 1.0
+ * @Author: Kaixin Lin
+ */
+/*
  * @Descripttion:bitwise operations to write each bit in the buffer.
  * @version: 1.0
  * @Author: Kaixin Lin
@@ -12,7 +17,12 @@
  * @return: void
  */
 void BitOutputStream::flush() {
-    out.put(buf);
+    if (flag_2Node == 1) {
+        out.put(buf >> 8);
+        out.put(buf);
+    } else
+        out.put(buf);
+
     buf = 0;
     nbits = 0;
 }
@@ -55,7 +65,7 @@ int BitOutputStream::getBits() { return nbits; }
  * @msg: write byte to buffer
  */
 void BitOutputStream::writeShort(unsigned short num) {
-    unsigned char temp = 0;
+    unsigned int temp = 0;
     for (int i = 0; i < 16; i++) {
         temp = pow(2, 15 - i);
         writeBit(num / temp);

@@ -3,6 +3,11 @@
  * @version: 1.0
  * @Author: Kaixin Lin
  */
+/*
+ * @Descripttion:
+ * @version: 1.0
+ * @Author: Kaixin Lin
+ */
 #ifndef BITOUTPUTSTREAM_HPP
 #define BITOUTPUTSTREAM_HPP
 
@@ -18,7 +23,7 @@ using namespace std;
  */
 class BitOutputStream {
   private:
-    char buf;      // one byte buffer of bits
+    short buf;     // one byte buffer of bits
     int nbits;     // number of bits have been writen to buf
     ostream& out;  // reference to the output stream to use
 
