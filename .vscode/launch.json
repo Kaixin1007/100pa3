@@ -29,15 +29,15 @@
             "name": "c++ debug compress",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/src/compress.cpp.executable",
+            "program": "${workspaceFolder}/build/src/uncompress.cpp.executable",
             "args": [
                 // "--block",
                 // "harry_comp.txt",
                 // "harryard.txt",
-                "data/check0.txt",
-                "check0_comp.txt"
-                // "check0_comp.txt",
-                // "check0_decomp.txt"
+                // "data/check0.txt",
+                // "check0_comp.txt"
+                "check0_comp.txt",
+                "check0_decomp.txt"
                 // "data/harry.txt",
                 // "harry_comp.txt"
             ],

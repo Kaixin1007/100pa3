@@ -100,7 +100,7 @@ void trueDecompression(string inFileName, string outFileName) {
     if (total == 0) total = 256;
 
     tree.rebuild(bis, total);
-    cout << "size is: " << (myfile.tellg() - begin) << " bytes.\n";
+    // cout << "size is: " << (myfile.tellg() - begin) << " bytes.\n";
     // read the header
     while (end != myfile.tellg()) {
         nextByte = tree.decode(bis);

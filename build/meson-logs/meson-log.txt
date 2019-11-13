@@ -1,4 +1,4 @@
-Build started at 2019-11-10T23:16:15.734089
+Build started at 2019-11-13T04:27:55.009235
 Main binary: /usr/bin/python3
 Python system: Linux
 The Meson build system
@@ -65,8 +65,8 @@ Adding test "my HCTree test"
 Build targets in project: 12
 Found ninja-1.9.0.git.kitware.dyndep-1.jobserver-1 at /usr/local/bin/ninja
 Running compile:
-Working directory:  /tmp/tmpe0iqgt4a
-Command line:  c++ /tmp/tmpe0iqgt4a/testfile.cpp -o /tmp/tmpe0iqgt4a/output.obj -pipe -D_FILE_OFFSET_BITS=64 -c -std=c++14 
+Working directory:  /tmp/tmpy7us5iz1
+Command line:  c++ /tmp/tmpy7us5iz1/testfile.cpp -o /tmp/tmpy7us5iz1/output.obj -pipe -D_FILE_OFFSET_BITS=64 -c -std=c++14 
 
 Code:
  int i = static_cast<int>(0);
@@ -76,8 +76,8 @@ Compiler stderr:
  
 Compiler accepts -std=c++14: YES
 Running compile:
-Working directory:  /tmp/tmp1br1q_0x
-Command line:  c++ /tmp/tmp1br1q_0x/testfile.cpp -o /tmp/tmp1br1q_0x/output.obj -pipe -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs 
+Working directory:  /tmp/tmpoh0c_rl1
+Command line:  c++ /tmp/tmpoh0c_rl1/testfile.cpp -o /tmp/tmpoh0c_rl1/output.obj -pipe -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs 
 
 Code:
  

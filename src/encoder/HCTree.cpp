@@ -231,7 +231,11 @@ HCNode* HCTree::decodeNodeHelper(BitInputStream& in, int max) {
     }
     // leaf node
     if (in.readBit() == 1) {
-        HCNode* node = new HCNode(0, in.readShort(), 0, 0, 0);
+        HCNode* node;
+        if (flag_2Node)
+            node = new HCNode(0, in.readShort(), 0, 0, 0);
+        else
+            node = new HCNode(0, in.readChar(), 0, 0, 0);
         leaves.push_back(node);
         return node;
     } else {

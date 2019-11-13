@@ -34,7 +34,7 @@ class SimpleHCTreeFixture : public ::testing::Test {
         freqs['a'] = 3;
         freqs['u'] = 9;
         tree.build(freqs);
-        freqs1['a'] = 5;
+        freqs1['a'] = 3;
         tree2.build(freqs1);
         cout << tree.leaveSize();
 
