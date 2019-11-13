@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-11-11 08:41:41</td>
+            <td class="headerValue">2019-11-13 02:00:18</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -77,56 +77,61 @@
 <pre class="sourceHeading">           Branch data     Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>                :            : /*</a>
-<span class="lineNum">       2 </span>                :            :  * @Descripttion: definition the Node in Huffman Tree for Huffman Coding
+<span class="lineNum">       2 </span>                :            :  * @Descripttion:
 <span class="lineNum">       3 </span>                :            :  * @version: 1.0
 <span class="lineNum">       4 </span>                :            :  * @Author: Kaixin Lin
 <span class="lineNum">       5 </span>                :            :  */
-<span class="lineNum">       6 </span>                :            : 
-<span class="lineNum">       7 </span>                :            : #ifndef HCNODE_HPP
-<span class="lineNum">       8 </span>                :            : #define HCNODE_HPP
-<span class="lineNum">       9 </span>                :            : 
-<span class="lineNum">      10 </span>                :            : #include &lt;iostream&gt;
+<span class="lineNum">       6 </span>                :            : /*
+<span class="lineNum">       7 </span>                :            :  * @Descripttion: definition the Node in Huffman Tree for Huffman Coding
+<span class="lineNum">       8 </span>                :            :  * @version: 1.0
+<span class="lineNum">       9 </span>                :            :  * @Author: Kaixin Lin
+<span class="lineNum">      10 </span>                :            :  */
 <span class="lineNum">      11 </span>                :            : 
-<span class="lineNum">      12 </span>                :            : typedef unsigned char byte;
-<span class="lineNum">      13 </span>                :            : 
-<span class="lineNum">      14 </span>                :            : using namespace std;
-<span class="lineNum">      15 </span>                :            : 
-<span class="lineNum">      16 </span>                :            : /** A class, instances of which are nodes in an HCTree.
-<span class="lineNum">      17 </span>                :            :  */
-<span class="lineNum">      18 </span>                :            : class HCNode {
-<span class="lineNum">      19 </span>                :            :   public:
-<span class="lineNum">      20 </span>                :            :     unsigned int count;  // the freqency of the symbol
-<span class="lineNum">      21 </span>                :            :     byte symbol;         // byte in the file we're keeping track of
-<span class="lineNum">      22 </span>                :            :     HCNode* c0;          // pointer to '0' child
-<span class="lineNum">      23 </span>                :            :     HCNode* c1;          // pointer to '1' child
-<span class="lineNum">      24 </span>                :            :     HCNode* p;           // pointer to parent
-<a name="25"><span class="lineNum">      25 </span>                :            : </a>
-<span class="lineNum">      26 </span>                :            :     /* Constructor that initialize a HCNode */
-<span class="lineNum">      27 </span>                :<span class="lineCov">         52 :     HCNode(unsigned int count, byte symbol, HCNode* c0 = 0, HCNode* c1 = 0,</span>
-<span class="lineNum">      28 </span>                :            :            HCNode* p = 0)
-<span class="lineNum">      29 </span>                :<span class="lineCov">         52 :         : count(count), symbol(symbol), c0(c0), c1(c1), p(p) {}</span>
-<span class="lineNum">      30 </span>                :            : };
-<span class="lineNum">      31 </span>                :            : 
-<a name="32"><span class="lineNum">      32 </span>                :            : /* For printing an HCNode to an ostream. Possibly useful for debugging */</a>
-<span class="lineNum">      33 </span>                :            : ostream&amp; operator&lt;&lt;(ostream&amp;, const HCNode&amp;) __attribute__((weak));
-<span class="lineNum">      34 </span>                :<span class="lineNoCov">          0 : ostream&amp; operator&lt;&lt;(ostream&amp; stm, const HCNode&amp; n) {</span>
-<span class="lineNum">      35 </span>                :<span class="lineNoCov">          0 :     stm &lt;&lt; &quot;[&quot; &lt;&lt; n.count &lt;&lt; &quot;,&quot; &lt;&lt; (int)(n.symbol) &lt;&lt; &quot;]&quot;;</span>
-<span class="lineNum">      36 </span>                :<span class="lineNoCov">          0 :     return stm;</span>
-<span class="lineNum">      37 </span>                :            : }
-<span class="lineNum">      38 </span>                :            : 
-<span class="lineNum">      39 </span>                :            : /* Comparator of HCNode pointer. In priority queue, HCNode ptr with lower count
-<span class="lineNum">      40 </span>                :            :  * has higher priority, and if count is the same, HCNode ptr with larger symbol
-<span class="lineNum">      41 </span>                :            :  * has higher prioruty.
-<a name="42"><span class="lineNum">      42 </span>                :            :  */</a>
-<span class="lineNum">      43 </span>                :            : struct HCNodePtrComp {
-<span class="lineNum">      44 </span>                :<span class="lineCov">        117 :     bool operator()(HCNode*&amp; lhs, HCNode*&amp; rhs) const {</span>
-<span class="lineNum">      45 </span>        [<span class="branchCov" title="Branch 0 was taken 33 times"> + </span><span class="branchCov" title="Branch 1 was taken 84 times"> + </span>]:<span class="lineCov">        117 :         if (lhs-&gt;count == rhs-&gt;count)</span>
-<span class="lineNum">      46 </span>                :<span class="lineCov">         33 :             return lhs-&gt;symbol &gt; rhs-&gt;symbol;</span>
-<span class="lineNum">      47 </span>                :            :         else
-<span class="lineNum">      48 </span>                :<span class="lineCov">         84 :             return lhs-&gt;count &gt; rhs-&gt;count;</span>
-<span class="lineNum">      49 </span>                :            :     }
-<span class="lineNum">      50 </span>                :            : };
-<span class="lineNum">      51 </span>                :            : #endif  // HCNODE_HPP
+<span class="lineNum">      12 </span>                :            : #ifndef HCNODE_HPP
+<span class="lineNum">      13 </span>                :            : #define HCNODE_HPP
+<span class="lineNum">      14 </span>                :            : 
+<span class="lineNum">      15 </span>                :            : #include &lt;iostream&gt;
+<span class="lineNum">      16 </span>                :            : 
+<span class="lineNum">      17 </span>                :            : typedef unsigned char byte;
+<span class="lineNum">      18 </span>                :            : 
+<span class="lineNum">      19 </span>                :            : using namespace std;
+<span class="lineNum">      20 </span>                :            : 
+<span class="lineNum">      21 </span>                :            : /** A class, instances of which are nodes in an HCTree.
+<span class="lineNum">      22 </span>                :            :  */
+<span class="lineNum">      23 </span>                :            : class HCNode {
+<span class="lineNum">      24 </span>                :            :   public:
+<span class="lineNum">      25 </span>                :            :     unsigned int count;  // the freqency of the symbol
+<span class="lineNum">      26 </span>                :            :     short symbol;        // byte in the file we're keeping track of
+<span class="lineNum">      27 </span>                :            :     HCNode* c0;          // pointer to '0' child
+<span class="lineNum">      28 </span>                :            :     HCNode* c1;          // pointer to '1' child
+<span class="lineNum">      29 </span>                :            :     HCNode* p;           // pointer to parent
+<a name="30"><span class="lineNum">      30 </span>                :            : </a>
+<span class="lineNum">      31 </span>                :            :     /* Constructor that initialize a HCNode */
+<span class="lineNum">      32 </span>                :<span class="lineCov">         52 :     HCNode(unsigned int count, short symbol, HCNode* c0 = 0, HCNode* c1 = 0,</span>
+<span class="lineNum">      33 </span>                :            :            HCNode* p = 0)
+<span class="lineNum">      34 </span>                :<span class="lineCov">         52 :         : count(count), symbol(symbol), c0(c0), c1(c1), p(p) {}</span>
+<span class="lineNum">      35 </span>                :            : };
+<span class="lineNum">      36 </span>                :            : 
+<a name="37"><span class="lineNum">      37 </span>                :            : /* For printing an HCNode to an ostream. Possibly useful for debugging */</a>
+<span class="lineNum">      38 </span>                :            : ostream&amp; operator&lt;&lt;(ostream&amp;, const HCNode&amp;) __attribute__((weak));
+<span class="lineNum">      39 </span>                :<span class="lineNoCov">          0 : ostream&amp; operator&lt;&lt;(ostream&amp; stm, const HCNode&amp; n) {</span>
+<span class="lineNum">      40 </span>                :<span class="lineNoCov">          0 :     stm &lt;&lt; &quot;[&quot; &lt;&lt; n.count &lt;&lt; &quot;,&quot; &lt;&lt; (int)(n.symbol) &lt;&lt; &quot;]&quot;;</span>
+<span class="lineNum">      41 </span>                :<span class="lineNoCov">          0 :     return stm;</span>
+<span class="lineNum">      42 </span>                :            : }
+<span class="lineNum">      43 </span>                :            : 
+<span class="lineNum">      44 </span>                :            : /* Comparator of HCNode pointer. In priority queue, HCNode ptr with lower count
+<span class="lineNum">      45 </span>                :            :  * has higher priority, and if count is the same, HCNode ptr with larger symbol
+<span class="lineNum">      46 </span>                :            :  * has higher prioruty.
+<a name="47"><span class="lineNum">      47 </span>                :            :  */</a>
+<span class="lineNum">      48 </span>                :            : struct HCNodePtrComp {
+<span class="lineNum">      49 </span>                :<span class="lineCov">        117 :     bool operator()(HCNode*&amp; lhs, HCNode*&amp; rhs) const {</span>
+<span class="lineNum">      50 </span>        [<span class="branchCov" title="Branch 0 was taken 33 times"> + </span><span class="branchCov" title="Branch 1 was taken 84 times"> + </span>]:<span class="lineCov">        117 :         if (lhs-&gt;count == rhs-&gt;count)</span>
+<span class="lineNum">      51 </span>                :<span class="lineCov">         33 :             return lhs-&gt;symbol &gt; rhs-&gt;symbol;</span>
+<span class="lineNum">      52 </span>                :            :         else
+<span class="lineNum">      53 </span>                :<span class="lineCov">         84 :             return lhs-&gt;count &gt; rhs-&gt;count;</span>
+<span class="lineNum">      54 </span>                :            :     }
+<span class="lineNum">      55 </span>                :            : };
+<span class="lineNum">      56 </span>                :            : #endif  // HCNODE_HPP
 </pre>
       </td>
     </tr>

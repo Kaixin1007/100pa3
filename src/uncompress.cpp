@@ -91,37 +91,23 @@ void trueDecompression(string inFileName, string outFileName) {
     myfile.seekg(-1, myfile.end);
     end = myfile.tellg();
     myfile.seekg(begin);
-    // cout << "size is: " << (end - begin) << " bytes.\n";
 
     // read total ascii in header
     unsigned int total = 0;
     for (int i = 0; i < 8; i++) {
         total |= (bis.readBit() << (7 - i));
-        // cout << myfile.tellg() << endl;
     }
     if (total == 0) total = 256;
-    // for (int i = 0; i < 7; i++) {
-    //     bis.readBit();
-    //     cout << myfile.tellg() << endl;
-    // }
 
     tree.rebuild(bis, total);
     cout << "size is: " << (myfile.tellg() - begin) << " bytes.\n";
+    // read the header
     while (end != myfile.tellg()) {
-        // cout << myfile.tellg() << endl;
         nextByte = tree.decode(bis);
         nextChar = (unsigned char)nextByte;
         temp.push_back(nextChar);
     }
-    // myfile.seekg(-1, myfile.cur);
-    // while (!end) {
-    //     nextByte = tree.decode(bis);
-    //     nextChar = (unsigned char)nextByte;
-    //     temp.push_back(nextChar);
-    //     myfile.seekg(1, myfile.cur);
-    //     end = (myfile.tellg() == myfile.end);
-    //     myfile.seekg(-1, myfile.cur);
-    // }
+    // read the final byte
     if (trailZero == 0) {
         trailZero = 8;
         do {
@@ -138,13 +124,14 @@ void trueDecompression(string inFileName, string outFileName) {
     }
 
     myfile.close();
+    // print the decode result
     out.open(outFileName, ios::binary);
     for (int i = 0; i < temp.size(); i++) out << temp[i];
     out.close();
 }
 /**
- * @name: trueDecompression
- * @msg: True decompression with bitwise i/o and small header (final)
+ * @name: extraDecompression
+ * @msg: extra decompression with bitwise i/o and 2 byte decompression(extra)
  */
 void extraDecompression(string inFileName, string outFileName) {
     ifstream myfile;
@@ -154,7 +141,8 @@ void extraDecompression(string inFileName, string outFileName) {
     int nextByte;
     vector<unsigned short> temp;
     ofstream out;
-    bool isOdd;
+    bool isOdd;  // if the length of code is odd isOdd = 1
+    long begin, end;
     // check file is empty
     if (fu.isEmptyFile(inFileName)) {
         out.open(outFileName);
@@ -164,9 +152,12 @@ void extraDecompression(string inFileName, string outFileName) {
 
     myfile.open(inFileName, ios::binary);
 
-    long begin, end;
     BitInputStream bis(myfile);
-    bis.flag_2Node = 1;
+
+    tree.flag_2Node = 1;
+    bis.flag_2Node = 1;  // open write two node encode fuction
+
+    // read the two byte in the end
     begin = myfile.tellg();
     unsigned char temp1;
     myfile.seekg(-2, myfile.end);
@@ -175,34 +166,31 @@ void extraDecompression(string inFileName, string outFileName) {
     myfile.seekg(-1, myfile.end);
     temp1 = myfile.peek();
     trailZero |= myfile.peek();
-    // read all the byte
     myfile.seekg(-2, myfile.end);
     end = myfile.tellg();
     myfile.seekg(begin);
 
-    // read total ascii in header
+    // read total existing symbol in header
     unsigned int total = 0;
     for (int i = 0; i < 16; i++) {
         total |= (bis.readBit() << (15 - i));
-        // cout << myfile.tellg() << endl;
     }
+    // edge case
     if (total == 0) total = 65536;
+    // if the length of code is odd, read the end short
     isOdd = bis.readShort();
     if (isOdd) oddShort = bis.readShort();
-    // for (int i = 0; i < 7; i++) {
-    //     bis.readBit();
-    //     cout << myfile.tellg() << endl;
-    // }
 
+    // rebuild the tree
     tree.rebuild(bis, total);
     cout << "size is: " << (myfile.tellg() - begin) << " bytes.\n";
+    // read the header
     while (end != myfile.tellg()) {
-        // cout << myfile.tellg() << endl;
         nextByte = tree.decode(bis);
         nextShort = (unsigned short)nextByte;
         temp.push_back(nextShort);
     }
-
+    // read the final short
     if (trailZero == 0) {
         trailZero = 16;
         do {
@@ -219,6 +207,7 @@ void extraDecompression(string inFileName, string outFileName) {
     }
 
     myfile.close();
+    // print the decode result
     out.open(outFileName, ios::binary);
     for (int i = 0; i < temp.size(); i++) {
         out << (unsigned char)(temp[i] >> 8);
@@ -256,11 +245,11 @@ int main(int argc, char* argv[]) {
     FileUtils fu;
     // check if argument is vaild
     if (!fu.isValidFile(inFileName)) return -1;
-
-    if (isAsciiOutput)
-        pseudoDecompression(inFileName, outFileName);
-    else
-        extraDecompression(inFileName, outFileName);
+    extraDecompression(inFileName, outFileName);
+    // if (isAsciiOutput)
+    //     pseudoDecompression(inFileName, outFileName);
+    // else
+    //     extraDecompression(inFileName, outFileName);
     // else if (isBlockOutput)
     //     extraDecompression(inFileName, outFileName);
     // else

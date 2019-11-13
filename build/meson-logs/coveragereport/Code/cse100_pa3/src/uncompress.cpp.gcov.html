@@ -32,16 +32,16 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">91</td>
+            <td class="headerCovTableEntry">146</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-11-11 08:41:41</td>
+            <td class="headerValue">2019-11-13 02:00:18</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">6</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
@@ -89,171 +89,254 @@
 <span class="lineNum">      11 </span>                :            : #include &quot;HCTree.hpp&quot;
 <span class="lineNum">      12 </span>                :            : #include &quot;cxxopts.hpp&quot;
 <span class="lineNum">      13 </span>                :            : 
-<a name="14"><span class="lineNum">      14 </span>                :            : /*  Pseudo decompression with ascii encoding and naive header (checkpoint)</a>
-<span class="lineNum">      15 </span>                :            :  */
-<span class="lineNum">      16 </span>                :<span class="lineNoCov">          0 : void pseudoDecompression(string inFileName, string outFileName) {</span>
-<span class="lineNum">      17 </span>                :<span class="lineNoCov">          0 :     ifstream myfile;</span>
-<span class="lineNum">      18 </span>                :<span class="lineNoCov">          0 :     HCTree tree;</span>
-<span class="lineNum">      19 </span>                :            :     FileUtils fu;
-<span class="lineNum">      20 </span>                :            :     unsigned char nextChar;
-<span class="lineNum">      21 </span>                :            :     int nextByte;
-<span class="lineNum">      22 </span>                :<span class="lineNoCov">          0 :     vector&lt;unsigned char&gt; temp;</span>
-<span class="lineNum">      23 </span>                :<span class="lineNoCov">          0 :     vector&lt;unsigned int&gt; freqs(256);</span>
-<span class="lineNum">      24 </span>                :<span class="lineNoCov">          0 :     ofstream out;</span>
-<span class="lineNum">      25 </span>                :            : 
-<span class="lineNum">      26 </span>                :            :     // check file is empty
-<span class="lineNum">      27 </span>                :<span class="lineNoCov">          0 :     if (fu.isEmptyFile(inFileName)) {</span>
-<span class="lineNum">      28 </span>                :<span class="lineNoCov">          0 :         out.open(outFileName);</span>
-<span class="lineNum">      29 </span>                :<span class="lineNoCov">          0 :         out.close();</span>
-<span class="lineNum">      30 </span>                :<span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">      31 </span>                :            :     }
-<span class="lineNum">      32 </span>                :            :     // open file
-<span class="lineNum">      33 </span>                :<span class="lineNoCov">          0 :     myfile.open(inFileName, ios::binary);</span>
-<span class="lineNum">      34 </span>                :            :     // read frequency
-<span class="lineNum">      35 </span>                :<span class="lineNoCov">          0 :     for (int i = 0; i &lt; 256; i++) {</span>
-<span class="lineNum">      36 </span>                :<span class="lineNoCov">          0 :         string frequency;</span>
-<span class="lineNum">      37 </span>                :<span class="lineNoCov">          0 :         while ((nextByte = myfile.get()) != '\n') {</span>
-<span class="lineNum">      38 </span>                :            :             // nextByte = myfile.get();
-<span class="lineNum">      39 </span>                :<span class="lineNoCov">          0 :             nextChar = (unsigned char)nextByte;</span>
-<span class="lineNum">      40 </span>                :<span class="lineNoCov">          0 :             frequency += nextChar;</span>
-<span class="lineNum">      41 </span>                :<span class="lineNoCov">          0 :             freqs[i] = atoi(frequency.c_str());</span>
-<span class="lineNum">      42 </span>                :            :         }
-<span class="lineNum">      43 </span>                :            :     }
-<span class="lineNum">      44 </span>                :            :     // build tree
-<span class="lineNum">      45 </span>                :<span class="lineNoCov">          0 :     tree.build(freqs);</span>
-<span class="lineNum">      46 </span>                :            :     // decode
-<span class="lineNum">      47 </span>                :<span class="lineNoCov">          0 :     nextByte = tree.decode(myfile);</span>
-<span class="lineNum">      48 </span>                :<span class="lineNoCov">          0 :     while (!myfile.eof()) {</span>
-<span class="lineNum">      49 </span>                :<span class="lineNoCov">          0 :         nextChar = (unsigned char)nextByte;</span>
-<span class="lineNum">      50 </span>                :<span class="lineNoCov">          0 :         temp.push_back(nextChar);</span>
-<span class="lineNum">      51 </span>                :<span class="lineNoCov">          0 :         nextByte = tree.decode(myfile);</span>
-<span class="lineNum">      52 </span>                :            :     }
-<span class="lineNum">      53 </span>                :<span class="lineNoCov">          0 :     myfile.close();</span>
-<span class="lineNum">      54 </span>                :<span class="lineNoCov">          0 :     out.open(outFileName, ios::binary);</span>
-<span class="lineNum">      55 </span>                :            :     // output
-<span class="lineNum">      56 </span>                :<span class="lineNoCov">          0 :     for (int i = 0; i &lt; temp.size(); i++) out &lt;&lt; temp[i];</span>
-<span class="lineNum">      57 </span>                :<span class="lineNoCov">          0 :     out.close();</span>
-<span class="lineNum">      58 </span>                :            : }
-<a name="59"><span class="lineNum">      59 </span>                :            : </a>
-<span class="lineNum">      60 </span>                :            : /* TODO: True decompression with bitwise i/o and small header (final) */
-<span class="lineNum">      61 </span>                :<span class="lineNoCov">          0 : void trueDecompression(string inFileName, string outFileName) {</span>
-<span class="lineNum">      62 </span>                :<span class="lineNoCov">          0 :     ifstream myfile;</span>
-<span class="lineNum">      63 </span>                :<span class="lineNoCov">          0 :     HCTree tree;</span>
-<span class="lineNum">      64 </span>                :            :     FileUtils fu;
-<span class="lineNum">      65 </span>                :            :     unsigned char nextChar;
-<span class="lineNum">      66 </span>                :            :     int nextByte;
-<span class="lineNum">      67 </span>                :<span class="lineNoCov">          0 :     vector&lt;unsigned char&gt; temp;</span>
-<span class="lineNum">      68 </span>                :<span class="lineNoCov">          0 :     ofstream out;</span>
-<span class="lineNum">      69 </span>                :            : 
-<span class="lineNum">      70 </span>                :            :     // check file is empty
-<span class="lineNum">      71 </span>                :<span class="lineNoCov">          0 :     if (fu.isEmptyFile(inFileName)) {</span>
-<span class="lineNum">      72 </span>                :<span class="lineNoCov">          0 :         out.open(outFileName);</span>
-<span class="lineNum">      73 </span>                :<span class="lineNoCov">          0 :         out.close();</span>
-<span class="lineNum">      74 </span>                :<span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">      75 </span>                :            :     }
-<span class="lineNum">      76 </span>                :            : 
-<span class="lineNum">      77 </span>                :<span class="lineNoCov">          0 :     myfile.open(inFileName, ios::binary);</span>
-<span class="lineNum">      78 </span>                :            : 
-<span class="lineNum">      79 </span>                :            :     long begin, end;
-<span class="lineNum">      80 </span>                :<span class="lineNoCov">          0 :     BitInputStream bis(myfile);</span>
-<span class="lineNum">      81 </span>                :<span class="lineNoCov">          0 :     begin = myfile.tellg();</span>
-<span class="lineNum">      82 </span>                :            : 
-<span class="lineNum">      83 </span>                :<span class="lineNoCov">          0 :     myfile.seekg(-1, myfile.end);</span>
-<span class="lineNum">      84 </span>                :<span class="lineNoCov">          0 :     char trailZero = myfile.peek();</span>
-<span class="lineNum">      85 </span>                :            :     // read all the byte
-<span class="lineNum">      86 </span>                :<span class="lineNoCov">          0 :     myfile.seekg(-1, myfile.end);</span>
-<span class="lineNum">      87 </span>                :<span class="lineNoCov">          0 :     end = myfile.tellg();</span>
-<span class="lineNum">      88 </span>                :<span class="lineNoCov">          0 :     myfile.seekg(begin);</span>
-<span class="lineNum">      89 </span>                :            :     // cout &lt;&lt; &quot;size is: &quot; &lt;&lt; (end - begin) &lt;&lt; &quot; bytes.\n&quot;;
-<span class="lineNum">      90 </span>                :            : 
-<span class="lineNum">      91 </span>                :            :     // read total ascii in header
-<span class="lineNum">      92 </span>                :<span class="lineNoCov">          0 :     unsigned int total = 0;</span>
-<span class="lineNum">      93 </span>                :<span class="lineNoCov">          0 :     for (int i = 0; i &lt; 8; i++) {</span>
-<span class="lineNum">      94 </span>                :<span class="lineNoCov">          0 :         total |= (bis.readBit() &lt;&lt; (7 - i));</span>
-<span class="lineNum">      95 </span>                :            :         // cout &lt;&lt; myfile.tellg() &lt;&lt; endl;
-<span class="lineNum">      96 </span>                :            :     }
-<span class="lineNum">      97 </span>                :<span class="lineNoCov">          0 :     if (total == 0) total = 256;</span>
-<span class="lineNum">      98 </span>                :            :     // for (int i = 0; i &lt; 7; i++) {
-<span class="lineNum">      99 </span>                :            :     //     bis.readBit();
-<span class="lineNum">     100 </span>                :            :     //     cout &lt;&lt; myfile.tellg() &lt;&lt; endl;
-<span class="lineNum">     101 </span>                :            :     // }
-<span class="lineNum">     102 </span>                :            : 
-<span class="lineNum">     103 </span>                :<span class="lineNoCov">          0 :     tree.rebuild(bis, total);</span>
-<span class="lineNum">     104 </span>                :<span class="lineNoCov">          0 :     cout &lt;&lt; &quot;size is: &quot; &lt;&lt; (myfile.tellg() - begin) &lt;&lt; &quot; bytes.\n&quot;;</span>
-<span class="lineNum">     105 </span>                :            :     // cout &lt;&lt; myfile.tellg() &lt;&lt; endl;
-<span class="lineNum">     106 </span>                :            :     // myfile.seekg(1, myfile.cur);
+<span class="lineNum">      14 </span>                :            : /**
+<span class="lineNum">      15 </span>                :            :  * @name: pseudoDecompression
+<a name="16"><span class="lineNum">      16 </span>                :            :  * @msg: Pseudo decompression with ascii encoding and naive header (checkpoint)</a>
+<span class="lineNum">      17 </span>                :            :  */
+<span class="lineNum">      18 </span>                :<span class="lineNoCov">          0 : void pseudoDecompression(string inFileName, string outFileName) {</span>
+<span class="lineNum">      19 </span>                :<span class="lineNoCov">          0 :     ifstream myfile;</span>
+<span class="lineNum">      20 </span>                :<span class="lineNoCov">          0 :     HCTree tree;</span>
+<span class="lineNum">      21 </span>                :            :     FileUtils fu;
+<span class="lineNum">      22 </span>                :            :     unsigned char nextChar;
+<span class="lineNum">      23 </span>                :            :     int nextByte;
+<span class="lineNum">      24 </span>                :<span class="lineNoCov">          0 :     vector&lt;unsigned char&gt; temp;</span>
+<span class="lineNum">      25 </span>                :<span class="lineNoCov">          0 :     vector&lt;unsigned int&gt; freqs(256);</span>
+<span class="lineNum">      26 </span>                :<span class="lineNoCov">          0 :     ofstream out;</span>
+<span class="lineNum">      27 </span>                :            : 
+<span class="lineNum">      28 </span>                :            :     // check file is empty
+<span class="lineNum">      29 </span>                :<span class="lineNoCov">          0 :     if (fu.isEmptyFile(inFileName)) {</span>
+<span class="lineNum">      30 </span>                :<span class="lineNoCov">          0 :         out.open(outFileName);</span>
+<span class="lineNum">      31 </span>                :<span class="lineNoCov">          0 :         out.close();</span>
+<span class="lineNum">      32 </span>                :<span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">      33 </span>                :            :     }
+<span class="lineNum">      34 </span>                :            :     // open file
+<span class="lineNum">      35 </span>                :<span class="lineNoCov">          0 :     myfile.open(inFileName, ios::binary);</span>
+<span class="lineNum">      36 </span>                :            :     // read frequency
+<span class="lineNum">      37 </span>                :<span class="lineNoCov">          0 :     for (int i = 0; i &lt; 256; i++) {</span>
+<span class="lineNum">      38 </span>                :<span class="lineNoCov">          0 :         string frequency;</span>
+<span class="lineNum">      39 </span>                :<span class="lineNoCov">          0 :         while ((nextByte = myfile.get()) != '\n') {</span>
+<span class="lineNum">      40 </span>                :            :             // nextByte = myfile.get();
+<span class="lineNum">      41 </span>                :<span class="lineNoCov">          0 :             nextChar = (unsigned char)nextByte;</span>
+<span class="lineNum">      42 </span>                :<span class="lineNoCov">          0 :             frequency += nextChar;</span>
+<span class="lineNum">      43 </span>                :<span class="lineNoCov">          0 :             freqs[i] = atoi(frequency.c_str());</span>
+<span class="lineNum">      44 </span>                :            :         }
+<span class="lineNum">      45 </span>                :            :     }
+<span class="lineNum">      46 </span>                :            :     // build tree
+<span class="lineNum">      47 </span>                :<span class="lineNoCov">          0 :     tree.build(freqs);</span>
+<span class="lineNum">      48 </span>                :            :     // decode
+<span class="lineNum">      49 </span>                :<span class="lineNoCov">          0 :     nextByte = tree.decode(myfile);</span>
+<span class="lineNum">      50 </span>                :<span class="lineNoCov">          0 :     while (!myfile.eof()) {</span>
+<span class="lineNum">      51 </span>                :<span class="lineNoCov">          0 :         nextChar = (unsigned char)nextByte;</span>
+<span class="lineNum">      52 </span>                :<span class="lineNoCov">          0 :         temp.push_back(nextChar);</span>
+<span class="lineNum">      53 </span>                :<span class="lineNoCov">          0 :         nextByte = tree.decode(myfile);</span>
+<span class="lineNum">      54 </span>                :            :     }
+<span class="lineNum">      55 </span>                :<span class="lineNoCov">          0 :     myfile.close();</span>
+<span class="lineNum">      56 </span>                :<span class="lineNoCov">          0 :     out.open(outFileName, ios::binary);</span>
+<span class="lineNum">      57 </span>                :            :     // output
+<span class="lineNum">      58 </span>                :<span class="lineNoCov">          0 :     for (int i = 0; i &lt; temp.size(); i++) out &lt;&lt; temp[i];</span>
+<span class="lineNum">      59 </span>                :<span class="lineNoCov">          0 :     out.close();</span>
+<span class="lineNum">      60 </span>                :            : }
+<span class="lineNum">      61 </span>                :            : 
+<span class="lineNum">      62 </span>                :            : /**
+<span class="lineNum">      63 </span>                :            :  * @name: trueDecompression
+<a name="64"><span class="lineNum">      64 </span>                :            :  * @msg: True decompression with bitwise i/o and small header (final)</a>
+<span class="lineNum">      65 </span>                :            :  */
+<span class="lineNum">      66 </span>                :<span class="lineNoCov">          0 : void trueDecompression(string inFileName, string outFileName) {</span>
+<span class="lineNum">      67 </span>                :<span class="lineNoCov">          0 :     ifstream myfile;</span>
+<span class="lineNum">      68 </span>                :<span class="lineNoCov">          0 :     HCTree tree;</span>
+<span class="lineNum">      69 </span>                :            :     FileUtils fu;
+<span class="lineNum">      70 </span>                :            :     unsigned char nextChar;
+<span class="lineNum">      71 </span>                :            :     int nextByte;
+<span class="lineNum">      72 </span>                :<span class="lineNoCov">          0 :     vector&lt;unsigned char&gt; temp;</span>
+<span class="lineNum">      73 </span>                :<span class="lineNoCov">          0 :     ofstream out;</span>
+<span class="lineNum">      74 </span>                :            : 
+<span class="lineNum">      75 </span>                :            :     // check file is empty
+<span class="lineNum">      76 </span>                :<span class="lineNoCov">          0 :     if (fu.isEmptyFile(inFileName)) {</span>
+<span class="lineNum">      77 </span>                :<span class="lineNoCov">          0 :         out.open(outFileName);</span>
+<span class="lineNum">      78 </span>                :<span class="lineNoCov">          0 :         out.close();</span>
+<span class="lineNum">      79 </span>                :<span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">      80 </span>                :            :     }
+<span class="lineNum">      81 </span>                :            : 
+<span class="lineNum">      82 </span>                :<span class="lineNoCov">          0 :     myfile.open(inFileName, ios::binary);</span>
+<span class="lineNum">      83 </span>                :            : 
+<span class="lineNum">      84 </span>                :            :     long begin, end;
+<span class="lineNum">      85 </span>                :<span class="lineNoCov">          0 :     BitInputStream bis(myfile);</span>
+<span class="lineNum">      86 </span>                :<span class="lineNoCov">          0 :     begin = myfile.tellg();</span>
+<span class="lineNum">      87 </span>                :            : 
+<span class="lineNum">      88 </span>                :<span class="lineNoCov">          0 :     myfile.seekg(-1, myfile.end);</span>
+<span class="lineNum">      89 </span>                :<span class="lineNoCov">          0 :     char trailZero = myfile.peek();</span>
+<span class="lineNum">      90 </span>                :            :     // read all the byte
+<span class="lineNum">      91 </span>                :<span class="lineNoCov">          0 :     myfile.seekg(-1, myfile.end);</span>
+<span class="lineNum">      92 </span>                :<span class="lineNoCov">          0 :     end = myfile.tellg();</span>
+<span class="lineNum">      93 </span>                :<span class="lineNoCov">          0 :     myfile.seekg(begin);</span>
+<span class="lineNum">      94 </span>                :            :     // cout &lt;&lt; &quot;size is: &quot; &lt;&lt; (end - begin) &lt;&lt; &quot; bytes.\n&quot;;
+<span class="lineNum">      95 </span>                :            : 
+<span class="lineNum">      96 </span>                :            :     // read total ascii in header
+<span class="lineNum">      97 </span>                :<span class="lineNoCov">          0 :     unsigned int total = 0;</span>
+<span class="lineNum">      98 </span>                :<span class="lineNoCov">          0 :     for (int i = 0; i &lt; 8; i++) {</span>
+<span class="lineNum">      99 </span>                :<span class="lineNoCov">          0 :         total |= (bis.readBit() &lt;&lt; (7 - i));</span>
+<span class="lineNum">     100 </span>                :            :         // cout &lt;&lt; myfile.tellg() &lt;&lt; endl;
+<span class="lineNum">     101 </span>                :            :     }
+<span class="lineNum">     102 </span>                :<span class="lineNoCov">          0 :     if (total == 0) total = 256;</span>
+<span class="lineNum">     103 </span>                :            : 
+<span class="lineNum">     104 </span>                :<span class="lineNoCov">          0 :     tree.rebuild(bis, total);</span>
+<span class="lineNum">     105 </span>                :<span class="lineNoCov">          0 :     cout &lt;&lt; &quot;size is: &quot; &lt;&lt; (myfile.tellg() - begin) &lt;&lt; &quot; bytes.\n&quot;;</span>
+<span class="lineNum">     106 </span>                :            :     // read the header
 <span class="lineNum">     107 </span>                :<span class="lineNoCov">          0 :     while (end != myfile.tellg()) {</span>
 <span class="lineNum">     108 </span>                :            :         // cout &lt;&lt; myfile.tellg() &lt;&lt; endl;
 <span class="lineNum">     109 </span>                :<span class="lineNoCov">          0 :         nextByte = tree.decode(bis);</span>
 <span class="lineNum">     110 </span>                :<span class="lineNoCov">          0 :         nextChar = (unsigned char)nextByte;</span>
 <span class="lineNum">     111 </span>                :<span class="lineNoCov">          0 :         temp.push_back(nextChar);</span>
 <span class="lineNum">     112 </span>                :            :     }
-<span class="lineNum">     113 </span>                :            :     // myfile.seekg(-1, myfile.cur);
-<span class="lineNum">     114 </span>                :            :     // while (!end) {
-<span class="lineNum">     115 </span>                :            :     //     nextByte = tree.decode(bis);
-<span class="lineNum">     116 </span>                :            :     //     nextChar = (unsigned char)nextByte;
-<span class="lineNum">     117 </span>                :            :     //     temp.push_back(nextChar);
-<span class="lineNum">     118 </span>                :            :     //     myfile.seekg(1, myfile.cur);
-<span class="lineNum">     119 </span>                :            :     //     end = (myfile.tellg() == myfile.end);
-<span class="lineNum">     120 </span>                :            :     //     myfile.seekg(-1, myfile.cur);
-<span class="lineNum">     121 </span>                :            :     // }
-<span class="lineNum">     122 </span>                :<span class="lineNoCov">          0 :     if (trailZero == 0) {</span>
-<span class="lineNum">     123 </span>                :<span class="lineNoCov">          0 :         trailZero = 8;</span>
-<span class="lineNum">     124 </span>                :<span class="lineNoCov">          0 :         do {</span>
-<span class="lineNum">     125 </span>                :<span class="lineNoCov">          0 :             nextByte = tree.decode(bis);</span>
-<span class="lineNum">     126 </span>                :<span class="lineNoCov">          0 :             nextChar = (unsigned char)nextByte;</span>
-<span class="lineNum">     127 </span>                :<span class="lineNoCov">          0 :             temp.push_back(nextChar);</span>
-<span class="lineNum">     128 </span>                :<span class="lineNoCov">          0 :         } while (bis.getBits() &lt; trailZero);</span>
-<span class="lineNum">     129 </span>                :            :     } else {
-<span class="lineNum">     130 </span>                :<span class="lineNoCov">          0 :         while (bis.getBits() &lt; trailZero) {</span>
-<span class="lineNum">     131 </span>                :<span class="lineNoCov">          0 :             nextByte = tree.decode(bis);</span>
-<span class="lineNum">     132 </span>                :<span class="lineNoCov">          0 :             nextChar = (unsigned char)nextByte;</span>
-<span class="lineNum">     133 </span>                :<span class="lineNoCov">          0 :             temp.push_back(nextChar);</span>
-<span class="lineNum">     134 </span>                :            :         }
-<span class="lineNum">     135 </span>                :            :     }
-<span class="lineNum">     136 </span>                :            : 
-<span class="lineNum">     137 </span>                :            :     // 如果最后一位为0 表示前一位是满的
-<span class="lineNum">     138 </span>                :            : 
-<span class="lineNum">     139 </span>                :<span class="lineNoCov">          0 :     myfile.close();</span>
-<span class="lineNum">     140 </span>                :<span class="lineNoCov">          0 :     out.open(outFileName, ios::binary);</span>
-<span class="lineNum">     141 </span>                :<span class="lineNoCov">          0 :     for (int i = 0; i &lt; temp.size(); i++) out &lt;&lt; temp[i];</span>
-<span class="lineNum">     142 </span>                :<span class="lineNoCov">          0 :     out.close();</span>
-<span class="lineNum">     143 </span>                :            : }
-<a name="144"><span class="lineNum">     144 </span>                :            : </a>
-<span class="lineNum">     145 </span>                :            : /* TODO: Main program that runs the uncompress */
-<span class="lineNum">     146 </span>                :<span class="lineNoCov">          0 : int main(int argc, char* argv[]) {</span>
-<span class="lineNum">     147 </span>                :            :     cxxopts::Options options(&quot;./uncompress&quot;,
-<span class="lineNum">     148 </span>                :<span class="lineNoCov">          0 :                              &quot;Uncompresses files using Huffman Encoding&quot;);</span>
-<span class="lineNum">     149 </span>                :<span class="lineNoCov">          0 :     options.positional_help(&quot;./path_to_input_file ./path_to_output_file&quot;);</span>
-<span class="lineNum">     150 </span>                :            : 
-<span class="lineNum">     151 </span>                :<span class="lineNoCov">          0 :     bool isAsciiOutput = false;</span>
-<span class="lineNum">     152 </span>                :<span class="lineNoCov">          0 :     string inFileName, outFileName;</span>
-<span class="lineNum">     153 </span>                :<span class="lineNoCov">          0 :     options.allow_unrecognised_options().add_options()(</span>
-<span class="lineNum">     154 </span>                :            :         &quot;ascii&quot;, &quot;Write output in ascii mode instead of bit stream&quot;,
-<span class="lineNum">     155 </span>                :<span class="lineNoCov">          0 :         cxxopts::value&lt;bool&gt;(isAsciiOutput))(</span>
-<span class="lineNum">     156 </span>                :<span class="lineNoCov">          0 :         &quot;input&quot;, &quot;&quot;, cxxopts::value&lt;string&gt;(inFileName))(</span>
-<span class="lineNum">     157 </span>                :<span class="lineNoCov">          0 :         &quot;output&quot;, &quot;&quot;, cxxopts::value&lt;string&gt;(outFileName))(</span>
-<span class="lineNum">     158 </span>                :<span class="lineNoCov">          0 :         &quot;h,help&quot;, &quot;Print help and exit&quot;);</span>
-<span class="lineNum">     159 </span>                :<span class="lineNoCov">          0 :     options.parse_positional({&quot;input&quot;, &quot;output&quot;});</span>
-<span class="lineNum">     160 </span>                :<span class="lineNoCov">          0 :     auto userOptions = options.parse(argc, argv);</span>
-<span class="lineNum">     161 </span>                :            : 
-<span class="lineNum">     162 </span>                :<span class="lineNoCov">          0 :     if (userOptions.count(&quot;help&quot;) || !FileUtils::isValidFile(inFileName) ||</span>
-<span class="lineNum">     163 </span>                :<span class="lineNoCov">          0 :         outFileName.empty()) {</span>
-<span class="lineNum">     164 </span>                :<span class="lineNoCov">          0 :         cout &lt;&lt; options.help({&quot;&quot;}) &lt;&lt; std::endl;</span>
-<span class="lineNum">     165 </span>                :<span class="lineNoCov">          0 :         exit(0);</span>
-<span class="lineNum">     166 </span>                :            :     }
-<span class="lineNum">     167 </span>                :            : 
-<span class="lineNum">     168 </span>                :            :     FileUtils fu;
-<span class="lineNum">     169 </span>                :            :     // pseudoDecompression(argv[1], argv[2]);
-<span class="lineNum">     170 </span>                :            :     // check if argument is vaild
-<span class="lineNum">     171 </span>                :<span class="lineNoCov">          0 :     if (!fu.isValidFile(inFileName)) return -1;</span>
-<span class="lineNum">     172 </span>                :            :     // trueDecompression(inFileName, outFileName);
-<span class="lineNum">     173 </span>                :<span class="lineNoCov">          0 :     if (isAsciiOutput)</span>
-<span class="lineNum">     174 </span>                :<span class="lineNoCov">          0 :         pseudoDecompression(inFileName, outFileName);</span>
-<span class="lineNum">     175 </span>                :            :     else
-<a name="176"><span class="lineNum">     176 </span>                :<span class="lineNoCov">          0 :         trueDecompression(inFileName, outFileName);</span></a>
-<span class="lineNum">     177 </span>                :<span class="lineNoCov">          0 :     return 0;</span>
-<span class="lineNum">     178 </span>                :<span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     113 </span>                :            :     // read the final byte
+<span class="lineNum">     114 </span>                :<span class="lineNoCov">          0 :     if (trailZero == 0) {</span>
+<span class="lineNum">     115 </span>                :<span class="lineNoCov">          0 :         trailZero = 8;</span>
+<span class="lineNum">     116 </span>                :<span class="lineNoCov">          0 :         do {</span>
+<span class="lineNum">     117 </span>                :<span class="lineNoCov">          0 :             nextByte = tree.decode(bis);</span>
+<span class="lineNum">     118 </span>                :<span class="lineNoCov">          0 :             nextChar = (unsigned char)nextByte;</span>
+<span class="lineNum">     119 </span>                :<span class="lineNoCov">          0 :             temp.push_back(nextChar);</span>
+<span class="lineNum">     120 </span>                :<span class="lineNoCov">          0 :         } while (bis.getBits() &lt; trailZero);</span>
+<span class="lineNum">     121 </span>                :            :     } else {
+<span class="lineNum">     122 </span>                :<span class="lineNoCov">          0 :         while (bis.getBits() &lt; trailZero) {</span>
+<span class="lineNum">     123 </span>                :<span class="lineNoCov">          0 :             nextByte = tree.decode(bis);</span>
+<span class="lineNum">     124 </span>                :<span class="lineNoCov">          0 :             nextChar = (unsigned char)nextByte;</span>
+<span class="lineNum">     125 </span>                :<span class="lineNoCov">          0 :             temp.push_back(nextChar);</span>
+<span class="lineNum">     126 </span>                :            :         }
+<span class="lineNum">     127 </span>                :            :     }
+<span class="lineNum">     128 </span>                :            : 
+<span class="lineNum">     129 </span>                :<span class="lineNoCov">          0 :     myfile.close();</span>
+<span class="lineNum">     130 </span>                :            :     // print the decode result
+<span class="lineNum">     131 </span>                :<span class="lineNoCov">          0 :     out.open(outFileName, ios::binary);</span>
+<span class="lineNum">     132 </span>                :<span class="lineNoCov">          0 :     for (int i = 0; i &lt; temp.size(); i++) out &lt;&lt; temp[i];</span>
+<span class="lineNum">     133 </span>                :<span class="lineNoCov">          0 :     out.close();</span>
+<span class="lineNum">     134 </span>                :            : }
+<span class="lineNum">     135 </span>                :            : /**
+<span class="lineNum">     136 </span>                :            :  * @name: extraDecompression
+<a name="137"><span class="lineNum">     137 </span>                :            :  * @msg: extra decompression with bitwise i/o and 2 byte decompression(extra)</a>
+<span class="lineNum">     138 </span>                :            :  */
+<span class="lineNum">     139 </span>                :<span class="lineNoCov">          0 : void extraDecompression(string inFileName, string outFileName) {</span>
+<span class="lineNum">     140 </span>                :<span class="lineNoCov">          0 :     ifstream myfile;</span>
+<span class="lineNum">     141 </span>                :<span class="lineNoCov">          0 :     HCTree tree;</span>
+<span class="lineNum">     142 </span>                :            :     FileUtils fu;
+<span class="lineNum">     143 </span>                :            :     unsigned short nextShort, oddShort;
+<span class="lineNum">     144 </span>                :            :     int nextByte;
+<span class="lineNum">     145 </span>                :<span class="lineNoCov">          0 :     vector&lt;unsigned short&gt; temp;</span>
+<span class="lineNum">     146 </span>                :<span class="lineNoCov">          0 :     ofstream out;</span>
+<span class="lineNum">     147 </span>                :            :     bool isOdd;  // if the length of code is odd isOdd = 1
+<span class="lineNum">     148 </span>                :            :     long begin, end;
+<span class="lineNum">     149 </span>                :            :     // check file is empty
+<span class="lineNum">     150 </span>                :<span class="lineNoCov">          0 :     if (fu.isEmptyFile(inFileName)) {</span>
+<span class="lineNum">     151 </span>                :<span class="lineNoCov">          0 :         out.open(outFileName);</span>
+<span class="lineNum">     152 </span>                :<span class="lineNoCov">          0 :         out.close();</span>
+<span class="lineNum">     153 </span>                :<span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     154 </span>                :            :     }
+<span class="lineNum">     155 </span>                :            : 
+<span class="lineNum">     156 </span>                :<span class="lineNoCov">          0 :     myfile.open(inFileName, ios::binary);</span>
+<span class="lineNum">     157 </span>                :            : 
+<span class="lineNum">     158 </span>                :<span class="lineNoCov">          0 :     BitInputStream bis(myfile);</span>
+<span class="lineNum">     159 </span>                :            : 
+<span class="lineNum">     160 </span>                :<span class="lineNoCov">          0 :     tree.flag_2Node = 1;</span>
+<span class="lineNum">     161 </span>                :<span class="lineNoCov">          0 :     bis.flag_2Node = 1;  // open write two node encode fuction</span>
+<span class="lineNum">     162 </span>                :            : 
+<span class="lineNum">     163 </span>                :            :     // read the two byte in the end
+<span class="lineNum">     164 </span>                :<span class="lineNoCov">          0 :     begin = myfile.tellg();</span>
+<span class="lineNum">     165 </span>                :            :     unsigned char temp1;
+<span class="lineNum">     166 </span>                :<span class="lineNoCov">          0 :     myfile.seekg(-2, myfile.end);</span>
+<span class="lineNum">     167 </span>                :<span class="lineNoCov">          0 :     byte trailZero = myfile.peek();</span>
+<span class="lineNum">     168 </span>                :<span class="lineNoCov">          0 :     trailZero = trailZero &lt;&lt; 8;</span>
+<span class="lineNum">     169 </span>                :<span class="lineNoCov">          0 :     myfile.seekg(-1, myfile.end);</span>
+<span class="lineNum">     170 </span>                :<span class="lineNoCov">          0 :     temp1 = myfile.peek();</span>
+<span class="lineNum">     171 </span>                :<span class="lineNoCov">          0 :     trailZero |= myfile.peek();</span>
+<span class="lineNum">     172 </span>                :<span class="lineNoCov">          0 :     myfile.seekg(-2, myfile.end);</span>
+<span class="lineNum">     173 </span>                :<span class="lineNoCov">          0 :     end = myfile.tellg();</span>
+<span class="lineNum">     174 </span>                :<span class="lineNoCov">          0 :     myfile.seekg(begin);</span>
+<span class="lineNum">     175 </span>                :            : 
+<span class="lineNum">     176 </span>                :            :     // read total existing symbol in header
+<span class="lineNum">     177 </span>                :<span class="lineNoCov">          0 :     unsigned int total = 0;</span>
+<span class="lineNum">     178 </span>                :<span class="lineNoCov">          0 :     for (int i = 0; i &lt; 16; i++) {</span>
+<span class="lineNum">     179 </span>                :<span class="lineNoCov">          0 :         total |= (bis.readBit() &lt;&lt; (15 - i));</span>
+<span class="lineNum">     180 </span>                :            :     }
+<span class="lineNum">     181 </span>                :            :     // edge case
+<span class="lineNum">     182 </span>                :<span class="lineNoCov">          0 :     if (total == 0) total = 65536;</span>
+<span class="lineNum">     183 </span>                :            :     // if the length of code is odd, read the end short
+<span class="lineNum">     184 </span>                :<span class="lineNoCov">          0 :     isOdd = bis.readShort();</span>
+<span class="lineNum">     185 </span>                :<span class="lineNoCov">          0 :     if (isOdd) oddShort = bis.readShort();</span>
+<span class="lineNum">     186 </span>                :            : 
+<span class="lineNum">     187 </span>                :            :     // rebuild the tree
+<span class="lineNum">     188 </span>                :<span class="lineNoCov">          0 :     tree.rebuild(bis, total);</span>
+<span class="lineNum">     189 </span>                :<span class="lineNoCov">          0 :     cout &lt;&lt; &quot;size is: &quot; &lt;&lt; (myfile.tellg() - begin) &lt;&lt; &quot; bytes.\n&quot;;</span>
+<span class="lineNum">     190 </span>                :            :     // read the header
+<span class="lineNum">     191 </span>                :<span class="lineNoCov">          0 :     while (end != myfile.tellg()) {</span>
+<span class="lineNum">     192 </span>                :<span class="lineNoCov">          0 :         nextByte = tree.decode(bis);</span>
+<span class="lineNum">     193 </span>                :<span class="lineNoCov">          0 :         nextShort = (unsigned short)nextByte;</span>
+<span class="lineNum">     194 </span>                :<span class="lineNoCov">          0 :         temp.push_back(nextShort);</span>
+<span class="lineNum">     195 </span>                :            :     }
+<span class="lineNum">     196 </span>                :            :     // read the final short
+<span class="lineNum">     197 </span>                :<span class="lineNoCov">          0 :     if (trailZero == 0) {</span>
+<span class="lineNum">     198 </span>                :<span class="lineNoCov">          0 :         trailZero = 16;</span>
+<span class="lineNum">     199 </span>                :<span class="lineNoCov">          0 :         do {</span>
+<span class="lineNum">     200 </span>                :<span class="lineNoCov">          0 :             nextByte = tree.decode(bis);</span>
+<span class="lineNum">     201 </span>                :<span class="lineNoCov">          0 :             nextShort = (unsigned short)nextByte;</span>
+<span class="lineNum">     202 </span>                :<span class="lineNoCov">          0 :             temp.push_back(nextShort);</span>
+<span class="lineNum">     203 </span>                :<span class="lineNoCov">          0 :         } while (bis.getBits() &lt; trailZero);</span>
+<span class="lineNum">     204 </span>                :            :     } else {
+<span class="lineNum">     205 </span>                :<span class="lineNoCov">          0 :         while (bis.getBits() &lt; trailZero) {</span>
+<span class="lineNum">     206 </span>                :<span class="lineNoCov">          0 :             nextByte = tree.decode(bis);</span>
+<span class="lineNum">     207 </span>                :<span class="lineNoCov">          0 :             nextShort = (unsigned short)nextByte;</span>
+<span class="lineNum">     208 </span>                :<span class="lineNoCov">          0 :             temp.push_back(nextShort);</span>
+<span class="lineNum">     209 </span>                :            :         }
+<span class="lineNum">     210 </span>                :            :     }
+<span class="lineNum">     211 </span>                :            : 
+<span class="lineNum">     212 </span>                :<span class="lineNoCov">          0 :     myfile.close();</span>
+<span class="lineNum">     213 </span>                :            :     // print the decode result
+<span class="lineNum">     214 </span>                :<span class="lineNoCov">          0 :     out.open(outFileName, ios::binary);</span>
+<span class="lineNum">     215 </span>                :<span class="lineNoCov">          0 :     for (int i = 0; i &lt; temp.size(); i++) {</span>
+<span class="lineNum">     216 </span>                :<span class="lineNoCov">          0 :         out &lt;&lt; (unsigned char)(temp[i] &gt;&gt; 8);</span>
+<span class="lineNum">     217 </span>                :<span class="lineNoCov">          0 :         out &lt;&lt; (unsigned char)(temp[i]);</span>
+<span class="lineNum">     218 </span>                :            :     }
+<span class="lineNum">     219 </span>                :<span class="lineNoCov">          0 :     if (isOdd) out &lt;&lt; (unsigned char)oddShort;</span>
+<span class="lineNum">     220 </span>                :<span class="lineNoCov">          0 :     out.close();</span>
+<a name="221"><span class="lineNum">     221 </span>                :            : }</a>
+<span class="lineNum">     222 </span>                :            : /*  Main program that runs the uncompress */
+<span class="lineNum">     223 </span>                :<span class="lineNoCov">          0 : int main(int argc, char* argv[]) {</span>
+<span class="lineNum">     224 </span>                :            :     cxxopts::Options options(&quot;./uncompress&quot;,
+<span class="lineNum">     225 </span>                :<span class="lineNoCov">          0 :                              &quot;Uncompresses files using Huffman Encoding&quot;);</span>
+<span class="lineNum">     226 </span>                :<span class="lineNoCov">          0 :     options.positional_help(&quot;./path_to_input_file ./path_to_output_file&quot;);</span>
+<span class="lineNum">     227 </span>                :            : 
+<span class="lineNum">     228 </span>                :<span class="lineNoCov">          0 :     bool isAsciiOutput = false;</span>
+<span class="lineNum">     229 </span>                :<span class="lineNoCov">          0 :     bool isBlockOutput = false;</span>
+<span class="lineNum">     230 </span>                :<span class="lineNoCov">          0 :     string inFileName, outFileName;</span>
+<span class="lineNum">     231 </span>                :<span class="lineNoCov">          0 :     options.allow_unrecognised_options().add_options()(</span>
+<span class="lineNum">     232 </span>                :            :         &quot;ascii&quot;, &quot;Write output in ascii mode instead of bit stream&quot;,
+<span class="lineNum">     233 </span>                :<span class="lineNoCov">          0 :         cxxopts::value&lt;bool&gt;(isAsciiOutput))(</span>
+<span class="lineNum">     234 </span>                :            :         &quot;block&quot;, &quot;Write output in two byte symbols instead of one byte&quot;,
+<span class="lineNum">     235 </span>                :<span class="lineNoCov">          0 :         cxxopts::value&lt;bool&gt;(isBlockOutput))(</span>
+<span class="lineNum">     236 </span>                :<span class="lineNoCov">          0 :         &quot;input&quot;, &quot;&quot;, cxxopts::value&lt;string&gt;(inFileName))(</span>
+<span class="lineNum">     237 </span>                :<span class="lineNoCov">          0 :         &quot;output&quot;, &quot;&quot;, cxxopts::value&lt;string&gt;(outFileName))(</span>
+<span class="lineNum">     238 </span>                :<span class="lineNoCov">          0 :         &quot;h,help&quot;, &quot;Print help and exit&quot;);</span>
+<span class="lineNum">     239 </span>                :<span class="lineNoCov">          0 :     options.parse_positional({&quot;input&quot;, &quot;output&quot;});</span>
+<span class="lineNum">     240 </span>                :<span class="lineNoCov">          0 :     auto userOptions = options.parse(argc, argv);</span>
+<span class="lineNum">     241 </span>                :            : 
+<span class="lineNum">     242 </span>                :<span class="lineNoCov">          0 :     if (userOptions.count(&quot;help&quot;) || !FileUtils::isValidFile(inFileName) ||</span>
+<span class="lineNum">     243 </span>                :<span class="lineNoCov">          0 :         outFileName.empty()) {</span>
+<span class="lineNum">     244 </span>                :<span class="lineNoCov">          0 :         cout &lt;&lt; options.help({&quot;&quot;}) &lt;&lt; std::endl;</span>
+<span class="lineNum">     245 </span>                :<span class="lineNoCov">          0 :         exit(0);</span>
+<span class="lineNum">     246 </span>                :            :     }
+<span class="lineNum">     247 </span>                :            : 
+<span class="lineNum">     248 </span>                :            :     FileUtils fu;
+<span class="lineNum">     249 </span>                :            :     // check if argument is vaild
+<span class="lineNum">     250 </span>                :<span class="lineNoCov">          0 :     if (!fu.isValidFile(inFileName)) return -1;</span>
+<span class="lineNum">     251 </span>                :            : 
+<span class="lineNum">     252 </span>                :<span class="lineNoCov">          0 :     if (isAsciiOutput)</span>
+<span class="lineNum">     253 </span>                :<span class="lineNoCov">          0 :         pseudoDecompression(inFileName, outFileName);</span>
+<span class="lineNum">     254 </span>                :            :     else
+<span class="lineNum">     255 </span>                :<span class="lineNoCov">          0 :         extraDecompression(inFileName, outFileName);</span>
+<span class="lineNum">     256 </span>                :            :     // else if (isBlockOutput)
+<span class="lineNum">     257 </span>                :            :     //     extraDecompression(inFileName, outFileName);
+<span class="lineNum">     258 </span>                :            :     // else
+<a name="259"><span class="lineNum">     259 </span>                :            :     //     trueDecompression(inFileName, outFileName);</a>
+<span class="lineNum">     260 </span>                :<span class="lineNoCov">          0 :     return 0;</span>
+<span class="lineNum">     261 </span>                :<span class="lineNoCov">          0 : }</span>
 </pre>
       </td>
     </tr>

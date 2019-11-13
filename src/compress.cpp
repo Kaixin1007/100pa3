@@ -1,5 +1,10 @@
 /*
  * @Descripttion: implement compress file in byte and bit for PA3
+ * encode rule for final:
+ * byte: 1 -- length for existing symbol in header|
+ * 2~header end --header contain Tree structure and symbol|
+ * 3~end-1 -- file code|
+ * end -- the last byte contains the number of bit|
  * @version: 1.0
  * @Author: Kaixin Lin
  */
@@ -91,7 +96,7 @@ void trueCompression(string inFileName, string outFileName) {
     out.open(outFileName, ios::binary);
 
     // write header
-    // first total header
+    // length for existing symbol in header
     bos.writeChar((unsigned char)total);
     tree.encodeNode(bos);
     // encode
@@ -107,8 +112,8 @@ void trueCompression(string inFileName, string outFileName) {
     out.close();
 }
 /**
- * @name: trueCompression
- * @msg: True compression with bitwise i/o and small header (final)
+ * @name: extraCompression
+ * @msg: extra compression with bitwise i/o and 2 byte compression(extra)
  */
 void extraCompression(string inFileName, string outFileName) {
     ifstream myfile;
@@ -120,8 +125,10 @@ void extraCompression(string inFileName, string outFileName) {
     vector<unsigned int> freqs(65536);
     ofstream out;
     BitOutputStream bos(out);
+
     tree.flag_2Node = 1;
-    bos.flag_2Node = 1;  // open write 2node mode
+    bos.flag_2Node = 1;  // open write two node encode fuction
+
     // check file is empty
     if (fu.isEmptyFile(inFileName)) {
         out.open(outFileName);
@@ -221,11 +228,11 @@ int main(int argc, char* argv[]) {
     // check if argument is vaild
     FileUtils fu;
     if (!fu.isValidFile(inFileName)) return -1;
-
-    if (isAsciiOutput)
-        pseudoCompression(inFileName, outFileName);
-    else
-        extraCompression(inFileName, outFileName);
+    extraCompression(inFileName, outFileName);
+    // if (isAsciiOutput)
+    //     pseudoCompression(inFileName, outFileName);
+    // else
+    //     extraCompression(inFileName, outFileName);
     // else if (isBlockOutput)
     //     extraCompression(inFileName, outFileName);
     // else
