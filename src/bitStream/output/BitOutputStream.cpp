@@ -1,9 +1,4 @@
 /*
- * @Descripttion:
- * @version: 1.0
- * @Author: Kaixin Lin
- */
-/*
  * @Descripttion:bitwise operations to write each bit in the buffer.
  * @version: 1.0
  * @Author: Kaixin Lin
@@ -41,6 +36,7 @@ void BitOutputStream::writeBit(int i) {
     }
     nbits++;
 }
+
 /**
  * @name: writeChar
  * @msg: write byte to buffer

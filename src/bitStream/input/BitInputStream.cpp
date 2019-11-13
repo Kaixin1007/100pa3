@@ -1,19 +1,4 @@
 /*
- * @Descripttion:
- * @version: 1.0
- * @Author: Kaixin Lin
- */
-/*
- * @Descripttion:
- * @version: 1.0
- * @Author: Kaixin Lin
- */
-/*
- * @Descripttion:
- * @version: 1.0
- * @Author: Kaixin Lin
- */
-/*
  * @Descripttion:bitwise operations to read each bit in the buffer.
  * @version: 1.0
  * @Author: Kaixin Lin
@@ -77,6 +62,7 @@ unsigned int BitInputStream::readChar() {
 
     return num;
 }
+
 /**
  * @name: readShort
  * @msg: read Short to buffer
@@ -90,6 +76,7 @@ unsigned int BitInputStream::readShort() {
 
     return num;
 }
+
 /**
  * @name: getBits
  * @msg: get the value of nbits

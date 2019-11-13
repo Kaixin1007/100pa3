@@ -1,9 +1,4 @@
 /*
- * @Descripttion:
- * @version: 1.0
- * @Author: Kaixin Lin
- */
-/*
  * @Descripttion:bitwise operations to read each bit in the buffer.
  * @version: 1.0
  * @Author: Kaixin Lin
@@ -29,6 +24,7 @@ class BitInputStream {
 
   public:
     int flag_2Node;
+
     /**
      * @name: BitInputStream
      * @msg: construction function for BitInputStream
@@ -59,6 +55,7 @@ class BitInputStream {
      * @return: current byte
      */
     unsigned int readChar();
+
     /**
      * @name: getBits
      * @msg: get the value of nbits

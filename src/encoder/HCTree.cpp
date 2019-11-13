@@ -16,6 +16,7 @@ void HCTree::deleteAll(HCNode*& root) {
     deleteAll(root->c1);
     delete (root);
 }
+
 /**
  * @name: ~HCTree
  * @msg: deconstruction for HCTree

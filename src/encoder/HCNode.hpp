@@ -1,9 +1,4 @@
 /*
- * @Descripttion:
- * @version: 1.0
- * @Author: Kaixin Lin
- */
-/*
  * @Descripttion: definition the Node in Huffman Tree for Huffman Coding
  * @version: 1.0
  * @Author: Kaixin Lin

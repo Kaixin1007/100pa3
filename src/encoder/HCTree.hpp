@@ -16,6 +16,7 @@
 #include "BitOutputStream.hpp"
 #include "HCNode.hpp"
 using namespace std;
+
 /**
  * @name: HCTree
  * @msg:  the class of Huffman Tree for compression and uncompression

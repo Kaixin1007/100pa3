@@ -1,10 +1,5 @@
 /*
- * @Descripttion:
- * @version: 1.0
- * @Author: Kaixin Lin
- */
-/*
- * @Descripttion:
+ * @Descripttion:bitwise operations to write each bit in the buffer.
  * @version: 1.0
  * @Author: Kaixin Lin
  */
@@ -51,11 +46,13 @@ class BitOutputStream {
      * @msg: write bit to buffer
      */
     void writeBit(int i);
+
     /**
      * @name: writeChar
      * @msg: write byte to buffer
      */
     void writeChar(unsigned char num);
+
     /**
      * @name: getBits
      * @msg: get the value of nbits

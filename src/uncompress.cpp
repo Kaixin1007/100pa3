@@ -159,12 +159,10 @@ void extraDecompression(string inFileName, string outFileName) {
 
     // read the two byte in the end
     begin = myfile.tellg();
-    unsigned char temp1;
     myfile.seekg(-2, myfile.end);
     byte trailZero = myfile.peek();
     trailZero = trailZero << 8;
     myfile.seekg(-1, myfile.end);
-    temp1 = myfile.peek();
     trailZero |= myfile.peek();
     myfile.seekg(-2, myfile.end);
     end = myfile.tellg();
@@ -183,7 +181,7 @@ void extraDecompression(string inFileName, string outFileName) {
 
     // rebuild the tree
     tree.rebuild(bis, total);
-    cout << "size is: " << (myfile.tellg() - begin) << " bytes.\n";
+    // cout << "size is: " << (myfile.tellg() - begin) << " bytes.\n";
     // read the header
     while (end != myfile.tellg()) {
         nextByte = tree.decode(bis);
@@ -247,11 +245,9 @@ int main(int argc, char* argv[]) {
     if (!fu.isValidFile(inFileName)) return -1;
     if (isAsciiOutput)
         pseudoDecompression(inFileName, outFileName);
-    else
+    else if (isBlockOutput)
         extraDecompression(inFileName, outFileName);
-    // else if (isBlockOutput)
-    //     extraDecompression(inFileName, outFileName);
-    // else
-    //     trueDecompression(inFileName, outFileName);
+    else
+        trueDecompression(inFileName, outFileName);
     return 0;
 }

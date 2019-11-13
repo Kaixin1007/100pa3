@@ -231,11 +231,9 @@ int main(int argc, char* argv[]) {
 
     if (isAsciiOutput)
         pseudoCompression(inFileName, outFileName);
-    else
+    else if (isBlockOutput)
         extraCompression(inFileName, outFileName);
-    // else if (isBlockOutput)
-    //     extraCompression(inFileName, outFileName);
-    // else
-    //     trueCompression(inFileName, outFileName);
+    else
+        trueCompression(inFileName, outFileName);
     return 0;
 }
