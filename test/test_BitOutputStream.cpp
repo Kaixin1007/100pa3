@@ -26,3 +26,17 @@ TEST(BitOutputStreamTests, SIMPLE_TEST) {
     bos.flush();
     ASSERT_EQ(ss.get(), 0);
 }
+TEST(BitOutputStreamTests, TWOSMBOL_TEST) {
+    stringstream ss;
+    BitOutputStream bos(ss);
+    bos.flag_2Node = 1;
+    bos.writeBit(1);
+    bos.writeBit(0);
+    bos.flush();
+    string bitsStr = "0000000010000000";
+    unsigned int asciiVal = stoi(bitsStr, nullptr, 2);
+    ASSERT_EQ(ss.get(), asciiVal);
+    bos.writeShort(0);
+    bos.flush();
+    ASSERT_EQ(ss.get(), 0);
+}

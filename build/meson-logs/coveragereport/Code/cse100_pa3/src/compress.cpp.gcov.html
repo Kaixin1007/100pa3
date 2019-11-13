@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">132</td>
+            <td class="headerCovTableEntry">130</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-11-13 02:00:18</td>
+            <td class="headerValue">2019-11-13 02:22:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -306,11 +306,11 @@
 <span class="lineNum">     228 </span>                :            :     // check if argument is vaild
 <span class="lineNum">     229 </span>                :            :     FileUtils fu;
 <span class="lineNum">     230 </span>                :<span class="lineNoCov">          0 :     if (!fu.isValidFile(inFileName)) return -1;</span>
-<span class="lineNum">     231 </span>                :            : 
-<span class="lineNum">     232 </span>                :<span class="lineNoCov">          0 :     if (isAsciiOutput)</span>
-<span class="lineNum">     233 </span>                :<span class="lineNoCov">          0 :         pseudoCompression(inFileName, outFileName);</span>
-<span class="lineNum">     234 </span>                :            :     else
-<span class="lineNum">     235 </span>                :<span class="lineNoCov">          0 :         extraCompression(inFileName, outFileName);</span>
+<span class="lineNum">     231 </span>                :<span class="lineNoCov">          0 :     extraCompression(inFileName, outFileName);</span>
+<span class="lineNum">     232 </span>                :            :     // if (isAsciiOutput)
+<span class="lineNum">     233 </span>                :            :     //     pseudoCompression(inFileName, outFileName);
+<span class="lineNum">     234 </span>                :            :     // else
+<span class="lineNum">     235 </span>                :            :     //     extraCompression(inFileName, outFileName);
 <span class="lineNum">     236 </span>                :            :     // else if (isBlockOutput)
 <span class="lineNum">     237 </span>                :            :     //     extraCompression(inFileName, outFileName);
 <span class="lineNum">     238 </span>                :            :     // else

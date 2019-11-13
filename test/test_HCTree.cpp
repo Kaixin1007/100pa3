@@ -1,5 +1,5 @@
 /*
- * @Descripttion:
+ * @Descripttion: Test file for HCTree
  * @version: 1.0
  * @Author: Kaixin Lin
  */
