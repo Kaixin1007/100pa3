@@ -243,6 +243,7 @@ int main(int argc, char* argv[]) {
     FileUtils fu;
     // check if argument is vaild
     if (!fu.isValidFile(inFileName)) return -1;
+
     if (isAsciiOutput)
         pseudoDecompression(inFileName, outFileName);
     else if (isBlockOutput)

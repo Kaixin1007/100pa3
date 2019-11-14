@@ -31,13 +31,13 @@
             <td class="headerValue">Code coverage</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">107</td>
+            <td class="headerCovTableEntry">110</td>
             <td class="headerCovTableEntry">113</td>
-            <td class="headerCovTableEntryHi">94.7 %</td>
+            <td class="headerCovTableEntryHi">97.3 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-11-13 04:47:00</td>
+            <td class="headerValue">2019-11-14 02:19:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">15</td>
@@ -56,9 +56,9 @@
 </td>
             <td></td>
             <td class="headerItem">Branches:</td>
-            <td class="headerCovTableEntry">78</td>
+            <td class="headerCovTableEntry">80</td>
             <td class="headerCovTableEntry">120</td>
-            <td class="headerCovTableEntryLo">65.0 %</td>
+            <td class="headerCovTableEntryLo">66.7 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -88,61 +88,61 @@
 <span class="lineNum">      10 </span>                :            :  * @name: deleteAll
 <a name="11"><span class="lineNum">      11 </span>                :            :  * @msg: deconstruction helper function</a>
 <span class="lineNum">      12 </span>                :            :  */
-<span class="lineNum">      13 </span>                :<span class="lineCov">        116 : void HCTree::deleteAll(HCNode*&amp; root) {</span>
-<span class="lineNum">      14 </span>        [<span class="branchCov" title="Branch 0 was taken 64 times"> + </span><span class="branchCov" title="Branch 1 was taken 52 times"> + </span>]:<span class="lineCov">        116 :     if (root == nullptr) return;</span>
-<span class="lineNum">      15 </span>                :<span class="lineCov">         52 :     deleteAll(root-&gt;c0);</span>
-<span class="lineNum">      16 </span>                :<span class="lineCov">         52 :     deleteAll(root-&gt;c1);</span>
-<span class="lineNum">      17 </span>                :<span class="lineCov">         52 :     delete (root);</span>
+<span class="lineNum">      13 </span>                :<span class="lineCov">        166 : void HCTree::deleteAll(HCNode*&amp; root) {</span>
+<span class="lineNum">      14 </span>        [<span class="branchCov" title="Branch 0 was taken 91 times"> + </span><span class="branchCov" title="Branch 1 was taken 75 times"> + </span>]:<span class="lineCov">        166 :     if (root == nullptr) return;</span>
+<span class="lineNum">      15 </span>                :<span class="lineCov">         75 :     deleteAll(root-&gt;c0);</span>
+<span class="lineNum">      16 </span>                :<span class="lineCov">         75 :     deleteAll(root-&gt;c1);</span>
+<span class="lineNum">      17 </span>                :<span class="lineCov">         75 :     delete (root);</span>
 <span class="lineNum">      18 </span>                :            : }
 <span class="lineNum">      19 </span>                :            : 
 <span class="lineNum">      20 </span>                :            : /**
 <span class="lineNum">      21 </span>                :            :  * @name: ~HCTree
 <a name="22"><span class="lineNum">      22 </span>                :            :  * @msg: deconstruction for HCTree</a>
 <span class="lineNum">      23 </span>                :            :  */
-<span class="lineNum">      24 </span>                :<span class="lineCov">         24 : HCTree::~HCTree() {</span>
-<span class="lineNum">      25 </span>                :<span class="lineCov">         12 :     deleteAll(root);</span>
-<span class="lineNum">      26 </span>                :<span class="lineCov">         12 :     vector&lt;HCNode*&gt;().swap(leaves);</span>
-<span class="lineNum">      27 </span>                :<span class="lineCov">         12 : }</span>
+<span class="lineNum">      24 </span>                :<span class="lineCov">         32 : HCTree::~HCTree() {</span>
+<span class="lineNum">      25 </span>                :<span class="lineCov">         16 :     deleteAll(root);</span>
+<span class="lineNum">      26 </span>                :<span class="lineCov">         16 :     vector&lt;HCNode*&gt;().swap(leaves);</span>
+<span class="lineNum">      27 </span>                :<span class="lineCov">         16 : }</span>
 <span class="lineNum">      28 </span>                :            : 
 <span class="lineNum">      29 </span>                :            : /**
 <span class="lineNum">      30 </span>                :            :  * @name: build
 <a name="31"><span class="lineNum">      31 </span>                :            :  * @msg: build Huffman by frequencies</a>
 <span class="lineNum">      32 </span>                :            :  */
-<span class="lineNum">      33 </span>                :<span class="lineCov">          9 : void HCTree::build(const vector&lt;unsigned int&gt;&amp; freqs) {</span>
-<span class="lineNum">      34 </span>                :<span class="lineCov">         18 :     my_quene forest;</span>
+<span class="lineNum">      33 </span>                :<span class="lineCov">         12 : void HCTree::build(const vector&lt;unsigned int&gt;&amp; freqs) {</span>
+<span class="lineNum">      34 </span>                :<span class="lineCov">         24 :     my_quene forest;</span>
 <span class="lineNum">      35 </span>                :            :     HCNode *least1, *least2, *next;
 <span class="lineNum">      36 </span>                :            :     // creat forest
-<span class="lineNum">      37 </span>        [<span class="branchCov" title="Branch 1 was taken 2304 times"> + </span><span class="branchCov" title="Branch 2 was taken 9 times"> + </span>]:<span class="lineCov">       2313 :     for (int i = 0; i &lt; freqs.size(); i++) {</span>
-<span class="lineNum">      38 </span>        [<span class="branchCov" title="Branch 1 was taken 27 times"> + </span><span class="branchCov" title="Branch 2 was taken 2277 times"> + </span>]:<span class="lineCov">       2304 :         if (freqs[i] != 0) {</span>
-<span class="lineNum">      39 </span>[<span class="branchCov" title="Branch 2 was taken 27 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 6 was taken 27 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]:<span class="lineCov">         27 :             forest.push(new HCNode(freqs[i], (short)i));</span>
+<span class="lineNum">      37 </span>        [<span class="branchCov" title="Branch 1 was taken 3072 times"> + </span><span class="branchCov" title="Branch 2 was taken 12 times"> + </span>]:<span class="lineCov">       3084 :     for (int i = 0; i &lt; freqs.size(); i++) {</span>
+<span class="lineNum">      38 </span>        [<span class="branchCov" title="Branch 1 was taken 36 times"> + </span><span class="branchCov" title="Branch 2 was taken 3036 times"> + </span>]:<span class="lineCov">       3072 :         if (freqs[i] != 0) {</span>
+<span class="lineNum">      39 </span>[<span class="branchCov" title="Branch 2 was taken 36 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 6 was taken 36 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]:<span class="lineCov">         36 :             forest.push(new HCNode(freqs[i], (short)i));</span>
 <span class="lineNum">      40 </span>                :            :         }
 <span class="lineNum">      41 </span>                :            :     }
 <span class="lineNum">      42 </span>                :            :     // edge cast for size = 0 and size = 1
-<span class="lineNum">      43 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchCov" title="Branch 2 was taken 6 times"> + </span>]:<span class="lineCov">          9 :     if (forest.size() == 0)</span>
-<span class="lineNum">      44 </span>                :<span class="lineCov">          3 :         return;</span>
-<span class="lineNum">      45 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchCov" title="Branch 2 was taken 3 times"> + </span>]:<span class="lineCov">          6 :     else if (forest.size() == 1) {</span>
-<span class="lineNum">      46 </span>                :<span class="lineCov">          3 :         root = forest.top();</span>
-<span class="lineNum">      47 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :         next = new HCNode(root-&gt;count, root-&gt;symbol, 0, 0, root);</span>
-<span class="lineNum">      48 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :         leaves.push_back(next);</span>
-<span class="lineNum">      49 </span>                :<span class="lineCov">          3 :         root-&gt;c0 = next;</span>
-<span class="lineNum">      50 </span>                :<span class="lineCov">          3 :         return;</span>
+<span class="lineNum">      43 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchCov" title="Branch 2 was taken 8 times"> + </span>]:<span class="lineCov">         12 :     if (forest.size() == 0)</span>
+<span class="lineNum">      44 </span>                :<span class="lineCov">          4 :         return;</span>
+<span class="lineNum">      45 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchCov" title="Branch 2 was taken 4 times"> + </span>]:<span class="lineCov">          8 :     else if (forest.size() == 1) {</span>
+<span class="lineNum">      46 </span>                :<span class="lineCov">          4 :         root = forest.top();</span>
+<span class="lineNum">      47 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :         next = new HCNode(root-&gt;count, root-&gt;symbol, 0, 0, root);</span>
+<span class="lineNum">      48 </span>        [<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          4 :         leaves.push_back(next);</span>
+<span class="lineNum">      49 </span>                :<span class="lineCov">          4 :         root-&gt;c0 = next;</span>
+<span class="lineNum">      50 </span>                :<span class="lineCov">          4 :         return;</span>
 <span class="lineNum">      51 </span>                :            :     }
 <span class="lineNum">      52 </span>                :            :     // loop until get a tree
-<span class="lineNum">      53 </span>        [<span class="branchCov" title="Branch 1 was taken 21 times"> + </span><span class="branchCov" title="Branch 2 was taken 3 times"> + </span>]:<span class="lineCov">         24 :     while (forest.size() &gt; 1) {</span>
+<span class="lineNum">      53 </span>        [<span class="branchCov" title="Branch 1 was taken 28 times"> + </span><span class="branchCov" title="Branch 2 was taken 4 times"> + </span>]:<span class="lineCov">         32 :     while (forest.size() &gt; 1) {</span>
 <span class="lineNum">      54 </span>                :            :         // get the min
-<span class="lineNum">      55 </span>                :<span class="lineCov">         21 :         least1 = forest.top();</span>
-<span class="lineNum">      56 </span>        [<span class="branchCov" title="Branch 1 was taken 21 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         21 :         forest.pop();</span>
-<span class="lineNum">      57 </span>                :<span class="lineCov">         21 :         least2 = forest.top();</span>
-<span class="lineNum">      58 </span>        [<span class="branchCov" title="Branch 1 was taken 21 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         21 :         forest.pop();</span>
+<span class="lineNum">      55 </span>                :<span class="lineCov">         28 :         least1 = forest.top();</span>
+<span class="lineNum">      56 </span>        [<span class="branchCov" title="Branch 1 was taken 28 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         28 :         forest.pop();</span>
+<span class="lineNum">      57 </span>                :<span class="lineCov">         28 :         least2 = forest.top();</span>
+<span class="lineNum">      58 </span>        [<span class="branchCov" title="Branch 1 was taken 28 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         28 :         forest.pop();</span>
 <span class="lineNum">      59 </span>                :            :         // update
-<span class="lineNum">      60 </span>                :<span class="lineCov">         63 :         next = new HCNode(least1-&gt;count + least2-&gt;count, least2-&gt;symbol, least1,</span>
-<span class="lineNum">      61 </span>        [<span class="branchCov" title="Branch 1 was taken 21 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         21 :                           least2);</span>
-<span class="lineNum">      62 </span>                :<span class="lineCov">         21 :         least1-&gt;p = least2-&gt;p = next;</span>
-<span class="lineNum">      63 </span>[<span class="branchCov" title="Branch 0 was taken 12 times"> + </span><span class="branchCov" title="Branch 1 was taken 9 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 12 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         21 :         if (least1-&gt;c0 == 0 &amp; least1-&gt;c1 == 0) leaves.push_back(least1);</span>
-<span class="lineNum">      64 </span>[<span class="branchCov" title="Branch 0 was taken 12 times"> + </span><span class="branchCov" title="Branch 1 was taken 9 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 12 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         21 :         if (least2-&gt;c0 == 0 &amp; least2-&gt;c1 == 0) leaves.push_back(least2);</span>
-<span class="lineNum">      65 </span>        [<span class="branchCov" title="Branch 1 was taken 21 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         21 :         forest.push(next);</span>
+<span class="lineNum">      60 </span>                :<span class="lineCov">         84 :         next = new HCNode(least1-&gt;count + least2-&gt;count, least2-&gt;symbol, least1,</span>
+<span class="lineNum">      61 </span>        [<span class="branchCov" title="Branch 1 was taken 28 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         28 :                           least2);</span>
+<span class="lineNum">      62 </span>                :<span class="lineCov">         28 :         least1-&gt;p = least2-&gt;p = next;</span>
+<span class="lineNum">      63 </span>[<span class="branchCov" title="Branch 0 was taken 16 times"> + </span><span class="branchCov" title="Branch 1 was taken 12 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 16 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         28 :         if (least1-&gt;c0 == 0 &amp; least1-&gt;c1 == 0) leaves.push_back(least1);</span>
+<span class="lineNum">      64 </span>[<span class="branchCov" title="Branch 0 was taken 16 times"> + </span><span class="branchCov" title="Branch 1 was taken 12 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 16 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         28 :         if (least2-&gt;c0 == 0 &amp; least2-&gt;c1 == 0) leaves.push_back(least2);</span>
+<span class="lineNum">      65 </span>        [<span class="branchCov" title="Branch 1 was taken 28 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         28 :         forest.push(next);</span>
 <span class="lineNum">      66 </span>                :            :     }
-<span class="lineNum">      67 </span>        [<span class="branchCov" title="Branch 2 was taken 3 times"> + </span><span class="branchCov" title="Branch 3 was taken 6 times"> + </span>]:<span class="lineCov">          9 :     root = forest.top();</span>
+<span class="lineNum">      67 </span>        [<span class="branchCov" title="Branch 2 was taken 4 times"> + </span><span class="branchCov" title="Branch 3 was taken 8 times"> + </span>]:<span class="lineCov">         12 :     root = forest.top();</span>
 <span class="lineNum">      68 </span>                :            : }
 <span class="lineNum">      69 </span>                :            : 
 <span class="lineNum">      70 </span>                :            : /**
@@ -263,13 +263,13 @@
 <span class="lineNum">     185 </span>                :            :  * @msg: get leaves' size
 <a name="186"><span class="lineNum">     186 </span>                :            :  * @return: leaves' size</a>
 <span class="lineNum">     187 </span>                :            :  */
-<span class="lineNum">     188 </span>                :<span class="lineCov">          6 : int HCTree::leaveSize() { return leaves.size(); }</span>
+<span class="lineNum">     188 </span>                :<span class="lineCov">          2 : int HCTree::leaveSize() { return leaves.size(); }</span>
 <span class="lineNum">     189 </span>                :            : 
 <span class="lineNum">     190 </span>                :            : /**
 <span class="lineNum">     191 </span>                :            :  * @name:getNode
 <a name="192"><span class="lineNum">     192 </span>                :            :  * @msg: get the leaves' ith node</a>
 <span class="lineNum">     193 </span>                :            :  */
-<span class="lineNum">     194 </span>                :<span class="lineCov">          6 : HCNode* HCTree::getNode(int i) { return leaves[i]; }</span>
+<span class="lineNum">     194 </span>                :<span class="lineCov">          2 : HCNode* HCTree::getNode(int i) { return leaves[i]; }</span>
 <span class="lineNum">     195 </span>                :            : 
 <span class="lineNum">     196 </span>                :            : /**
 <span class="lineNum">     197 </span>                :            :  * @name: encodeNode
@@ -303,12 +303,12 @@
 <span class="lineNum">     225 </span>                :            :  * @name: decodeNodeHelper
 <a name="226"><span class="lineNum">     226 </span>                :            :  * @msg: decode node helpfer function to iterator rebuild the tree</a>
 <span class="lineNum">     227 </span>                :            :  */
-<span class="lineNum">     228 </span>                :<span class="lineCov">          1 : HCNode* HCTree::decodeNodeHelper(BitInputStream&amp; in, int max) {</span>
-<span class="lineNum">     229 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 1 time"> + </span>]:<span class="lineCov">          1 :     if (leaves.size() &gt;= max) {</span>
-<span class="lineNum">     230 </span>                :<span class="lineNoCov">          0 :         return nullptr;</span>
+<span class="lineNum">     228 </span>                :<span class="lineCov">         13 : HCNode* HCTree::decodeNodeHelper(BitInputStream&amp; in, int max) {</span>
+<span class="lineNum">     229 </span>        [<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchCov" title="Branch 2 was taken 7 times"> + </span>]:<span class="lineCov">         13 :     if (leaves.size() &gt;= max) {</span>
+<span class="lineNum">     230 </span>                :<span class="lineCov">          6 :         return nullptr;</span>
 <span class="lineNum">     231 </span>                :            :     }
 <span class="lineNum">     232 </span>                :            :     // leaf node
-<span class="lineNum">     233 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          1 :     if (in.readBit() == 1) {</span>
+<span class="lineNum">     233 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchCov" title="Branch 2 was taken 6 times"> + </span>]:<span class="lineCov">          7 :     if (in.readBit() == 1) {</span>
 <span class="lineNum">     234 </span>                :            :         HCNode* node;
 <span class="lineNum">     235 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 1 time"> + </span>]:<span class="lineCov">          1 :         if (flag_2Node)</span>
 <span class="lineNum">     236 </span>[<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>][<span class="branchNoExec" title="Branch 4 was not executed"> # </span><span class="branchNoExec" title="Branch 5 was not executed"> # </span>]:<span class="lineNoCov">          0 :             node = new HCNode(0, in.readShort(), 0, 0, 0);</span>
@@ -318,9 +318,9 @@
 <span class="lineNum">     240 </span>                :<span class="lineCov">          1 :         return node;</span>
 <span class="lineNum">     241 </span>                :            :     } else {
 <span class="lineNum">     242 </span>                :            :         // no leaf node
-<span class="lineNum">     243 </span>                :<span class="lineNoCov">          0 :         HCNode* left = decodeNodeHelper(in, max);</span>
-<span class="lineNum">     244 </span>                :<span class="lineNoCov">          0 :         HCNode* right = decodeNodeHelper(in, max);</span>
-<span class="lineNum">     245 </span>                :<span class="lineCov">          1 :         return new HCNode(0, 0, left, right, 0);</span>
+<span class="lineNum">     243 </span>                :<span class="lineCov">          6 :         HCNode* left = decodeNodeHelper(in, max);</span>
+<span class="lineNum">     244 </span>                :<span class="lineCov">          6 :         HCNode* right = decodeNodeHelper(in, max);</span>
+<span class="lineNum">     245 </span>                :<span class="lineCov">         13 :         return new HCNode(0, 0, left, right, 0);</span>
 <span class="lineNum">     246 </span>                :            :     }
 <span class="lineNum">     247 </span>                :            : }
 <span class="lineNum">     248 </span>                :            : 

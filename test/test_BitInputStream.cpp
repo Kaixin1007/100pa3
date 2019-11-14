@@ -25,7 +25,7 @@ TEST(BitInputStreamTests, SIMPLE_TEST) {
     ASSERT_EQ(1, bis.readBit());
     ASSERT_EQ(0, bis.readBit());
 }
-TEST(BitInputStreamTests, TWOSMBOL_TEST) {
+TEST(BitInputStreamTests, TWOSYMBOL_TEST) {
     string bitsStr = "1000000000000000";
     string ascii = string(1, stoi(bitsStr, nullptr, 2));
 
@@ -36,6 +36,6 @@ TEST(BitInputStreamTests, TWOSMBOL_TEST) {
     ASSERT_EQ(bis.getBits(), -1);
     ASSERT_EQ(255, bis.readShort());
     ss1.str(ascii);
-    ASSERT_EQ(1, bis.readBit());
     bis.fill();
+    ASSERT_EQ(1, bis.readBit());
 }

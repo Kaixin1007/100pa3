@@ -36,12 +36,12 @@ class SimpleHCTreeFixture : public ::testing::Test {
         tree.build(freqs);
         freqs1['a'] = 3;
         tree2.build(freqs1);
-        cout << tree.leaveSize();
-
-        tree.getNode(0);
     }
 };
-
+TEST_F(SimpleHCTreeFixture, TEST_SIZE) {
+    int size = tree2.leaveSize();
+    ASSERT_EQ(1, size);
+}
 TEST_F(SimpleHCTreeFixture, TEST_ENCODE) {
     ostringstream os;
     BitOutputStream bos(os);
@@ -68,8 +68,6 @@ TEST_F(SimpleHCTreeFixture, TEST_ENCODE) {
     os.str("");
     tree.encode('n', os);
     ASSERT_EQ(os.str(), "1111");
-
-    cout << endl;
 }
 
 TEST_F(SimpleHCTreeFixture, TEST_DECODE) {
@@ -98,19 +96,19 @@ TEST_F(SimpleHCTreeFixture, TEST_DECODE) {
     ss.str(ascii);
     BitInputStream bis2(ss);
     ASSERT_EQ(tree.decode(bis2), 'a');
-
-    cout << endl;
 }
 
 TEST_F(SimpleHCTreeFixture, TEST_REBUILD) {
     ostringstream os;
     BitOutputStream bos(os);
     tree.encodeNode(bos);
+    tree.flag_2Node = 0;
 
-    string bitsStr = "10010000";
+    string bitsStr = "1000000010";
     string ascii = string(1, stoi(bitsStr, nullptr, 2));
     stringstream ss;
     ss.str(ascii);
     BitInputStream bis(ss);
-    tree1.rebuild(bis, 2);
+    tree1.rebuild(bis, 1);
+    ASSERT_EQ(tree1.getNode(0)->symbol, 127);
 }

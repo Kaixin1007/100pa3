@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-11-13 04:47:00</td>
+            <td class="headerValue">2019-11-14 02:19:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -106,15 +106,15 @@
 <span class="lineNum">      28 </span>                :            :  * @msg: read bit to buffer
 <a name="29"><span class="lineNum">      29 </span>                :            :  * @return: current bit</a>
 <span class="lineNum">      30 </span>                :            :  */
-<span class="lineNum">      31 </span>                :<span class="lineCov">         44 : unsigned int BitInputStream::readBit() {</span>
+<span class="lineNum">      31 </span>                :<span class="lineCov">         50 : unsigned int BitInputStream::readBit() {</span>
 <span class="lineNum">      32 </span>                :            :     unsigned int bit;
-<span class="lineNum">      33 </span>        [<span class="branchCov" title="Branch 0 was taken 27 times"> + </span><span class="branchCov" title="Branch 1 was taken 17 times"> + </span>]:<span class="lineCov">         44 :     if (flag_2Node == 0) {</span>
-<span class="lineNum">      34 </span>[<span class="branchCov" title="Branch 0 was taken 25 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 5 times"> + </span><span class="branchCov" title="Branch 3 was taken 20 times"> + </span>]:<span class="lineCov">         27 :         if (nbits == 8 || nbits == -1) {</span>
+<span class="lineNum">      33 </span>        [<span class="branchCov" title="Branch 0 was taken 33 times"> + </span><span class="branchCov" title="Branch 1 was taken 17 times"> + </span>]:<span class="lineCov">         50 :     if (flag_2Node == 0) {</span>
+<span class="lineNum">      34 </span>[<span class="branchCov" title="Branch 0 was taken 31 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span>][<span class="branchCov" title="Branch 2 was taken 5 times"> + </span><span class="branchCov" title="Branch 3 was taken 26 times"> + </span>]:<span class="lineCov">         33 :         if (nbits == 8 || nbits == -1) {</span>
 <span class="lineNum">      35 </span>                :<span class="lineCov">          7 :             nbits = 0;</span>
 <span class="lineNum">      36 </span>                :<span class="lineCov">          7 :             fill();</span>
 <span class="lineNum">      37 </span>                :            :         }
 <span class="lineNum">      38 </span>                :            : 
-<span class="lineNum">      39 </span>                :<span class="lineCov">         27 :         bit = (buf &gt;&gt; (7 - nbits)) &amp; 0x01;</span>
+<span class="lineNum">      39 </span>                :<span class="lineCov">         33 :         bit = (buf &gt;&gt; (7 - nbits)) &amp; 0x01;</span>
 <span class="lineNum">      40 </span>                :            : 
 <span class="lineNum">      41 </span>                :            :     } else {
 <span class="lineNum">      42 </span>[<span class="branchCov" title="Branch 0 was taken 16 times"> + </span><span class="branchCov" title="Branch 1 was taken 1 time"> + </span>][<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchCov" title="Branch 3 was taken 15 times"> + </span>]:<span class="lineCov">         17 :         if (nbits == 16 || nbits == -1) {</span>
@@ -123,8 +123,8 @@
 <span class="lineNum">      45 </span>                :            :         }
 <span class="lineNum">      46 </span>                :<span class="lineCov">         17 :         bit = (buf &gt;&gt; (15 - nbits)) &amp; 0x01;</span>
 <span class="lineNum">      47 </span>                :            :     }
-<span class="lineNum">      48 </span>                :<span class="lineCov">         44 :     nbits++;</span>
-<span class="lineNum">      49 </span>                :<span class="lineCov">         44 :     return bit;</span>
+<span class="lineNum">      48 </span>                :<span class="lineCov">         50 :     nbits++;</span>
+<span class="lineNum">      49 </span>                :<span class="lineCov">         50 :     return bit;</span>
 <span class="lineNum">      50 </span>                :            : }
 <span class="lineNum">      51 </span>                :            : 
 <span class="lineNum">      52 </span>                :            : /**

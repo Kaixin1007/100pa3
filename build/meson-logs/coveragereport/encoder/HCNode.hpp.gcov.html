@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-11-13 04:47:00</td>
+            <td class="headerValue">2019-11-14 02:19:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -102,9 +102,9 @@
 <span class="lineNum">      24 </span>                :            :     HCNode* p;           // pointer to parent
 <a name="25"><span class="lineNum">      25 </span>                :            : </a>
 <span class="lineNum">      26 </span>                :            :     /* Constructor that initialize a HCNode */
-<span class="lineNum">      27 </span>                :<span class="lineCov">         52 :     HCNode(unsigned int count, short symbol, HCNode* c0 = 0, HCNode* c1 = 0,</span>
+<span class="lineNum">      27 </span>                :<span class="lineCov">         75 :     HCNode(unsigned int count, short symbol, HCNode* c0 = 0, HCNode* c1 = 0,</span>
 <span class="lineNum">      28 </span>                :            :            HCNode* p = 0)
-<span class="lineNum">      29 </span>                :<span class="lineCov">         52 :         : count(count), symbol(symbol), c0(c0), c1(c1), p(p) {}</span>
+<span class="lineNum">      29 </span>                :<span class="lineCov">         75 :         : count(count), symbol(symbol), c0(c0), c1(c1), p(p) {}</span>
 <span class="lineNum">      30 </span>                :            : };
 <span class="lineNum">      31 </span>                :            : 
 <a name="32"><span class="lineNum">      32 </span>                :            : /* For printing an HCNode to an ostream. Possibly useful for debugging */</a>
@@ -119,11 +119,11 @@
 <span class="lineNum">      41 </span>                :            :  * has higher prioruty.
 <a name="42"><span class="lineNum">      42 </span>                :            :  */</a>
 <span class="lineNum">      43 </span>                :            : struct HCNodePtrComp {
-<span class="lineNum">      44 </span>                :<span class="lineCov">        117 :     bool operator()(HCNode*&amp; lhs, HCNode*&amp; rhs) const {</span>
-<span class="lineNum">      45 </span>        [<span class="branchCov" title="Branch 0 was taken 33 times"> + </span><span class="branchCov" title="Branch 1 was taken 84 times"> + </span>]:<span class="lineCov">        117 :         if (lhs-&gt;count == rhs-&gt;count)</span>
-<span class="lineNum">      46 </span>                :<span class="lineCov">         33 :             return lhs-&gt;symbol &gt; rhs-&gt;symbol;</span>
+<span class="lineNum">      44 </span>                :<span class="lineCov">        156 :     bool operator()(HCNode*&amp; lhs, HCNode*&amp; rhs) const {</span>
+<span class="lineNum">      45 </span>        [<span class="branchCov" title="Branch 0 was taken 44 times"> + </span><span class="branchCov" title="Branch 1 was taken 112 times"> + </span>]:<span class="lineCov">        156 :         if (lhs-&gt;count == rhs-&gt;count)</span>
+<span class="lineNum">      46 </span>                :<span class="lineCov">         44 :             return lhs-&gt;symbol &gt; rhs-&gt;symbol;</span>
 <span class="lineNum">      47 </span>                :            :         else
-<span class="lineNum">      48 </span>                :<span class="lineCov">         84 :             return lhs-&gt;count &gt; rhs-&gt;count;</span>
+<span class="lineNum">      48 </span>                :<span class="lineCov">        112 :             return lhs-&gt;count &gt; rhs-&gt;count;</span>
 <span class="lineNum">      49 </span>                :            :     }
 <span class="lineNum">      50 </span>                :            : };
 <span class="lineNum">      51 </span>                :            : #endif  // HCNODE_HPP
